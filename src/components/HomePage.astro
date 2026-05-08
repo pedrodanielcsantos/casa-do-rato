@@ -8,6 +8,9 @@ const { content, locale } = Astro.props;
 const base = import.meta.env.BASE_URL;
 const asset = (path) => `${base}${path.replace(/^\//, "")}`;
 const heroPattern = `background-image: linear-gradient(rgba(253, 252, 247, 0.9), rgba(253, 252, 247, 0.86)), url("${asset("brand/pattern-original.png")}")`;
+const heroCtaHref = content.hero.ctaHref ?? "#contact";
+const whatsappLink = content.contact.links.find((link) => link.type === "whatsapp");
+const whatsappIconStyle = `--icon-url: url("${asset("icons/whatsapp.svg")}")`;
 ---
 
 <BaseLayout content={content} locale={locale}>
@@ -17,7 +20,7 @@ const heroPattern = `background-image: linear-gradient(rgba(253, 252, 247, 0.9),
         <p class="eyebrow">{content.hero.capacity}</p>
         <h1>{content.site.shortName}</h1>
         <p class="hero-copy">{content.hero.body}</p>
-        <a class="primary-action" href="#contact">{content.hero.cta}</a>
+        <a class="primary-action" href={heroCtaHref}>{content.hero.cta}</a>
       </div>
     </section>
 
@@ -41,13 +44,68 @@ const heroPattern = `background-image: linear-gradient(rgba(253, 252, 247, 0.9),
       </div>
     </section>
 
+    <section class="section location-section" id="location" aria-labelledby="location-title">
+      <div class="section-heading">
+        <p class="eyebrow">{content.location.eyebrow}</p>
+        <h2 id="location-title">{content.location.title}</h2>
+        <p>{content.location.body}</p>
+      </div>
+
+      <div class="location-map">
+        <iframe
+          src={content.location.mapSrc}
+          title={content.location.mapTitle}
+          loading="lazy"
+          allowfullscreen
+          referrerpolicy="no-referrer-when-downgrade"></iframe>
+      </div>
+
+      <div class="location-details">
+        <address class="location-address">
+          <span class="location-detail-label">{content.location.addressLabel}</span>
+          {content.location.addressLines.map((line) => <span>{line}</span>)}
+          <a href={content.location.directionsHref}>{content.location.directionsLabel}</a>
+        </address>
+
+        <div class="location-contacts">
+          <span class="location-detail-label">{content.location.contactsLabel}</span>
+          <ul>
+            {
+              content.location.contacts.map((contact) => (
+                <li>
+                  <span>{contact.label}</span>
+                  <a href={contact.href}>{contact.value}</a>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+      </div>
+    </section>
+
     <section class="section contact-section" id="contact" aria-labelledby="contact-title">
       <div class="section-heading">
         <p class="eyebrow">{content.contact.eyebrow}</p>
         <h2 id="contact-title">{content.contact.title}</h2>
         <p>{content.contact.body}</p>
       </div>
-      <ContactLinks links={content.contact.links} ariaLabel={content.contact.linksAriaLabel} />
+      <ContactLinks
+        links={content.contact.links}
+        ariaLabel={content.contact.linksAriaLabel}
+        assetBase={base}
+      />
     </section>
   </main>
+
+  {
+    whatsappLink && (
+      <a
+        class="whatsapp-fab"
+        href={whatsappLink.href}
+        aria-label={content.contact.fabAriaLabel ?? whatsappLink.ariaLabel}
+      >
+        <span class="whatsapp-fab-icon" style={whatsappIconStyle} />
+      </a>
+    )
+  }
 </BaseLayout>

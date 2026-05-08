@@ -2,8 +2,9 @@ export const content = {
   site: {
     name: "Casa do Rato Eventos",
     shortName: "Casa do Rato",
+    title: "Casa do Rato - Espaço privado para eventos em Vila Nova de Gaia",
     description:
-      "Um espaço privado e acolhedor para aniversários, baby showers, festas surpresa e pequenos encontros até 35 pessoas.",
+      "Espaço privado em Vila Nova de Gaia para até 35 pessoas. Aniversários, baby showers, workshops e eventos corporativos - versátil, sóbrio, à sua medida.",
   },
   navigation: {
     ariaLabel: "Navegação principal",
@@ -15,9 +16,11 @@ export const content = {
     ariaLabel: "Escolher idioma",
   },
   hero: {
-    capacity: "Até 35 convidados",
+    capacity: "Vila Nova de Gaia · até 35 convidados",
     body: "Um espaço privado para aniversários, baby showers, festas surpresa e encontros descontraídos com as pessoas que importam.",
-    cta: "Planear um evento",
+    cta: "Pedir orçamento",
+    ctaHref:
+      "https://wa.me/351916411228?text=Ol%C3%A1!%20Gostaria%20de%20saber%20a%20disponibilidade%20da%20Casa%20do%20Rato.%0A%0AData%20pretendida%3A%20%0ATipo%20de%20evento%3A%20%0AN%C2%BA%20de%20convidados%3A%20%0AHor%C3%A1rio%3A%20",
   },
   events: {
     eyebrow: "Ocasiões",
@@ -57,9 +60,50 @@ export const content = {
   },
   contact: {
     eyebrow: "Reservas",
-    title: "Os links de contacto serão adicionados antes do lançamento",
-    body: "A versão final terá links diretos para WhatsApp, Google e Instagram.",
+    title: "Vamos planear o seu evento",
+    body: "Envie-nos uma mensagem com a data pretendida, tipo de evento e número de convidados. Respondemos assim que possível.",
     linksAriaLabel: "Links de contacto",
-    links: [],
+    fabAriaLabel: "Contactar via WhatsApp",
+    links: [
+      {
+        type: "whatsapp",
+        label: "WhatsApp",
+        href: "https://wa.me/351916411228?text=Ol%C3%A1!%20Gostaria%20de%20saber%20a%20disponibilidade%20da%20Casa%20do%20Rato.%0A%0AData%20pretendida%3A%20%0ATipo%20de%20evento%3A%20%0AN%C2%BA%20de%20convidados%3A%20%0AHor%C3%A1rio%3A%20",
+        ariaLabel: "Contactar via WhatsApp",
+        variant: "primary",
+      },
+      {
+        type: "instagram",
+        label: "Instagram",
+        href: "https://instagram.com/casadorato.eventos",
+        ariaLabel: "Seguir no Instagram",
+        variant: "secondary",
+      },
+    ],
+  },
+  location: {
+    eyebrow: "Localização",
+    title: "Vila Nova de Gaia",
+    body: "Veja a localização no mapa e use os contactos abaixo para falar connosco diretamente.",
+    mapTitle: "Mapa da Casa do Rato",
+    mapSrc:
+      "https://www.google.com/maps?q=Casa%20do%20Rato%20Eventos%2C%20Vila%20Nova%20de%20Gaia%2C%20Porto&output=embed",
+    addressLabel: "Morada",
+    addressLines: ["Casa do Rato Eventos", "Vila Nova de Gaia, Porto"],
+    directionsLabel: "Abrir no Google Maps",
+    directionsHref: "https://share.google/wthpJCybsH4YGAJo9",
+    contactsLabel: "Contactos",
+    contacts: [
+      {
+        label: "WhatsApp",
+        value: "+351 916 411 228",
+        href: "https://wa.me/351916411228?text=Ol%C3%A1!%20Gostaria%20de%20saber%20a%20disponibilidade%20da%20Casa%20do%20Rato.%0A%0AData%20pretendida%3A%20%0ATipo%20de%20evento%3A%20%0AN%C2%BA%20de%20convidados%3A%20%0AHor%C3%A1rio%3A%20",
+      },
+      {
+        label: "Instagram",
+        value: "@casadorato.eventos",
+        href: "https://instagram.com/casadorato.eventos",
+      },
+    ],
   },
 };

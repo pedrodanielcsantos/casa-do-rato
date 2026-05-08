@@ -6,6 +6,7 @@ import { content as portugueseContent } from "../src/content/pt.js";
 const sourceLocale = "pt";
 const eventIcons = ["cake", "gift", "sparkles", "users"];
 const contactTypes = ["whatsapp", "google", "instagram"];
+const contactVariants = ["primary", "secondary"];
 
 const requiredContentStrings = {
   site: ["name", "shortName", "description"],
@@ -15,6 +16,17 @@ const requiredContentStrings = {
   events: ["eyebrow", "title"],
   space: ["eyebrow", "title", "ariaLabel"],
   contact: ["eyebrow", "title", "body", "linksAriaLabel"],
+  location: [
+    "eyebrow",
+    "title",
+    "body",
+    "mapTitle",
+    "mapSrc",
+    "addressLabel",
+    "directionsLabel",
+    "directionsHref",
+    "contactsLabel",
+  ],
 };
 
 const targetTranslations = [
@@ -158,13 +170,47 @@ function validateContent(content, locale) {
 
       if (requireObject(link, path)) {
         requireOneOf(link.type, contactTypes, `${path}.type`);
-        requireStrings(link, path, ["label", "href"]);
+        requireStrings(link, path, ["label", "href", "ariaLabel", "variant"]);
+        requireOneOf(link.variant, contactVariants, `${path}.variant`);
 
         if (typeof link.href === "string" && link.href.trim()) {
           requireHttpUrl(link.href, `${path}.href`);
         }
       }
     });
+  }
+
+  if (isRecord(content.location)) {
+    if (typeof content.location.mapSrc === "string" && content.location.mapSrc.trim()) {
+      requireHttpUrl(content.location.mapSrc, `${rootPath}.location.mapSrc`);
+    }
+
+    if (
+      typeof content.location.directionsHref === "string" &&
+      content.location.directionsHref.trim()
+    ) {
+      requireHttpUrl(content.location.directionsHref, `${rootPath}.location.directionsHref`);
+    }
+
+    if (requireArray(content.location.addressLines, `${rootPath}.location.addressLines`)) {
+      content.location.addressLines.forEach((line, index) => {
+        requireString(line, `${rootPath}.location.addressLines[${index}]`);
+      });
+    }
+
+    if (requireArray(content.location.contacts, `${rootPath}.location.contacts`)) {
+      content.location.contacts.forEach((contact, index) => {
+        const path = `${rootPath}.location.contacts[${index}]`;
+
+        if (requireObject(contact, path)) {
+          requireStrings(contact, path, ["label", "value", "href"]);
+
+          if (typeof contact.href === "string" && contact.href.trim()) {
+            requireHttpUrl(contact.href, `${path}.href`);
+          }
+        }
+      });
+    }
   }
 }
 
