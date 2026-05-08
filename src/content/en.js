@@ -1,6 +1,6 @@
 export const translationMeta = {
   sourceLocale: "pt",
-  sourceHash: "bb7ade3fb0c518a8ac908a04acfbd4a7ca22c3d8ca7746599cc5cca2dba4b596",
+  sourceHash: "ef675d155c9ae4f7364fdd67089aef4b7d89b2c79cb1a6cedf01ca9df401ea68",
 };
 
 export const content = {
@@ -94,7 +94,12 @@ export const content = {
     mapSrc:
       "https://www.google.com/maps?q=Casa%20do%20Rato%20Eventos%2C%20Vila%20Nova%20de%20Gaia%2C%20Porto&output=embed",
     addressLabel: "Address",
-    addressLines: ["Casa do Rato Eventos", "Vila Nova de Gaia, Porto"],
+    addressLines: [
+      "Casa do Rato Eventos",
+      "R. Cunha de Cima 17",
+      "4430-681 Avintes",
+      "Vila Nova de Gaia, Porto",
+    ],
     directionsLabel: "Open in Google Maps",
     directionsHref: "https://share.google/wthpJCybsH4YGAJo9",
     contactsLabel: "Contacts",
