@@ -1,11 +1,21 @@
 import { createHash } from "node:crypto";
 import { content as englishContent, translationMeta as englishMeta } from "../src/content/en.js";
 import { defaultLocale, localeOrder, locales } from "../src/content/locales.js";
-import { content as sourceContent } from "../src/content/pt.js";
+import { content as portugueseContent } from "../src/content/pt.js";
 
 const sourceLocale = "pt";
-const eventIcons = new Set(["cake", "gift", "sparkles", "users"]);
-const contactTypes = new Set(["whatsapp", "google", "instagram"]);
+const eventIcons = ["cake", "gift", "sparkles", "users"];
+const contactTypes = ["whatsapp", "google", "instagram"];
+
+const requiredContentStrings = {
+  site: ["name", "shortName", "description"],
+  navigation: ["ariaLabel", "events", "space", "contact"],
+  languageSwitcher: ["ariaLabel"],
+  hero: ["capacity", "body", "cta"],
+  events: ["eyebrow", "title"],
+  space: ["eyebrow", "title", "ariaLabel"],
+  contact: ["eyebrow", "title", "body", "linksAriaLabel"],
+};
 
 const targetTranslations = [
   {
@@ -16,12 +26,16 @@ const targetTranslations = [
   },
 ];
 
+const failures = [];
+const fail = (path, message) => failures.push(`${path}: ${message}`);
+const isRecord = (value) => Boolean(value) && typeof value === "object" && !Array.isArray(value);
+
 function stableStringify(value) {
   if (Array.isArray(value)) {
     return `[${value.map(stableStringify).join(",")}]`;
   }
 
-  if (value && typeof value === "object") {
+  if (isRecord(value)) {
     return `{${Object.keys(value)
       .sort()
       .map((key) => `${JSON.stringify(key)}:${stableStringify(value[key])}`)
@@ -31,239 +45,167 @@ function stableStringify(value) {
   return JSON.stringify(value);
 }
 
-function sourceHash() {
-  return createHash("sha256").update(stableStringify(sourceContent)).digest("hex");
-}
-
-function describeType(value) {
+function shapeOf(value) {
   if (Array.isArray(value)) {
-    return "array";
+    return value.map(shapeOf);
+  }
+
+  if (isRecord(value)) {
+    return Object.fromEntries(
+      Object.keys(value)
+        .map((key) => [key, shapeOf(value[key])])
+        .sort(),
+    );
   }
 
   return value === null ? "null" : typeof value;
 }
 
-function compareShape(source, target, path = "content") {
-  const errors = [];
-  const sourceType = describeType(source);
-  const targetType = describeType(target);
-
-  if (sourceType !== targetType) {
-    return [`${path}: expected ${sourceType}, got ${targetType}`];
-  }
-
-  if (Array.isArray(source)) {
-    if (source.length !== target.length) {
-      errors.push(`${path}: expected ${source.length} item(s), got ${target.length}`);
-    }
-
-    source.forEach((sourceItem, index) => {
-      if (index < target.length) {
-        errors.push(...compareShape(sourceItem, target[index], `${path}[${index}]`));
-      }
-    });
-
-    return errors;
-  }
-
-  if (source && typeof source === "object") {
-    const sourceKeys = Object.keys(source).sort();
-    const targetKeys = Object.keys(target).sort();
-    const missingKeys = sourceKeys.filter((key) => !targetKeys.includes(key));
-    const extraKeys = targetKeys.filter((key) => !sourceKeys.includes(key));
-
-    missingKeys.forEach((key) => errors.push(`${path}: missing key "${key}"`));
-    extraKeys.forEach((key) => errors.push(`${path}: unexpected key "${key}"`));
-
-    sourceKeys.forEach((key) => {
-      if (targetKeys.includes(key)) {
-        errors.push(...compareShape(source[key], target[key], `${path}.${key}`));
-      }
-    });
-  }
-
-  return errors;
+function sourceHash() {
+  return createHash("sha256").update(stableStringify(portugueseContent)).digest("hex");
 }
 
-function assertObject(value, path, failures) {
-  if (!value || typeof value !== "object" || Array.isArray(value)) {
-    failures.push(`${path}: expected object`);
+function requireObject(value, path) {
+  if (!isRecord(value)) {
+    fail(path, "expected object");
     return false;
   }
 
   return true;
 }
 
-function assertNonEmptyString(value, path, failures) {
-  if (typeof value !== "string" || !value.trim()) {
-    failures.push(`${path}: expected non-empty string`);
+function requireString(value, path, { allowEmpty = false } = {}) {
+  if (typeof value !== "string" || (!allowEmpty && !value.trim())) {
+    fail(path, allowEmpty ? "expected string" : "expected non-empty string");
     return false;
   }
 
   return true;
 }
 
-function assertNonEmptyStringArray(value, path, failures) {
-  if (!Array.isArray(value) || value.length === 0) {
-    failures.push(`${path}: expected a non-empty array`);
-    return;
-  }
-
-  value.forEach((item, index) => {
-    assertNonEmptyString(item, `${path}[${index}]`, failures);
-  });
+function requireStrings(object, path, keys) {
+  keys.forEach((key) => requireString(object[key], `${path}.${key}`));
 }
 
-function assertKnownValue(value, allowedValues, path, failures) {
-  if (!allowedValues.has(value)) {
-    failures.push(`${path}: expected one of ${Array.from(allowedValues).join(", ")}`);
+function requireArray(value, path, { allowEmpty = false } = {}) {
+  if (!Array.isArray(value) || (!allowEmpty && value.length === 0)) {
+    fail(path, allowEmpty ? "expected array" : "expected non-empty array");
+    return false;
+  }
+
+  return true;
+}
+
+function requireOneOf(value, allowedValues, path) {
+  if (!allowedValues.includes(value)) {
+    fail(path, `expected one of ${allowedValues.join(", ")}`);
   }
 }
 
-function assertUrl(value, path, failures) {
+function requireHttpUrl(value, path) {
   try {
     const url = new URL(value);
 
-    if (!["https:", "http:"].includes(url.protocol)) {
-      failures.push(`${path}: expected http or https URL`);
+    if (!["http:", "https:"].includes(url.protocol)) {
+      fail(path, "expected http or https URL");
     }
   } catch {
-    failures.push(`${path}: expected valid URL`);
+    fail(path, "expected valid URL");
   }
 }
 
-function validateContentModel(content, locale, failures) {
-  const prefix = `${locale}: content`;
+function validateContent(content, locale) {
+  const rootPath = `${locale}: content`;
 
-  if (!assertObject(content, prefix, failures)) {
+  if (!requireObject(content, rootPath)) {
     return;
   }
 
-  if (assertObject(content.site, `${prefix}.site`, failures)) {
-    ["name", "shortName", "description"].forEach((key) => {
-      assertNonEmptyString(content.site[key], `${prefix}.site.${key}`, failures);
-    });
-  }
+  Object.entries(requiredContentStrings).forEach(([section, fields]) => {
+    const path = `${rootPath}.${section}`;
 
-  if (assertObject(content.navigation, `${prefix}.navigation`, failures)) {
-    ["ariaLabel", "events", "space", "contact"].forEach((key) => {
-      assertNonEmptyString(content.navigation[key], `${prefix}.navigation.${key}`, failures);
-    });
-  }
-
-  if (assertObject(content.languageSwitcher, `${prefix}.languageSwitcher`, failures)) {
-    assertNonEmptyString(
-      content.languageSwitcher.ariaLabel,
-      `${prefix}.languageSwitcher.ariaLabel`,
-      failures,
-    );
-  }
-
-  if (assertObject(content.hero, `${prefix}.hero`, failures)) {
-    ["capacity", "body", "cta"].forEach((key) => {
-      assertNonEmptyString(content.hero[key], `${prefix}.hero.${key}`, failures);
-    });
-  }
-
-  if (assertObject(content.events, `${prefix}.events`, failures)) {
-    ["eyebrow", "title"].forEach((key) => {
-      assertNonEmptyString(content.events[key], `${prefix}.events.${key}`, failures);
-    });
-
-    if (!Array.isArray(content.events.items) || content.events.items.length === 0) {
-      failures.push(`${prefix}.events.items: expected a non-empty array`);
-    } else {
-      content.events.items.forEach((item, index) => {
-        const itemPath = `${prefix}.events.items[${index}]`;
-
-        if (!assertObject(item, itemPath, failures)) {
-          return;
-        }
-
-        assertNonEmptyString(item.title, `${itemPath}.title`, failures);
-        assertNonEmptyString(item.description, `${itemPath}.description`, failures);
-        assertKnownValue(item.icon, eventIcons, `${itemPath}.icon`, failures);
-      });
+    if (requireObject(content[section], path)) {
+      requireStrings(content[section], path, fields);
     }
+  });
+
+  if (isRecord(content.events) && requireArray(content.events.items, `${rootPath}.events.items`)) {
+    content.events.items.forEach((item, index) => {
+      const path = `${rootPath}.events.items[${index}]`;
+
+      if (requireObject(item, path)) {
+        requireStrings(item, path, ["title", "description"]);
+        requireOneOf(item.icon, eventIcons, `${path}.icon`);
+      }
+    });
   }
 
-  if (assertObject(content.space, `${prefix}.space`, failures)) {
-    ["eyebrow", "title", "ariaLabel"].forEach((key) => {
-      assertNonEmptyString(content.space[key], `${prefix}.space.${key}`, failures);
+  if (
+    isRecord(content.space) &&
+    requireArray(content.space.highlights, `${rootPath}.space.highlights`)
+  ) {
+    content.space.highlights.forEach((item, index) => {
+      requireString(item, `${rootPath}.space.highlights[${index}]`);
     });
-    assertNonEmptyStringArray(content.space.highlights, `${prefix}.space.highlights`, failures);
   }
 
-  if (assertObject(content.contact, `${prefix}.contact`, failures)) {
-    ["eyebrow", "title", "body", "linksAriaLabel"].forEach((key) => {
-      assertNonEmptyString(content.contact[key], `${prefix}.contact.${key}`, failures);
-    });
+  if (
+    isRecord(content.contact) &&
+    requireArray(content.contact.links, `${rootPath}.contact.links`, { allowEmpty: true })
+  ) {
+    content.contact.links.forEach((link, index) => {
+      const path = `${rootPath}.contact.links[${index}]`;
 
-    if (!Array.isArray(content.contact.links)) {
-      failures.push(`${prefix}.contact.links: expected array`);
-    } else {
-      content.contact.links.forEach((link, index) => {
-        const linkPath = `${prefix}.contact.links[${index}]`;
-
-        if (!assertObject(link, linkPath, failures)) {
-          return;
-        }
-
-        assertKnownValue(link.type, contactTypes, `${linkPath}.type`, failures);
-        assertNonEmptyString(link.label, `${linkPath}.label`, failures);
-        assertNonEmptyString(link.href, `${linkPath}.href`, failures);
+      if (requireObject(link, path)) {
+        requireOneOf(link.type, contactTypes, `${path}.type`);
+        requireStrings(link, path, ["label", "href"]);
 
         if (typeof link.href === "string" && link.href.trim()) {
-          assertUrl(link.href, `${linkPath}.href`, failures);
+          requireHttpUrl(link.href, `${path}.href`);
         }
-      });
-    }
+      }
+    });
   }
 }
 
-function validateLocales(failures) {
+function validateLocales() {
   if (!locales[defaultLocale]) {
-    failures.push(`locales: defaultLocale "${defaultLocale}" is missing from locales`);
+    fail("locales.defaultLocale", `"${defaultLocale}" is missing from locales`);
   }
 
-  const orderedLocales = new Set(localeOrder);
+  Object.keys(locales)
+    .filter((localeCode) => !localeOrder.includes(localeCode))
+    .forEach((localeCode) => fail("localeOrder", `missing "${localeCode}"`));
 
-  Object.keys(locales).forEach((localeCode) => {
-    if (!orderedLocales.has(localeCode)) {
-      failures.push(`locales: "${localeCode}" is missing from localeOrder`);
-    }
-  });
+  localeOrder
+    .filter((localeCode) => !locales[localeCode])
+    .forEach((localeCode) => fail("locales", `missing "${localeCode}"`));
 
-  localeOrder.forEach((localeCode) => {
-    if (!locales[localeCode]) {
-      failures.push(`localeOrder: "${localeCode}" is missing from locales`);
-    }
-  });
-
-  const seenPaths = new Map();
+  const paths = new Map();
 
   Object.entries(locales).forEach(([localeCode, locale]) => {
-    const prefix = `locales.${localeCode}`;
+    const path = `locales.${localeCode}`;
 
-    ["code", "htmlLang", "ogLocale", "label", "name", "path"].forEach((key) => {
-      if (typeof locale[key] !== "string") {
-        failures.push(`${prefix}.${key}: expected string`);
-      }
-    });
+    if (!requireObject(locale, path)) {
+      return;
+    }
+
+    requireStrings(locale, path, ["code", "htmlLang", "ogLocale", "label", "name"]);
+    requireString(locale.path, `${path}.path`, { allowEmpty: true });
 
     if (locale.code !== localeCode) {
-      failures.push(`${prefix}.code: expected "${localeCode}"`);
+      fail(`${path}.code`, `expected "${localeCode}"`);
     }
 
     if (typeof locale.path === "string" && locale.path.startsWith("/")) {
-      failures.push(`${prefix}.path: should be relative, without a leading slash`);
+      fail(`${path}.path`, "should be relative, without a leading slash");
     }
 
-    if (seenPaths.has(locale.path)) {
-      failures.push(`${prefix}.path: duplicates ${seenPaths.get(locale.path)}`);
+    if (paths.has(locale.path)) {
+      fail(`${path}.path`, `duplicates ${paths.get(locale.path)}`);
     }
 
-    seenPaths.set(locale.path, prefix);
+    paths.set(locale.path, path);
   });
 }
 
@@ -274,28 +216,22 @@ if (process.argv.includes("--print-source-hash")) {
   process.exit(0);
 }
 
-const failures = [];
-
-validateLocales(failures);
-validateContentModel(sourceContent, sourceLocale, failures);
+validateLocales();
+validateContent(portugueseContent, sourceLocale);
 
 targetTranslations.forEach(({ locale, content, meta, file }) => {
-  validateContentModel(content, locale, failures);
+  validateContent(content, locale);
 
-  compareShape(sourceContent, content).forEach((error) => {
-    failures.push(`${locale}: ${error}`);
-  });
+  if (stableStringify(shapeOf(content)) !== stableStringify(shapeOf(portugueseContent))) {
+    fail(`${locale}: content`, "must match the Portuguese content shape");
+  }
 
   if (meta?.sourceLocale !== sourceLocale) {
-    failures.push(
-      `${locale}: ${file} must export translationMeta.sourceLocale = "${sourceLocale}"`,
-    );
+    fail(`${locale}: ${file}`, `must export sourceLocale = "${sourceLocale}"`);
   }
 
   if (meta?.sourceHash !== expectedHash) {
-    failures.push(
-      `${locale}: translation is stale. Expected sourceHash ${expectedHash} in ${file}`,
-    );
+    fail(`${locale}: ${file}`, `translation is stale; expected ${expectedHash}`);
   }
 });
 
