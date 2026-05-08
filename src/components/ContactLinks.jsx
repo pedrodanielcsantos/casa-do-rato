@@ -8,13 +8,13 @@ const icons = {
   instagram: Instagram,
 };
 
-export default function ContactLinks({ links = [] }) {
+export default function ContactLinks({ links = [], ariaLabel = "Contact links" }) {
   if (!links.length) {
     return null;
   }
 
   return (
-    <div className="contact-links" aria-label="Links de contacto">
+    <div className="contact-links" aria-label={ariaLabel}>
       {links.map((link) => {
         const Icon = icons[link.type] ?? MessageCircle;
 

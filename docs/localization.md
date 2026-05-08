@@ -1,27 +1,27 @@
 # Localization
 
-Portuguese and English are planned.
+Portuguese and English are supported.
 
 ## Recommended Strategy
 
-Use Astro's built-in i18n routing and keep all URLs language-prefixed:
+Use Astro's built-in i18n routing with Portuguese as the unprefixed default locale:
 
 ```text
-/pt/
+/
 /en/
 ```
 
 On GitHub Pages, those become:
 
 ```text
-/casa-do-rato/pt/
+/casa-do-rato/
 /casa-do-rato/en/
 ```
 
-The root project URL can redirect to Portuguese:
+The root project URL serves Portuguese directly:
 
 ```text
-/casa-do-rato/ -> /casa-do-rato/pt/
+/casa-do-rato/
 ```
 
 Portuguese should be treated as the primary/default language unless Pedro decides otherwise.
@@ -34,13 +34,15 @@ Culturally adopted expressions that are commonly used by the target audience are
 
 ## Content Structure
 
-Recommended future file structure:
+Current file structure:
 
 ```text
 src/content/pt.js
 src/content/en.js
-src/lib/i18n.js
-src/pages/[locale]/index.astro
+src/content/locales.js
+src/components/HomePage.astro
+src/pages/index.astro
+src/pages/en/index.astro
 ```
 
 The localized content files should export the same object shape so components can stay language-agnostic.
@@ -55,6 +57,15 @@ export const home = {
     whatsapp: "WhatsApp",
     instagram: "Instagram",
   },
+};
+```
+
+`src/content/pt.js` is the source of truth. Other locale files should export:
+
+```js
+export const translationMeta = {
+  sourceLocale: "pt",
+  sourceHash: "...",
 };
 ```
 
@@ -73,3 +84,15 @@ Do not mechanically translate important marketing copy. PT and EN can differ if 
 Do not mechanically translate culturally adopted expressions when they sound more natural in everyday Portuguese.
 
 For unclear copy decisions, ask Pedro before locking wording.
+
+## Translation Skill
+
+Use the repo-local skill at `.agents/skills/update-translations` whenever Portuguese copy changes and English needs to be refreshed.
+
+The workflow is:
+
+1. Edit `src/content/pt.js`.
+2. Run or ask an agent to use `update-translations`.
+3. The skill updates `src/content/en.js`.
+4. The skill updates `translationMeta.sourceHash` using `npm run translation:source-hash`.
+5. Validate with `npm run check-translations` and `npm run check`.

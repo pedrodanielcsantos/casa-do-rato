@@ -19,5 +19,12 @@ export default defineConfig({
   site,
   base,
   output: "static",
+  i18n: {
+    locales: ["pt", "en"],
+    defaultLocale: "pt",
+    routing: {
+      prefixDefaultLocale: false,
+    },
+  },
   integrations: [react()],
 });

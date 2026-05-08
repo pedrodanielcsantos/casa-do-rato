@@ -1,0 +1,110 @@
+---
+import ContactLinks from "./ContactLinks.jsx";
+import EventTypes from "./EventTypes.jsx";
+import { getLocalePath, localeOrder, locales } from "../content/locales.js";
+import "../styles/global.css";
+
+const { content, locale } = Astro.props;
+const currentLocale = locales[locale];
+
+if (!currentLocale) {
+  throw new Error(`Unsupported locale: ${locale}`);
+}
+
+const base = import.meta.env.BASE_URL;
+const asset = (path) => `${base}${path.replace(/^\//, "")}`;
+const localeHref = (localeCode) => `${base}${getLocalePath(localeCode)}`;
+const absoluteLocaleHref = (localeCode) => new URL(localeHref(localeCode), Astro.site).toString();
+const heroPattern = `background-image: linear-gradient(rgba(253, 252, 247, 0.9), rgba(253, 252, 247, 0.86)), url("${asset("brand/pattern-original.png")}")`;
+---
+
+<!doctype html>
+<html lang={currentLocale.htmlLang}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content={content.site.description} />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" href={asset("favicon.ico")} />
+    <link rel="canonical" href={absoluteLocaleHref(locale)} />
+    {
+      localeOrder.map((localeCode) => (
+        <link
+          rel="alternate"
+          hreflang={locales[localeCode].htmlLang}
+          href={absoluteLocaleHref(localeCode)}
+        />
+      ))
+    }
+    <link rel="alternate" hreflang="x-default" href={absoluteLocaleHref("pt")} />
+    <meta name="generator" content={Astro.generator} />
+    <title>{content.site.name}</title>
+  </head>
+  <body>
+    <header class="site-header" aria-label={content.navigation.ariaLabel}>
+      <a class="brand" href={localeHref(locale)}>
+        <img src={asset("brand/logo-transparent.svg")} alt={content.site.name} />
+      </a>
+      <div class="header-actions">
+        <nav class="site-nav" aria-label={content.navigation.ariaLabel}>
+          <a href="#events">{content.navigation.events}</a>
+          <a href="#space">{content.navigation.space}</a>
+          <a href="#contact">{content.navigation.contact}</a>
+        </nav>
+        <nav class="language-switcher" aria-label={content.languageSwitcher.ariaLabel}>
+          {
+            localeOrder.map((localeCode) => (
+              <a
+                class:list={["language-link", { "is-active": localeCode === locale }]}
+                href={localeHref(localeCode)}
+                aria-current={localeCode === locale ? "page" : undefined}
+              >
+                {locales[localeCode].label}
+              </a>
+            ))
+          }
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero" style={heroPattern}>
+        <div class="hero-inner">
+          <p class="eyebrow">{content.hero.capacity}</p>
+          <h1>{content.site.shortName}</h1>
+          <p class="hero-copy">{content.hero.body}</p>
+          <a class="primary-action" href="#contact">{content.hero.cta}</a>
+        </div>
+      </section>
+
+      <section class="section" id="events" aria-labelledby="events-title">
+        <div class="section-heading">
+          <p class="eyebrow">{content.events.eyebrow}</p>
+          <h2 id="events-title">{content.events.title}</h2>
+        </div>
+        <EventTypes items={content.events.items} />
+      </section>
+
+      <section class="section section-band" id="space" aria-labelledby="space-title">
+        <div class="split">
+          <div>
+            <p class="eyebrow">{content.space.eyebrow}</p>
+            <h2 id="space-title">{content.space.title}</h2>
+          </div>
+          <div class="feature-list" aria-label={content.space.ariaLabel}>
+            {content.space.highlights.map((highlight) => <p>{highlight}</p>)}
+          </div>
+        </div>
+      </section>
+
+      <section class="section contact-section" id="contact" aria-labelledby="contact-title">
+        <div class="section-heading">
+          <p class="eyebrow">{content.contact.eyebrow}</p>
+          <h2 id="contact-title">{content.contact.title}</h2>
+          <p>{content.contact.body}</p>
+        </div>
+        <ContactLinks links={content.contact.links} ariaLabel={content.contact.linksAriaLabel} />
+      </section>
+    </main>
+  </body>
+</html>
+

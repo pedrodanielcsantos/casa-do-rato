@@ -43,12 +43,18 @@ Create a production build in `dist/`:
 npm run build
 ```
 
-Run this before pushing changes.
-
 Run the default validation command:
 
 ```bash
 npm run check
+```
+
+Run this before pushing changes.
+
+Check only translation structure and sync status:
+
+```bash
+npm run check-translations
 ```
 
 Preview the production build locally:
@@ -60,7 +66,7 @@ npm run preview
 To test the GitHub Pages base path locally:
 
 ```bash
-SITE_BASE_PATH=/casa-do-rato SITE_URL=http://localhost:4321 npm run build
+SITE_BASE_PATH=/casa-do-rato SITE_URL=http://localhost:4321 npm run check
 npm run preview
 ```
 
@@ -71,3 +77,19 @@ The deploy job is skipped while the repository is private unless the repository 
 ## Brand Assets
 
 Website brand assets live in `public/brand/` and can be referenced by pages and components. Keep only the source/export files the site actually needs in the repo.
+
+## Localization
+
+Portuguese is the source language and lives at the root URL:
+
+```text
+/
+```
+
+English lives at:
+
+```text
+/en/
+```
+
+Edit Portuguese copy in `src/content/pt.js`. English copy in `src/content/en.js` should be regenerated from Portuguese through the repo-local `update-translations` skill in `.agents/skills/update-translations`.

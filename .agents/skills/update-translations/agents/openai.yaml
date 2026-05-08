@@ -1,0 +1,4 @@
+interface:
+  display_name: "Update translations"
+  short_description: "Regenerate translated site copy from Portuguese source content."
+  default_prompt: "Update the non-Portuguese site translations from the latest Portuguese content."

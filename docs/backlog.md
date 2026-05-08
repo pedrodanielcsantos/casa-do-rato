@@ -4,12 +4,11 @@ This is a lightweight working list for agents and humans. Use GitHub Issues if t
 
 ## Near Term
 
-- Add PT/EN localization.
 - Add real WhatsApp link.
 - Add Google Maps or Google Business Profile link.
 - Add Instagram link.
 - Review and refine the Portuguese homepage copy.
-- Add English copy.
+- Keep English copy synced through the repo-local translation skill.
 - Add real venue photos.
 - Add Open Graph metadata and preview image.
 - Add local business SEO metadata.

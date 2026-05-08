@@ -6,7 +6,9 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
-    "check": "astro build",
+    "check": "npm run check-translations && astro build",
+    "check-translations": "node scripts/validate-translations.mjs",
+    "translation:source-hash": "node scripts/validate-translations.mjs --print-source-hash",
     "preview": "astro preview",
     "astro": "astro"
   },

@@ -7,7 +7,7 @@ This is an Astro static site with React components used where they add value.
 - `astro.config.mjs`: Astro configuration, including site/base path handling.
 - `src/pages/`: file-based routes.
 - `src/components/`: reusable React or Astro components.
-- `src/data/`: current site data and starter content.
+- `src/content/`: localized content files and locale metadata.
 - `src/styles/global.css`: global styling.
 - `public/`: static files served as-is.
 - `public/brand/`: web-facing brand assets used by the site.
@@ -16,11 +16,12 @@ This is an Astro static site with React components used where they add value.
 
 ## Current Page Flow
 
-`src/pages/index.astro` builds the current homepage. It imports:
+The homepage is rendered through a shared localized template:
 
-- Site/event data from `src/data/site.js`.
-- React components from `src/components/`.
-- Global styles from `src/styles/global.css`.
+- `src/pages/index.astro` renders Portuguese from `src/content/pt.js`.
+- `src/pages/en/index.astro` renders English from `src/content/en.js`.
+- Both pages use `src/components/HomePage.astro`.
+- `HomePage.astro` imports React components from `src/components/` and global styles from `src/styles/global.css`.
 
 ## Component Pattern
 
@@ -40,17 +41,19 @@ Avoid making the entire page a client-side React app unless there is a concrete 
 
 ## Content Pattern
 
-Business copy should move toward centralized content files, especially as localization is added.
+Business copy lives in centralized content files.
 
-Recommended future shape:
+Current shape:
 
 ```text
 src/content/pt.js
 src/content/en.js
-src/lib/i18n.js
+src/content/locales.js
 ```
 
-Reusable components should receive translated content through props.
+`src/content/pt.js` is the source of truth. `src/content/en.js` is maintained by the repo-local `update-translations` skill and validated by `npm run check-translations`.
+
+Reusable templates/components should receive translated content through props.
 
 ## Styling Pattern
 

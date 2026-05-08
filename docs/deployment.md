@@ -8,6 +8,13 @@ The site deploys to GitHub Pages from GitHub Actions.
 https://pedrodanielcsantos.github.io/casa-do-rato/
 ```
 
+Localized routes:
+
+```text
+Portuguese: https://pedrodanielcsantos.github.io/casa-do-rato/
+English:    https://pedrodanielcsantos.github.io/casa-do-rato/en/
+```
+
 ## Workflow
 
 The deployment workflow lives in:
@@ -20,7 +27,7 @@ On pushes to `main`, it:
 
 1. Checks out the repo with Git LFS enabled.
 2. Installs Node dependencies with `npm ci`.
-3. Builds the site with Astro.
+3. Validates translation sync and builds the site with `npm run check`.
 4. Uploads the `dist/` artifact.
 5. Deploys the artifact to GitHub Pages.
 
@@ -61,14 +68,14 @@ http://localhost:4321/
 Run:
 
 ```bash
-npm run build
+npm run check
 npm run preview
 ```
 
 To test the GitHub Pages base path locally:
 
 ```bash
-SITE_BASE_PATH=/casa-do-rato SITE_URL=http://localhost:4321 npm run build
+SITE_BASE_PATH=/casa-do-rato SITE_URL=http://localhost:4321 npm run check
 npm run preview
 ```
 
@@ -80,4 +87,3 @@ When a custom domain is configured:
 2. Add the required DNS records.
 3. Update or remove `SITE_BASE_PATH` in `.github/workflows/deploy.yml`.
 4. Verify generated URLs and assets no longer require `/casa-do-rato/`.
-

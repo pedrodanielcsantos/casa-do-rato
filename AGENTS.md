@@ -44,6 +44,12 @@ Build for production:
 npm run build
 ```
 
+Check translation sync:
+
+```bash
+npm run check-translations
+```
+
 Run the default validation command:
 
 ```bash
@@ -59,11 +65,13 @@ npm run preview
 Test the GitHub Pages base path locally:
 
 ```bash
-SITE_BASE_PATH=/casa-do-rato SITE_URL=http://localhost:4321 npm run build
+SITE_BASE_PATH=/casa-do-rato SITE_URL=http://localhost:4321 npm run check
 npm run preview
 ```
 
-Run `npm run build` or `npm run check` after code changes. Documentation-only edits do not require a build.
+Run `npm run check` after code changes. Documentation-only edits do not require a build.
+
+Do not run multiple Astro build/check commands in parallel because they write to the same `dist/` and `.astro/` paths.
 
 ## Code Guidelines
 
@@ -93,11 +101,13 @@ Run `npm run build` or `npm run check` after code changes. Documentation-only ed
 
 ## Localization Direction
 
-Portuguese and English are planned. Portuguese should be treated as the primary/default language unless Pedro decides otherwise.
+Portuguese and English are supported. Portuguese is the source language and default locale. The root URL serves Portuguese, and English is served from `/en/`.
 
 By default, user-facing copy should be written in Portuguese. Culturally adopted expressions that are commonly used by the target audience, such as "baby showers", are acceptable and should not be mechanically translated.
 
-When adding user-facing copy, structure it so it can be translated. Avoid hardcoding copy deep inside reusable components if the same component will be used across locales.
+When adding user-facing copy, edit `src/content/pt.js` first. Do not manually edit English copy unless explicitly asked; use the repo-local `update-translations` skill at `.agents/skills/update-translations` to regenerate `src/content/en.js` from the Portuguese source.
+
+Keep reusable components language-agnostic. Pass translated strings from the content files into templates/components instead of hardcoding copy deep inside reusable components.
 
 ## Deployment Notes
 
