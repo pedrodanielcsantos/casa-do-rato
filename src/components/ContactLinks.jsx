@@ -1,14 +1,13 @@
-import lucide from "lucide-react";
-
-const { Instagram, MapPin, MessageCircle } = lucide;
-
 const icons = {
-  whatsapp: MessageCircle,
-  google: MapPin,
-  instagram: Instagram,
+  whatsapp: "icons/whatsapp.svg",
+  instagram: "icons/instagram.svg",
 };
 
-export default function ContactLinks({ links = [], ariaLabel = "Contact links" }) {
+function assetPath(path, assetBase) {
+  return `${assetBase}${path.replace(/^\//, "")}`;
+}
+
+export default function ContactLinks({ links = [], ariaLabel = "Contact links", assetBase = "/" }) {
   if (!links.length) {
     return null;
   }
@@ -16,11 +15,20 @@ export default function ContactLinks({ links = [], ariaLabel = "Contact links" }
   return (
     <nav className="contact-links" aria-label={ariaLabel}>
       {links.map((link) => {
-        const Icon = icons[link.type] ?? MessageCircle;
+        const icon = icons[link.type];
+        const className = ["contact-link", link.variant === "primary" ? "contact-link-primary" : ""]
+          .filter(Boolean)
+          .join(" ");
 
         return (
-          <a className="contact-link" href={link.href} key={link.label}>
-            <Icon aria-hidden="true" size={18} strokeWidth={1.8} />
+          <a aria-label={link.ariaLabel} className={className} href={link.href} key={link.label}>
+            {icon && (
+              <span
+                aria-hidden="true"
+                className="contact-link-icon"
+                style={{ "--icon-url": `url("${assetPath(icon, assetBase)}")` }}
+              />
+            )}
             <span>{link.label}</span>
           </a>
         );

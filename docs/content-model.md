@@ -45,6 +45,7 @@ Required top-level sections:
 - `hero`
 - `events`
 - `space`
+- `location`
 - `contact`
 
 ## Event Items
@@ -73,6 +74,8 @@ When links are added, each link requires:
 - `type`
 - `label`
 - `href`
+- `ariaLabel`
+- `variant`
 
 Allowed contact types:
 
@@ -83,3 +86,27 @@ Allowed contact types:
 These map to icons in `src/components/ContactLinks.jsx`.
 
 Use full `https://` URLs for contact links.
+
+## Location
+
+The `location` section provides the accessible written fallback for the embedded map.
+
+Required fields:
+
+- `eyebrow`
+- `title`
+- `body`
+- `mapTitle`
+- `mapSrc`
+- `addressLabel`
+- `addressLines`
+- `directionsLabel`
+- `directionsHref`
+- `contactsLabel`
+- `contacts`
+
+Each `location.contacts` item requires:
+
+- `label`
+- `value`
+- `href`

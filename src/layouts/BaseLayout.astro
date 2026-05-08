@@ -14,7 +14,7 @@ const asset = (path) => `${base}${path.replace(/^\//, "")}`;
 const localeHref = (localeCode) => `${base}${getLocalePath(localeCode)}`;
 const absoluteLocaleHref = (localeCode) => new URL(localeHref(localeCode), Astro.site).toString();
 const alternateLocales = localeOrder.filter((localeCode) => localeCode !== locale);
-const title = content.site.name;
+const title = content.site.title ?? content.site.name;
 const description = content.site.description;
 ---
 
@@ -23,7 +23,7 @@ const description = content.site.description;
   <head>
     <meta charset="UTF-8" />
     <meta name="description" content={description} />
-    <meta name="viewport" content="width=device-width" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#FDFCF7" />
     <link rel="icon" href={asset("favicon.ico")} />
     <link rel="canonical" href={absoluteLocaleHref(locale)} />
