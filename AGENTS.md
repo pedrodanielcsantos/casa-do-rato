@@ -76,8 +76,9 @@ Run `npm run build` or `npm run check` after code changes. Documentation-only ed
 
 ## Asset Guidelines
 
-- Preserve the original logo package in `logo/`.
-- Put web-facing assets in `public/brand/` or another clear folder under `public/`.
+- Website brand assets live in `public/brand/`.
+- Other public website assets should live in a clear folder under `public/`.
+- The original downloaded logo package is intentionally not kept in the repo. Add only the source/export files the website actually needs.
 - Binary media and brand files are tracked with Git LFS through `.gitattributes`.
 - Keep SVGs in normal Git unless there is a strong reason to move them to LFS.
 - Do not commit generated output from `dist/`, `.astro/`, or `node_modules/`.
@@ -109,4 +110,3 @@ GitHub Pages uses the `/casa-do-rato/` base path until a custom domain is config
 ## Communication
 
 When making technical changes, explain the learning-relevant parts briefly. Pedro wants to understand the stack while building the business site.
-

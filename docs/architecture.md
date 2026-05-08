@@ -11,7 +11,6 @@ This is an Astro static site with React components used where they add value.
 - `src/styles/global.css`: global styling.
 - `public/`: static files served as-is.
 - `public/brand/`: web-facing brand assets used by the site.
-- `logo/`: original logo package and source exports.
 - `.github/workflows/deploy.yml`: GitHub Pages build and deploy workflow.
 - `.gitattributes`: Git LFS tracking rules.
 
@@ -68,4 +67,3 @@ Do not edit or commit:
 - `.astro/`
 
 These are ignored by Git.
-

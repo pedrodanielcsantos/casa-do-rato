@@ -70,4 +70,4 @@ The deploy job is skipped while the repository is private unless the repository 
 
 ## Brand Assets
 
-The original logo package is preserved in `logo/`. Web-facing copies live in `public/brand/` and can be referenced by pages and components.
+Website brand assets live in `public/brand/` and can be referenced by pages and components. Keep only the source/export files the site actually needs in the repo.
