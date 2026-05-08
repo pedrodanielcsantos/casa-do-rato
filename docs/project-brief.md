@@ -56,4 +56,3 @@ This is a real business site, but changes should also help Pedro learn:
 - Basic SEO and localization.
 
 When possible, prefer clear, teachable implementation patterns over clever abstractions.
-

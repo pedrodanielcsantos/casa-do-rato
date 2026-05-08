@@ -21,7 +21,11 @@ Use the existing brand assets as the foundation:
 - Serif headings where appropriate.
 - Clean, readable body text.
 
-The current CSS defines the starting palette in `src/styles/global.css`.
+The current CSS defines the starting palette in `src/styles/global.css`. The canonical brand tokens are documented in `docs/design-tokens.md`:
+
+- `#C99853` for accents, button backgrounds, and richer visual elements.
+- `#545454` for text.
+- `#FDFCF7` for general backgrounds.
 
 ## Layout Principles
 

@@ -21,8 +21,7 @@ export const content = {
   },
   hero: {
     capacity: "Up to 35 guests",
-    body:
-      "A private space for birthdays, baby showers, surprise parties, and relaxed gatherings with the people who matter.",
+    body: "A private space for birthdays, baby showers, surprise parties, and relaxed gatherings with the people who matter.",
     cta: "Plan an event",
   },
   events: {

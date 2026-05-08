@@ -4,6 +4,7 @@ export const locales = {
   pt: {
     code: "pt",
     htmlLang: "pt-PT",
+    ogLocale: "pt_PT",
     label: "PT",
     name: "Português",
     path: "",
@@ -11,6 +12,7 @@ export const locales = {
   en: {
     code: "en",
     htmlLang: "en",
+    ogLocale: "en_US",
     label: "EN",
     name: "English",
     path: "en",
@@ -28,4 +30,3 @@ export function getLocalePath(localeCode) {
 
   return locale.path ? `${locale.path}/` : "";
 }
-

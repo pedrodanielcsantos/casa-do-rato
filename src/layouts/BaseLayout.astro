@@ -1,0 +1,86 @@
+---
+import { defaultLocale, getLocalePath, localeOrder, locales } from "../content/locales.js";
+import "../styles/global.css";
+
+const { content, locale } = Astro.props;
+const currentLocale = locales[locale];
+
+if (!currentLocale) {
+  throw new Error(`Unsupported locale: ${locale}`);
+}
+
+const base = import.meta.env.BASE_URL;
+const asset = (path) => `${base}${path.replace(/^\//, "")}`;
+const localeHref = (localeCode) => `${base}${getLocalePath(localeCode)}`;
+const absoluteLocaleHref = (localeCode) => new URL(localeHref(localeCode), Astro.site).toString();
+const alternateLocales = localeOrder.filter((localeCode) => localeCode !== locale);
+const title = content.site.name;
+const description = content.site.description;
+---
+
+<!doctype html>
+<html lang={currentLocale.htmlLang}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content={description} />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="theme-color" content="#FDFCF7" />
+    <link rel="icon" href={asset("favicon.ico")} />
+    <link rel="canonical" href={absoluteLocaleHref(locale)} />
+    {
+      localeOrder.map((localeCode) => (
+        <link
+          rel="alternate"
+          hreflang={locales[localeCode].htmlLang}
+          href={absoluteLocaleHref(localeCode)}
+        />
+      ))
+    }
+    <link rel="alternate" hreflang="x-default" href={absoluteLocaleHref(defaultLocale)} />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={content.site.name} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={absoluteLocaleHref(locale)} />
+    <meta property="og:locale" content={currentLocale.ogLocale} />
+    {
+      alternateLocales.map((localeCode) => (
+        <meta property="og:locale:alternate" content={locales[localeCode].ogLocale} />
+      ))
+    }
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+  </head>
+  <body>
+    <header class="site-header" aria-label={content.navigation.ariaLabel}>
+      <a class="brand" href={localeHref(locale)}>
+        <img src={asset("brand/logo-transparent.svg")} alt={content.site.name} />
+      </a>
+      <div class="header-actions">
+        <nav class="site-nav" aria-label={content.navigation.ariaLabel}>
+          <a href="#events">{content.navigation.events}</a>
+          <a href="#space">{content.navigation.space}</a>
+          <a href="#contact">{content.navigation.contact}</a>
+        </nav>
+        <nav class="language-switcher" aria-label={content.languageSwitcher.ariaLabel}>
+          {
+            localeOrder.map((localeCode) => (
+              <a
+                class:list={["language-link", { "is-active": localeCode === locale }]}
+                href={localeHref(localeCode)}
+                aria-current={localeCode === locale ? "page" : undefined}
+              >
+                {locales[localeCode].label}
+              </a>
+            ))
+          }
+        </nav>
+      </div>
+    </header>
+
+    <slot />
+  </body>
+</html>

@@ -26,4 +26,3 @@ Use Astro as the site framework and React for components where it is useful.
 - React components should be used intentionally.
 - Static content and SEO are straightforward.
 - Future agents should not replace this stack without discussing the tradeoff first.
-
