@@ -14,7 +14,7 @@ export default function ContactLinks({ links = [], ariaLabel = "Contact links" }
   }
 
   return (
-    <div className="contact-links" aria-label={ariaLabel}>
+    <nav className="contact-links" aria-label={ariaLabel}>
       {links.map((link) => {
         const Icon = icons[link.type] ?? MessageCircle;
 
@@ -25,6 +25,6 @@ export default function ContactLinks({ links = [], ariaLabel = "Contact links" }
           </a>
         );
       })}
-    </div>
+    </nav>
   );
 }

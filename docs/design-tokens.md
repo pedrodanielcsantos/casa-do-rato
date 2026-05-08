@@ -17,6 +17,7 @@ The CSS lives in `src/styles/global.css`.
 Supporting colors are derived around the brand palette:
 
 - `--color-gold-dark` is used for hover states.
+- `--color-on-gold` is used for accessible text on `--color-gold`.
 - `--color-muted` is used for secondary text.
 - `--color-line` is used for borders.
 - `--color-blush` is a restrained warm accent used sparingly.

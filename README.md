@@ -15,6 +15,12 @@ Agents should read [AGENTS.md](AGENTS.md) before changing the repo. The `docs/` 
 
 ## Development
 
+Use Node.js 22 or newer. If you use `nvm`, run:
+
+```bash
+nvm use
+```
+
 Install dependencies once:
 
 ```bash

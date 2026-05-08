@@ -22,6 +22,8 @@ The repository should require PR review and the `Validate` check from the `Build
 
 ## Local Validation
 
+Use Node.js 22 or newer. The CI workflows also use Node 22.
+
 Run this before pushing code changes:
 
 ```bash

@@ -55,7 +55,7 @@ const description = content.site.description;
     <title>{title}</title>
   </head>
   <body>
-    <header class="site-header" aria-label={content.navigation.ariaLabel}>
+    <header class="site-header">
       <a class="brand" href={localeHref(locale)}>
         <img src={asset("brand/logo-transparent.svg")} alt={content.site.name} />
       </a>
@@ -72,6 +72,7 @@ const description = content.site.description;
                 class:list={["language-link", { "is-active": localeCode === locale }]}
                 href={localeHref(localeCode)}
                 aria-current={localeCode === locale ? "page" : undefined}
+                aria-label={locales[localeCode].name}
               >
                 {locales[localeCode].label}
               </a>

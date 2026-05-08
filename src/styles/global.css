@@ -3,12 +3,12 @@
   --color-ink: #545454;
   --color-muted: #6f6a60;
   --color-gold: #c99853;
-  --color-gold-dark: #a8793d;
+  --color-gold-dark: #93692f;
+  --color-on-gold: #292722;
   --color-blush: #d9a18f;
   --color-line: rgba(84, 84, 84, 0.14);
   --shadow-soft: 0 18px 55px rgba(84, 84, 84, 0.12);
   font-family:
-    Inter,
     ui-sans-serif,
     system-ui,
     -apple-system,
@@ -112,7 +112,7 @@ a {
 .language-link:hover,
 .language-link.is-active {
   background: var(--color-gold);
-  color: #fff;
+  color: var(--color-on-gold);
 }
 
 .hero {
@@ -195,12 +195,13 @@ p {
 .primary-action {
   padding: 0 22px;
   background: var(--color-gold);
-  color: #fff;
+  color: var(--color-on-gold);
   box-shadow: var(--shadow-soft);
 }
 
 .primary-action:hover {
   background: var(--color-gold-dark);
+  color: #fff;
 }
 
 .section {

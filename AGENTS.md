@@ -30,6 +30,8 @@ Do not add frameworks, UI libraries, CMS tooling, booking systems, analytics, pa
 
 ## Commands
 
+Use Node.js 22 or newer. The expected local version is recorded in `.nvmrc`.
+
 Install dependencies:
 
 ```bash
