@@ -26,6 +26,12 @@ The root project URL can redirect to Portuguese:
 
 Portuguese should be treated as the primary/default language unless Pedro decides otherwise.
 
+## Copy Language
+
+By default, user-facing copy should be written in Portuguese.
+
+Culturally adopted expressions that are commonly used by the target audience are acceptable in Portuguese copy. For example, "baby showers" can remain in English because it is a familiar event category for the audience.
+
 ## Content Structure
 
 Recommended future file structure:
@@ -64,5 +70,6 @@ export const home = {
 
 Do not mechanically translate important marketing copy. PT and EN can differ if that sounds more natural for each audience.
 
-For unclear copy decisions, ask Pedro before locking wording.
+Do not mechanically translate culturally adopted expressions when they sound more natural in everyday Portuguese.
 
+For unclear copy decisions, ask Pedro before locking wording.

@@ -27,6 +27,7 @@ The current CSS defines the starting palette in `src/styles/global.css`.
 
 - Make the venue/business name immediately visible.
 - Keep the first screen focused on what the business is and who it serves.
+- Write user-facing copy in Portuguese by default, while allowing culturally adopted expressions like "baby showers" when they sound natural to the audience.
 - Prefer direct sections over decorative cards.
 - Keep mobile layouts simple and readable.
 - Make contact links obvious.
@@ -53,4 +54,3 @@ When real assets are available, prioritize:
 - Google/Instagram proof points if available.
 
 Photos should make the space easier to evaluate, not just create atmosphere.
-

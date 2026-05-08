@@ -95,6 +95,8 @@ Run `npm run build` or `npm run check` after code changes. Documentation-only ed
 
 Portuguese and English are planned. Portuguese should be treated as the primary/default language unless Pedro decides otherwise.
 
+By default, user-facing copy should be written in Portuguese. Culturally adopted expressions that are commonly used by the target audience, such as "baby showers", are acceptable and should not be mechanically translated.
+
 When adding user-facing copy, structure it so it can be translated. Avoid hardcoding copy deep inside reusable components if the same component will be used across locales.
 
 ## Deployment Notes
