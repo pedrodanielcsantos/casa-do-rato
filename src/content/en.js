@@ -1,6 +1,6 @@
 export const translationMeta = {
   sourceLocale: "pt",
-  sourceHash: "6f445a87e980ad67f3b09abaee2d9c1ede6ce3404ae4774b4bdcf87d2125d2a1",
+  sourceHash: "7caa1265dd8e450197aa6343e4fc4f1e641ae82ef57774f52ac5de85b89efeb7",
 };
 
 export const content = {
@@ -16,20 +16,22 @@ export const content = {
     events: "Events",
     space: "Space",
     contact: "Contact",
+    instagram: "Instagram ↗",
+    instagramHref: "https://instagram.com/casadorato.eventos",
   },
   languageSwitcher: {
     ariaLabel: "Choose language",
   },
   hero: {
     capacity: "Vila Nova de Gaia · up to 35 guests",
-    body: "A private space for birthdays, baby showers, surprise parties, and relaxed gatherings with the people who matter.",
+    body: "A versatile space for birthdays, baby showers, gatherings, workshops, and corporate events — in Vila Nova de Gaia, Porto.",
     cta: "Book",
     ctaHref:
       "https://wa.me/351916411228?text=Hi!%20I%27d%20like%20to%20check%20availability%20at%20Casa%20do%20Rato.%0A%0APreferred%20date%3A%20%0AEvent%20type%3A%20%0AGuest%20count%3A%20%0ATime%3A%20",
   },
   events: {
     eyebrow: "Occasions",
-    title: "Designed for intimate celebrations",
+    title: "Made for any occasion",
     items: [
       {
         title: "Kids' birthdays",
@@ -38,29 +40,39 @@ export const content = {
       },
       {
         title: "Adult birthdays",
-        description: "Private, comfortable gatherings without the scale of a large event hall.",
+        description: "Private, comfortable gatherings with the ease of a home.",
         icon: "gift",
       },
       {
         title: "Baby showers",
-        description: "A warm setting for calm, personal moments before the new arrival.",
+        description: "A warm setting to celebrate what's coming.",
         icon: "sparkles",
       },
       {
-        title: "Friends' gatherings",
-        description: "Space for food, conversation, music, and a relaxed shared table.",
+        title: "Friends & family gatherings",
+        description: "A shared table, conversation, music — no rush.",
         icon: "users",
+      },
+      {
+        title: "Workshops & training",
+        description: "A modular space with natural light, ideal for groups up to 25.",
+        icon: "presentation",
+      },
+      {
+        title: "Corporate events",
+        description: "Off-sites, launches, and team-buildings in a venue that's all yours.",
+        icon: "briefcase",
       },
     ],
   },
   space: {
     eyebrow: "The space",
-    title: "Welcoming enough to feel personal, ready for real parties",
+    title: "Private, refined, and made to fit",
     ariaLabel: "Venue highlights",
     highlights: [
       "Private events up to 35 people",
-      "Ideal for birthdays, baby showers, and gatherings",
-      "Simple setup for food, cake, gifts, and music",
+      "Versatile for personal celebrations, workshops, and corporate events",
+      "Set up your way — food, music, decoration",
     ],
   },
   contact: {

@@ -64,6 +64,13 @@ const description = content.site.description;
           <a href="#events">{content.navigation.events}</a>
           <a href="#space">{content.navigation.space}</a>
           <a href="#contact">{content.navigation.contact}</a>
+          {
+            content.navigation.instagramHref && (
+              <a href={content.navigation.instagramHref} target="_blank" rel="noopener noreferrer">
+                {content.navigation.instagram}
+              </a>
+            )
+          }
         </nav>
         <nav class="language-switcher" aria-label={content.languageSwitcher.ariaLabel}>
           {

@@ -62,6 +62,8 @@ Allowed event icons:
 - `gift`
 - `sparkles`
 - `users`
+- `presentation`
+- `briefcase`
 
 These map to icons in `src/components/EventTypes.jsx`.
 

@@ -1,10 +1,12 @@
 import lucide from "lucide-react";
 
-const { Cake, Gift, Sparkles, Users } = lucide;
+const { Briefcase, Cake, Gift, Presentation, Sparkles, Users } = lucide;
 
 const icons = {
   cake: Cake,
   gift: Gift,
+  presentation: Presentation,
+  briefcase: Briefcase,
   sparkles: Sparkles,
   users: Users,
 };

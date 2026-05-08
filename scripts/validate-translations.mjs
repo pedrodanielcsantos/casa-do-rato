@@ -4,7 +4,7 @@ import { defaultLocale, localeOrder, locales } from "../src/content/locales.js";
 import { content as portugueseContent } from "../src/content/pt.js";
 
 const sourceLocale = "pt";
-const eventIcons = ["cake", "gift", "sparkles", "users"];
+const eventIcons = ["cake", "gift", "sparkles", "users", "presentation", "briefcase"];
 const contactTypes = ["whatsapp", "google", "instagram"];
 const contactVariants = ["primary", "secondary"];
 
