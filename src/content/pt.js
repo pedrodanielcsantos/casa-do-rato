@@ -89,7 +89,12 @@ export const content = {
     mapSrc:
       "https://www.google.com/maps?q=Casa%20do%20Rato%20Eventos%2C%20Vila%20Nova%20de%20Gaia%2C%20Porto&output=embed",
     addressLabel: "Morada",
-    addressLines: ["Casa do Rato Eventos", "Vila Nova de Gaia, Porto"],
+    addressLines: [
+      "Casa do Rato Eventos",
+      "R. Cunha de Cima 17",
+      "4430-681 Avintes",
+      "Vila Nova de Gaia, Porto",
+    ],
     directionsLabel: "Abrir no Google Maps",
     directionsHref: "https://share.google/wthpJCybsH4YGAJo9",
     contactsLabel: "Contactos",
