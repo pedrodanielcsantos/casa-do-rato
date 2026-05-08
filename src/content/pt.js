@@ -11,51 +11,63 @@ export const content = {
     events: "Eventos",
     space: "Espaço",
     contact: "Contactos",
+    instagram: "Instagram ↗",
+    instagramHref: "https://instagram.com/casadorato.eventos",
   },
   languageSwitcher: {
     ariaLabel: "Escolher idioma",
   },
   hero: {
     capacity: "Vila Nova de Gaia · até 35 convidados",
-    body: "Um espaço privado para aniversários, baby showers, festas surpresa e encontros descontraídos com as pessoas que importam.",
-    cta: "Pedir orçamento",
+    body: "Um espaço à sua medida para aniversários, baby showers, encontros, workshops e eventos corporativos — em Vila Nova de Gaia.",
+    cta: "Marcar",
     ctaHref:
       "https://wa.me/351916411228?text=Ol%C3%A1!%20Gostaria%20de%20saber%20a%20disponibilidade%20da%20Casa%20do%20Rato.%0A%0AData%20pretendida%3A%20%0ATipo%20de%20evento%3A%20%0AN%C2%BA%20de%20convidados%3A%20%0AHor%C3%A1rio%3A%20",
   },
   events: {
     eyebrow: "Ocasiões",
-    title: "Pensado para celebrações íntimas",
+    title: "Pensado para qualquer ocasião",
     items: [
       {
         title: "Aniversários de crianças",
-        description: "Um espaço flexível para celebrar com brincadeira, família e amigos.",
+        description: "Espaço flexível para festejar com família, amigos e muita brincadeira.",
         icon: "cake",
       },
       {
         title: "Aniversários de adultos",
-        description: "Encontros privados e confortáveis, sem a escala de um grande salão.",
+        description: "Encontros privados, com o à-vontade de uma casa.",
         icon: "gift",
       },
       {
-        title: "Baby showers",
-        description: "Um ambiente acolhedor para momentos calmos e pessoais antes da chegada.",
+        title: "Baby showers & chá de bebé",
+        description: "Um ambiente acolhedor para celebrar o que vem aí.",
         icon: "sparkles",
       },
       {
-        title: "Encontros entre amigos",
-        description: "Espaço para comida, conversa, música e uma mesa partilhada sem pressas.",
+        title: "Encontros de família e amigos",
+        description: "Mesa partilhada, conversa, música — sem pressas.",
         icon: "users",
+      },
+      {
+        title: "Workshops & formações",
+        description: "Espaço modular, luz natural, ideal para grupos até 25.",
+        icon: "presentation",
+      },
+      {
+        title: "Eventos corporativos",
+        description: "Off-sites, lançamentos e team buildings num espaço só vosso.",
+        icon: "briefcase",
       },
     ],
   },
   space: {
     eyebrow: "O espaço",
-    title: "Pequeno o suficiente para ser pessoal, preparado para festas a sério",
+    title: "Privado, sóbrio, e à sua medida",
     ariaLabel: "Destaques do espaço",
     highlights: [
       "Eventos privados até 35 pessoas",
-      "Ideal para aniversários, baby showers e encontros",
-      "Configuração simples para comida, bolo, presentes e música",
+      "Versátil para celebrações pessoais, workshops e eventos corporativos",
+      "Configuração à sua medida — comida, música, decoração",
     ],
   },
   contact: {
@@ -103,6 +115,11 @@ export const content = {
         label: "WhatsApp",
         value: "+351 916 411 228",
         href: "https://wa.me/351916411228?text=Ol%C3%A1!%20Gostaria%20de%20saber%20a%20disponibilidade%20da%20Casa%20do%20Rato.%0A%0AData%20pretendida%3A%20%0ATipo%20de%20evento%3A%20%0AN%C2%BA%20de%20convidados%3A%20%0AHor%C3%A1rio%3A%20",
+      },
+      {
+        label: "WhatsApp Rita",
+        value: "+351 933 562 673",
+        href: "https://wa.me/351933562673?text=Ol%C3%A1!%20Gostaria%20de%20saber%20a%20disponibilidade%20da%20Casa%20do%20Rato.%0A%0AData%20pretendida%3A%20%0ATipo%20de%20evento%3A%20%0AN%C2%BA%20de%20convidados%3A%20%0AHor%C3%A1rio%3A%20",
       },
       {
         label: "Instagram",
