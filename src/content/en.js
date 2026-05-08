@@ -1,6 +1,6 @@
 export const translationMeta = {
   sourceLocale: "pt",
-  sourceHash: "ef675d155c9ae4f7364fdd67089aef4b7d89b2c79cb1a6cedf01ca9df401ea68",
+  sourceHash: "6f445a87e980ad67f3b09abaee2d9c1ede6ce3404ae4774b4bdcf87d2125d2a1",
 };
 
 export const content = {
@@ -23,7 +23,7 @@ export const content = {
   hero: {
     capacity: "Vila Nova de Gaia · up to 35 guests",
     body: "A private space for birthdays, baby showers, surprise parties, and relaxed gatherings with the people who matter.",
-    cta: "Request a quote",
+    cta: "Book",
     ctaHref:
       "https://wa.me/351916411228?text=Hi!%20I%27d%20like%20to%20check%20availability%20at%20Casa%20do%20Rato.%0A%0APreferred%20date%3A%20%0AEvent%20type%3A%20%0AGuest%20count%3A%20%0ATime%3A%20",
   },
@@ -55,7 +55,7 @@ export const content = {
   },
   space: {
     eyebrow: "The space",
-    title: "Small enough to feel personal, ready for real parties",
+    title: "Welcoming enough to feel personal, ready for real parties",
     ariaLabel: "Venue highlights",
     highlights: [
       "Private events up to 35 people",
@@ -108,6 +108,11 @@ export const content = {
         label: "WhatsApp",
         value: "+351 916 411 228",
         href: "https://wa.me/351916411228?text=Hi!%20I%27d%20like%20to%20check%20availability%20at%20Casa%20do%20Rato.%0A%0APreferred%20date%3A%20%0AEvent%20type%3A%20%0AGuest%20count%3A%20%0ATime%3A%20",
+      },
+      {
+        label: "WhatsApp Rita",
+        value: "+351 933 562 673",
+        href: "https://wa.me/351933562673?text=Hi!%20I%27d%20like%20to%20check%20availability%20at%20Casa%20do%20Rato.%0A%0APreferred%20date%3A%20%0AEvent%20type%3A%20%0AGuest%20count%3A%20%0ATime%3A%20",
       },
       {
         label: "Instagram",

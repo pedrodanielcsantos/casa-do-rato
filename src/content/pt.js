@@ -18,13 +18,13 @@ export const content = {
   hero: {
     capacity: "Vila Nova de Gaia · até 35 convidados",
     body: "Um espaço privado para aniversários, baby showers, festas surpresa e encontros descontraídos com as pessoas que importam.",
-    cta: "Pedir orçamento",
+    cta: "Marcar",
     ctaHref:
       "https://wa.me/351916411228?text=Ol%C3%A1!%20Gostaria%20de%20saber%20a%20disponibilidade%20da%20Casa%20do%20Rato.%0A%0AData%20pretendida%3A%20%0ATipo%20de%20evento%3A%20%0AN%C2%BA%20de%20convidados%3A%20%0AHor%C3%A1rio%3A%20",
   },
   events: {
     eyebrow: "Ocasiões",
-    title: "Pensado para celebrações íntimas",
+    title: "Pensado para celebrações intimistas",
     items: [
       {
         title: "Aniversários de crianças",
@@ -50,7 +50,7 @@ export const content = {
   },
   space: {
     eyebrow: "O espaço",
-    title: "Pequeno o suficiente para ser pessoal, preparado para festas a sério",
+    title: "Acolhedor o suficiente para ser pessoal, preparado para festas a sério",
     ariaLabel: "Destaques do espaço",
     highlights: [
       "Eventos privados até 35 pessoas",
@@ -103,6 +103,11 @@ export const content = {
         label: "WhatsApp",
         value: "+351 916 411 228",
         href: "https://wa.me/351916411228?text=Ol%C3%A1!%20Gostaria%20de%20saber%20a%20disponibilidade%20da%20Casa%20do%20Rato.%0A%0AData%20pretendida%3A%20%0ATipo%20de%20evento%3A%20%0AN%C2%BA%20de%20convidados%3A%20%0AHor%C3%A1rio%3A%20",
+      },
+      {
+        label: "WhatsApp Rita",
+        value: "+351 933 562 673",
+        href: "https://wa.me/351933562673?text=Ol%C3%A1!%20Gostaria%20de%20saber%20a%20disponibilidade%20da%20Casa%20do%20Rato.%0A%0AData%20pretendida%3A%20%0ATipo%20de%20evento%3A%20%0AN%C2%BA%20de%20convidados%3A%20%0AHor%C3%A1rio%3A%20",
       },
       {
         label: "Instagram",
