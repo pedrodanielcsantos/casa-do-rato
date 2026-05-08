@@ -91,6 +91,7 @@ Do not run multiple Astro build/check commands in parallel because they write to
 - Use short-lived branches for changes. Agent branches should use the `codex/` prefix.
 - Open a pull request for meaningful changes.
 - Run `npm run check` before pushing code changes.
+- Treat external PR review as optional unless Pedro adds another maintainer.
 - Keep generated output out of Git.
 
 ## Code Guidelines

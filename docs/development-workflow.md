@@ -1,6 +1,6 @@
 # Development Workflow
 
-This repo is optimized for small, reviewed iterations.
+This repo is optimized for small, validated iterations.
 
 ## Branches
 
@@ -18,7 +18,7 @@ Open a PR for every meaningful change. The PR template asks for:
 - Visual review when the UI changed.
 - Translation sync when Portuguese copy changed.
 
-The repository should require PR review and the `Validate` check from the `Build and validate` workflow before merging.
+The repository should require the `Validate` check from the `Build and validate` workflow before merging. Reviews are optional while this is a solo-owner repo because GitHub does not allow authors to approve their own PRs.
 
 ## Local Validation
 
