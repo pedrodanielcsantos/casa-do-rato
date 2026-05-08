@@ -18,7 +18,7 @@ Open a PR for every meaningful change. The PR template asks for:
 - Visual review when the UI changed.
 - Translation sync when Portuguese copy changed.
 
-The repository should require PR review and the `Validate` CI check before merging.
+The repository should require PR review and the `Validate` check from the `Build and validate` workflow before merging.
 
 ## Local Validation
 

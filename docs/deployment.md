@@ -26,7 +26,7 @@ The deployment workflow lives in:
 Pull request validation lives in:
 
 ```text
-.github/workflows/ci.yml
+.github/workflows/build_and_validate.yml
 ```
 
 On pushes to `main`, it:
