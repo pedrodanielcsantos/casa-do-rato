@@ -2,32 +2,31 @@ export const site = {
   name: "Casa do Rato Eventos",
   shortName: "Casa do Rato",
   description:
-    "A welcoming private venue for birthdays, baby showers, surprise parties, and small gatherings up to 35 people.",
-  capacity: "Up to 35 guests",
-  locationLabel: "Location details coming soon",
+    "Um espaço privado e acolhedor para aniversários, baby showers, festas surpresa e pequenos encontros até 35 pessoas.",
+  capacity: "Até 35 convidados",
+  locationLabel: "Localização a anunciar em breve",
   contactLinks: [],
 };
 
 export const eventTypes = [
   {
-    title: "Kids' birthdays",
-    description: "A flexible space for playful celebrations with family and friends.",
+    title: "Aniversários de crianças",
+    description: "Um espaço flexível para celebrar com brincadeira, família e amigos.",
     icon: "cake",
   },
   {
-    title: "Adult birthdays",
-    description: "Private, comfortable gatherings without the scale of a large venue.",
+    title: "Aniversários de adultos",
+    description: "Encontros privados e confortáveis, sem a escala de um grande salão.",
     icon: "gift",
   },
   {
     title: "Baby showers",
-    description: "A warm setting for calm, personal moments before the big arrival.",
+    description: "Um ambiente acolhedor para momentos calmos e pessoais antes da chegada.",
     icon: "sparkles",
   },
   {
-    title: "Friends' gatherings",
-    description: "Room for food, conversation, music, and a relaxed shared table.",
+    title: "Encontros entre amigos",
+    description: "Espaço para comida, conversa, música e uma mesa partilhada sem pressas.",
     icon: "users",
   },
 ];
-

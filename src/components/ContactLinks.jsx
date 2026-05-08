@@ -14,7 +14,7 @@ export default function ContactLinks({ links = [] }) {
   }
 
   return (
-    <div className="contact-links" aria-label="Contact links">
+    <div className="contact-links" aria-label="Links de contacto">
       {links.map((link) => {
         const Icon = icons[link.type] ?? MessageCircle;
 

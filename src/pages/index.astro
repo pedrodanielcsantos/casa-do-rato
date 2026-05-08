@@ -9,7 +9,7 @@ const heroPattern = `background-image: linear-gradient(rgba(253, 252, 247, 0.9),
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="pt-PT">
   <head>
     <meta charset="UTF-8" />
     <meta name="description" content={site.description} />
@@ -24,9 +24,9 @@ const heroPattern = `background-image: linear-gradient(rgba(253, 252, 247, 0.9),
         <img src={asset("brand/logo-transparent.svg")} alt={site.name} />
       </a>
       <nav>
-        <a href="#events">Events</a>
-        <a href="#space">Space</a>
-        <a href="#contact">Contact</a>
+        <a href="#events">Eventos</a>
+        <a href="#space">Espaço</a>
+        <a href="#contact">Contactos</a>
       </nav>
     </header>
 
@@ -36,17 +36,17 @@ const heroPattern = `background-image: linear-gradient(rgba(253, 252, 247, 0.9),
           <p class="eyebrow">{site.capacity}</p>
           <h1>{site.shortName}</h1>
           <p class="hero-copy">
-            A small private venue for birthdays, baby showers, surprise parties,
-            and easy gatherings with the people who matter.
+            Um espaço privado para aniversários, baby showers, festas surpresa e
+            encontros descontraídos com as pessoas que importam.
           </p>
-          <a class="primary-action" href="#contact">Plan an event</a>
+          <a class="primary-action" href="#contact">Planear um evento</a>
         </div>
       </section>
 
       <section class="section" id="events" aria-labelledby="events-title">
         <div class="section-heading">
-          <p class="eyebrow">Occasions</p>
-          <h2 id="events-title">Built for intimate celebrations</h2>
+          <p class="eyebrow">Ocasiões</p>
+          <h2 id="events-title">Pensado para celebrações íntimas</h2>
         </div>
         <EventTypes items={eventTypes} />
       </section>
@@ -54,23 +54,23 @@ const heroPattern = `background-image: linear-gradient(rgba(253, 252, 247, 0.9),
       <section class="section section-band" id="space" aria-labelledby="space-title">
         <div class="split">
           <div>
-            <p class="eyebrow">The venue</p>
-            <h2 id="space-title">Small enough to feel personal, ready for real parties</h2>
+            <p class="eyebrow">O espaço</p>
+            <h2 id="space-title">Pequeno o suficiente para ser pessoal, preparado para festas a sério</h2>
           </div>
-          <div class="feature-list" aria-label="Venue highlights">
-            <p>Private events up to 35 people</p>
-            <p>Designed for birthdays, showers, and gatherings</p>
-            <p>Simple setup for food, cake, gifts, and music</p>
+          <div class="feature-list" aria-label="Destaques do espaço">
+            <p>Eventos privados até 35 pessoas</p>
+            <p>Ideal para aniversários, baby showers e encontros</p>
+            <p>Configuração simples para comida, bolo, presentes e música</p>
           </div>
         </div>
       </section>
 
       <section class="section contact-section" id="contact" aria-labelledby="contact-title">
         <div class="section-heading">
-          <p class="eyebrow">Bookings</p>
-          <h2 id="contact-title">Contact links will be added before launch</h2>
+          <p class="eyebrow">Reservas</p>
+          <h2 id="contact-title">Os links de contacto serão adicionados antes do lançamento</h2>
           <p>
-            The final site will link directly to WhatsApp, Google, and Instagram.
+            A versão final terá links diretos para WhatsApp, Google e Instagram.
           </p>
         </div>
         <ContactLinks links={site.contactLinks} />
@@ -78,4 +78,3 @@ const heroPattern = `background-image: linear-gradient(rgba(253, 252, 247, 0.9),
     </main>
   </body>
 </html>
-

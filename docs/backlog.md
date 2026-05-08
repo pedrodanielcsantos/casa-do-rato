@@ -8,7 +8,7 @@ This is a lightweight working list for agents and humans. Use GitHub Issues if t
 - Add real WhatsApp link.
 - Add Google Maps or Google Business Profile link.
 - Add Instagram link.
-- Replace starter copy with final Portuguese copy.
+- Review and refine the Portuguese homepage copy.
 - Add English copy.
 - Add real venue photos.
 - Add Open Graph metadata and preview image.
@@ -24,4 +24,3 @@ This is a lightweight working list for agents and humans. Use GitHub Issues if t
 - Add accessibility pass.
 - Add optional analytics if Pedro wants it.
 - Add richer validation tooling only if the project needs it.
-
