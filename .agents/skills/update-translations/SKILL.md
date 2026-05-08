@@ -25,7 +25,7 @@ npm run check-translations
 npm run check
 ```
 
-8. If validation fails, fix the target locale shape or stale hash before finishing.
+8. If validation fails, fix the target locale shape, content model issue, or stale hash before finishing.
 
 ## Rules
 
@@ -34,4 +34,3 @@ npm run check
 - Keep translated files deterministic: same object shape, same arrays, same non-copy metadata.
 - If a Portuguese phrase has no obvious natural translation, choose clear plain English and mention the uncertainty.
 - For future languages, add a new `src/content/<locale>.js` with the same `content` export and a `translationMeta` export, then include it in `scripts/validate-translations.mjs`.
-

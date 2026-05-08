@@ -69,6 +69,8 @@ export const translationMeta = {
 };
 ```
 
+The enforced homepage content model is documented in `docs/content-model.md`.
+
 ## Component Rules
 
 - Components should receive already-translated strings as props.
@@ -96,3 +98,5 @@ The workflow is:
 3. The skill updates `src/content/en.js`.
 4. The skill updates `translationMeta.sourceHash` using `npm run translation:source-hash`.
 5. Validate with `npm run check-translations` and `npm run check`.
+
+`npm run check-translations` validates both the content model and the translation source hash.

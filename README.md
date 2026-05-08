@@ -11,9 +11,15 @@ Website for Casa do Rato Eventos, a small event venue for private gatherings of 
 
 ## Agent Context
 
-Agents should read [AGENTS.md](AGENTS.md) before changing the repo. The `docs/` folder contains the project brief, architecture notes, design direction, localization plan, deployment notes, backlog, and decision records.
+Agents should read [AGENTS.md](AGENTS.md) before changing the repo. The `docs/` folder contains the project brief, architecture notes, design direction, design tokens, content model, localization plan, asset strategy, development workflow, deployment notes, backlog, and decision records.
 
 ## Development
+
+Use Node.js 22 or newer. If you use `nvm`, run:
+
+```bash
+nvm use
+```
 
 Install dependencies once:
 
@@ -51,7 +57,13 @@ npm run check
 
 Run this before pushing changes.
 
-Check only translation structure and sync status:
+Format files with Prettier:
+
+```bash
+npm run format
+```
+
+Check only content structure and translation sync status:
 
 ```bash
 npm run check-translations

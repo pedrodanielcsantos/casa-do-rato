@@ -16,8 +16,7 @@ export const content = {
   },
   hero: {
     capacity: "Até 35 convidados",
-    body:
-      "Um espaço privado para aniversários, baby showers, festas surpresa e encontros descontraídos com as pessoas que importam.",
+    body: "Um espaço privado para aniversários, baby showers, festas surpresa e encontros descontraídos com as pessoas que importam.",
     cta: "Planear um evento",
   },
   events: {
@@ -64,4 +63,3 @@ export const content = {
     links: [],
   },
 };
-

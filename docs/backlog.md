@@ -10,8 +10,8 @@ This is a lightweight working list for agents and humans. Use GitHub Issues if t
 - Review and refine the Portuguese homepage copy.
 - Keep English copy synced through the repo-local translation skill.
 - Add real venue photos.
-- Add Open Graph metadata and preview image.
-- Add local business SEO metadata.
+- Add social preview image for Open Graph/Twitter cards.
+- Add LocalBusiness structured data.
 
 ## Later
 
@@ -22,4 +22,3 @@ This is a lightweight working list for agents and humans. Use GitHub Issues if t
 - Add pricing/package guidance if desired.
 - Add accessibility pass.
 - Add optional analytics if Pedro wants it.
-- Add richer validation tooling only if the project needs it.

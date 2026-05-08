@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://pedrodanielcsantos.github.io/casa-do-rato/sitemap-index.xml

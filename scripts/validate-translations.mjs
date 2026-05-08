@@ -1,6 +1,21 @@
 import { createHash } from "node:crypto";
-import { content as sourceContent } from "../src/content/pt.js";
 import { content as englishContent, translationMeta as englishMeta } from "../src/content/en.js";
+import { defaultLocale, localeOrder, locales } from "../src/content/locales.js";
+import { content as portugueseContent } from "../src/content/pt.js";
+
+const sourceLocale = "pt";
+const eventIcons = ["cake", "gift", "sparkles", "users"];
+const contactTypes = ["whatsapp", "google", "instagram"];
+
+const requiredContentStrings = {
+  site: ["name", "shortName", "description"],
+  navigation: ["ariaLabel", "events", "space", "contact"],
+  languageSwitcher: ["ariaLabel"],
+  hero: ["capacity", "body", "cta"],
+  events: ["eyebrow", "title"],
+  space: ["eyebrow", "title", "ariaLabel"],
+  contact: ["eyebrow", "title", "body", "linksAriaLabel"],
+};
 
 const targetTranslations = [
   {
@@ -11,12 +26,16 @@ const targetTranslations = [
   },
 ];
 
+const failures = [];
+const fail = (path, message) => failures.push(`${path}: ${message}`);
+const isRecord = (value) => Boolean(value) && typeof value === "object" && !Array.isArray(value);
+
 function stableStringify(value) {
   if (Array.isArray(value)) {
     return `[${value.map(stableStringify).join(",")}]`;
   }
 
-  if (value && typeof value === "object") {
+  if (isRecord(value)) {
     return `{${Object.keys(value)
       .sort()
       .map((key) => `${JSON.stringify(key)}:${stableStringify(value[key])}`)
@@ -26,58 +45,168 @@ function stableStringify(value) {
   return JSON.stringify(value);
 }
 
-function sourceHash() {
-  return createHash("sha256").update(stableStringify(sourceContent)).digest("hex");
-}
-
-function describeType(value) {
+function shapeOf(value) {
   if (Array.isArray(value)) {
-    return "array";
+    return value.map(shapeOf);
+  }
+
+  if (isRecord(value)) {
+    return Object.fromEntries(
+      Object.keys(value)
+        .map((key) => [key, shapeOf(value[key])])
+        .sort(),
+    );
   }
 
   return value === null ? "null" : typeof value;
 }
 
-function compareShape(source, target, path = "content") {
-  const errors = [];
-  const sourceType = describeType(source);
-  const targetType = describeType(target);
+function sourceHash() {
+  return createHash("sha256").update(stableStringify(portugueseContent)).digest("hex");
+}
 
-  if (sourceType !== targetType) {
-    return [`${path}: expected ${sourceType}, got ${targetType}`];
+function requireObject(value, path) {
+  if (!isRecord(value)) {
+    fail(path, "expected object");
+    return false;
   }
 
-  if (Array.isArray(source)) {
-    if (source.length !== target.length) {
-      errors.push(`${path}: expected ${source.length} item(s), got ${target.length}`);
+  return true;
+}
+
+function requireString(value, path, { allowEmpty = false } = {}) {
+  if (typeof value !== "string" || (!allowEmpty && !value.trim())) {
+    fail(path, allowEmpty ? "expected string" : "expected non-empty string");
+    return false;
+  }
+
+  return true;
+}
+
+function requireStrings(object, path, keys) {
+  keys.forEach((key) => requireString(object[key], `${path}.${key}`));
+}
+
+function requireArray(value, path, { allowEmpty = false } = {}) {
+  if (!Array.isArray(value) || (!allowEmpty && value.length === 0)) {
+    fail(path, allowEmpty ? "expected array" : "expected non-empty array");
+    return false;
+  }
+
+  return true;
+}
+
+function requireOneOf(value, allowedValues, path) {
+  if (!allowedValues.includes(value)) {
+    fail(path, `expected one of ${allowedValues.join(", ")}`);
+  }
+}
+
+function requireHttpUrl(value, path) {
+  try {
+    const url = new URL(value);
+
+    if (!["http:", "https:"].includes(url.protocol)) {
+      fail(path, "expected http or https URL");
+    }
+  } catch {
+    fail(path, "expected valid URL");
+  }
+}
+
+function validateContent(content, locale) {
+  const rootPath = `${locale}: content`;
+
+  if (!requireObject(content, rootPath)) {
+    return;
+  }
+
+  Object.entries(requiredContentStrings).forEach(([section, fields]) => {
+    const path = `${rootPath}.${section}`;
+
+    if (requireObject(content[section], path)) {
+      requireStrings(content[section], path, fields);
+    }
+  });
+
+  if (isRecord(content.events) && requireArray(content.events.items, `${rootPath}.events.items`)) {
+    content.events.items.forEach((item, index) => {
+      const path = `${rootPath}.events.items[${index}]`;
+
+      if (requireObject(item, path)) {
+        requireStrings(item, path, ["title", "description"]);
+        requireOneOf(item.icon, eventIcons, `${path}.icon`);
+      }
+    });
+  }
+
+  if (
+    isRecord(content.space) &&
+    requireArray(content.space.highlights, `${rootPath}.space.highlights`)
+  ) {
+    content.space.highlights.forEach((item, index) => {
+      requireString(item, `${rootPath}.space.highlights[${index}]`);
+    });
+  }
+
+  if (
+    isRecord(content.contact) &&
+    requireArray(content.contact.links, `${rootPath}.contact.links`, { allowEmpty: true })
+  ) {
+    content.contact.links.forEach((link, index) => {
+      const path = `${rootPath}.contact.links[${index}]`;
+
+      if (requireObject(link, path)) {
+        requireOneOf(link.type, contactTypes, `${path}.type`);
+        requireStrings(link, path, ["label", "href"]);
+
+        if (typeof link.href === "string" && link.href.trim()) {
+          requireHttpUrl(link.href, `${path}.href`);
+        }
+      }
+    });
+  }
+}
+
+function validateLocales() {
+  if (!locales[defaultLocale]) {
+    fail("locales.defaultLocale", `"${defaultLocale}" is missing from locales`);
+  }
+
+  Object.keys(locales)
+    .filter((localeCode) => !localeOrder.includes(localeCode))
+    .forEach((localeCode) => fail("localeOrder", `missing "${localeCode}"`));
+
+  localeOrder
+    .filter((localeCode) => !locales[localeCode])
+    .forEach((localeCode) => fail("locales", `missing "${localeCode}"`));
+
+  const paths = new Map();
+
+  Object.entries(locales).forEach(([localeCode, locale]) => {
+    const path = `locales.${localeCode}`;
+
+    if (!requireObject(locale, path)) {
+      return;
     }
 
-    source.forEach((sourceItem, index) => {
-      if (index < target.length) {
-        errors.push(...compareShape(sourceItem, target[index], `${path}[${index}]`));
-      }
-    });
+    requireStrings(locale, path, ["code", "htmlLang", "ogLocale", "label", "name"]);
+    requireString(locale.path, `${path}.path`, { allowEmpty: true });
 
-    return errors;
-  }
+    if (locale.code !== localeCode) {
+      fail(`${path}.code`, `expected "${localeCode}"`);
+    }
 
-  if (source && typeof source === "object") {
-    const sourceKeys = Object.keys(source).sort();
-    const targetKeys = Object.keys(target).sort();
-    const missingKeys = sourceKeys.filter((key) => !targetKeys.includes(key));
-    const extraKeys = targetKeys.filter((key) => !sourceKeys.includes(key));
+    if (typeof locale.path === "string" && locale.path.startsWith("/")) {
+      fail(`${path}.path`, "should be relative, without a leading slash");
+    }
 
-    missingKeys.forEach((key) => errors.push(`${path}: missing key "${key}"`));
-    extraKeys.forEach((key) => errors.push(`${path}: unexpected key "${key}"`));
+    if (paths.has(locale.path)) {
+      fail(`${path}.path`, `duplicates ${paths.get(locale.path)}`);
+    }
 
-    sourceKeys.forEach((key) => {
-      if (targetKeys.includes(key)) {
-        errors.push(...compareShape(source[key], target[key], `${path}.${key}`));
-      }
-    });
-  }
-
-  return errors;
+    paths.set(locale.path, path);
+  });
 }
 
 const expectedHash = sourceHash();
@@ -87,29 +216,29 @@ if (process.argv.includes("--print-source-hash")) {
   process.exit(0);
 }
 
-const failures = [];
+validateLocales();
+validateContent(portugueseContent, sourceLocale);
 
 targetTranslations.forEach(({ locale, content, meta, file }) => {
-  compareShape(sourceContent, content).forEach((error) => {
-    failures.push(`${locale}: ${error}`);
-  });
+  validateContent(content, locale);
 
-  if (meta?.sourceLocale !== "pt") {
-    failures.push(`${locale}: ${file} must export translationMeta.sourceLocale = "pt"`);
+  if (stableStringify(shapeOf(content)) !== stableStringify(shapeOf(portugueseContent))) {
+    fail(`${locale}: content`, "must match the Portuguese content shape");
+  }
+
+  if (meta?.sourceLocale !== sourceLocale) {
+    fail(`${locale}: ${file}`, `must export sourceLocale = "${sourceLocale}"`);
   }
 
   if (meta?.sourceHash !== expectedHash) {
-    failures.push(
-      `${locale}: translation is stale. Expected sourceHash ${expectedHash} in ${file}`,
-    );
+    fail(`${locale}: ${file}`, `translation is stale; expected ${expectedHash}`);
   }
 });
 
 if (failures.length) {
-  console.error("Translation validation failed:");
+  console.error("Content and translation validation failed:");
   failures.forEach((failure) => console.error(`- ${failure}`));
   process.exit(1);
 }
 
-console.log("Translations are synced with the Portuguese source content.");
-
+console.log("Content model is valid and translations are synced with the Portuguese source.");

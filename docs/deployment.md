@@ -23,13 +23,20 @@ The deployment workflow lives in:
 .github/workflows/deploy.yml
 ```
 
+Pull request validation lives in:
+
+```text
+.github/workflows/build_and_validate.yml
+```
+
 On pushes to `main`, it:
 
 1. Checks out the repo with Git LFS enabled.
-2. Installs Node dependencies with `npm ci`.
-3. Validates translation sync and builds the site with `npm run check`.
-4. Uploads the `dist/` artifact.
-5. Deploys the artifact to GitHub Pages.
+2. Uses Node.js 22.
+3. Installs Node dependencies with `npm ci`.
+4. Validates formatting, content, translation sync, and builds the site with `npm run check`.
+5. Uploads the `dist/` artifact.
+6. Deploys the artifact to GitHub Pages.
 
 ## Base Path
 
