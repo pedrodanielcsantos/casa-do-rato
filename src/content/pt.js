@@ -5,11 +5,16 @@ export const content = {
     title: "Casa do Rato - Espaço privado para eventos em Vila Nova de Gaia",
     description:
       "Espaço privado em Vila Nova de Gaia para até 35 pessoas. Aniversários, baby showers, workshops e eventos corporativos - versátil, sóbrio, à sua medida.",
+    ogImage: "photos/15.webp",
+    ogImageWidth: "1600",
+    ogImageHeight: "1200",
+    ogImageAlt: "Casa do Rato - espaço de eventos em Vila Nova de Gaia",
   },
   navigation: {
     ariaLabel: "Navegação principal",
     events: "Eventos",
     space: "Espaço",
+    gallery: "Galeria",
     contact: "Contactos",
     instagram: "Instagram ↗",
     instagramHref: "https://instagram.com/casadorato.eventos",
@@ -68,6 +73,77 @@ export const content = {
       "Eventos privados até 35 pessoas",
       "Versátil para celebrações pessoais, workshops e eventos corporativos",
       "Configuração à sua medida — comida, música, decoração",
+    ],
+  },
+  gallery: {
+    eyebrow: "O espaço em uso",
+    title: "Versátil, vez após vez",
+    body: "O mesmo espaço, configurado para diferentes ocasiões.",
+    images: [
+      {
+        src: "photos/1.webp",
+        alt: "Zona de entrada com armários brancos, plantas e luz decorativa.",
+      },
+      {
+        src: "photos/2.webp",
+        alt: "Aparador decorativo com difusor, moldura e mural gráfico na parede.",
+      },
+      {
+        src: "photos/3.webp",
+        alt: "Mesa corrida montada na sala para refeições, workshops ou encontros de grupo.",
+      },
+      {
+        src: "photos/3-5.webp",
+        alt: "Vista da sala principal a partir da entrada, com luz natural e zona de descanso ao fundo.",
+      },
+      {
+        src: "photos/4.webp",
+        alt: "Mesa de apoio junto ao aparador, preparada para encontros em grupo.",
+      },
+      {
+        src: "photos/5.webp",
+        alt: "Área de apoio com frigorífico, micro-ondas e arrumação integrada.",
+      },
+      {
+        src: "photos/6.webp",
+        alt: "Zona de sofás com mesa de apoio preparada para uma receção tranquila.",
+      },
+      {
+        src: "photos/7.webp",
+        alt: "Área infantil com escorrega junto à zona de sofás.",
+      },
+      {
+        src: "photos/8.webp",
+        alt: "Canto infantil com mesas coloridas, bancos pequenos e escorrega.",
+      },
+      {
+        src: "photos/9.webp",
+        alt: "Sala decorada com arco de balões e mesa principal para uma celebração.",
+      },
+      {
+        src: "photos/10.webp",
+        alt: "Placa decorativa de boas-vindas para uma festa temática de aniversário.",
+      },
+      {
+        src: "photos/11.webp",
+        alt: "Mesa temática de aniversário com balões, cortina decorativa e bolo.",
+      },
+      {
+        src: "photos/12.webp",
+        alt: "Mesa de aniversário com doces e salgados sob decoração de balões.",
+      },
+      {
+        src: "photos/13.webp",
+        alt: "Bolo de aniversário temático apresentado sobre prato de vidro.",
+      },
+      {
+        src: "photos/14.webp",
+        alt: "Estação de bebidas com dispensador, copos e jarros sobre o aparador.",
+      },
+      {
+        src: "photos/15.webp",
+        alt: "Mesa de buffet com salgados, doces e arranjo floral para um evento privado.",
+      },
     ],
   },
   contact: {

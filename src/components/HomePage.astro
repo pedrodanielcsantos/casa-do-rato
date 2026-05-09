@@ -8,6 +8,7 @@ const { content, locale } = Astro.props;
 const base = import.meta.env.BASE_URL;
 const asset = (path) => `${base}${path.replace(/^\//, "")}`;
 const heroPattern = `background-image: linear-gradient(rgba(253, 252, 247, 0.9), rgba(253, 252, 247, 0.86)), url("${asset("brand/pattern-original.png")}")`;
+const sectionPattern = `--section-pattern-url: url("${asset("brand/pattern-original.png")}")`;
 const heroCtaHref = content.hero.ctaHref ?? "#contact";
 const whatsappLink = content.contact.links.find((link) => link.type === "whatsapp");
 const whatsappIconStyle = `--icon-url: url("${asset("icons/whatsapp.svg")}")`;
@@ -32,7 +33,12 @@ const whatsappIconStyle = `--icon-url: url("${asset("icons/whatsapp.svg")}")`;
       <EventTypes items={content.events.items} />
     </section>
 
-    <section class="section section-band" id="space" aria-labelledby="space-title">
+    <section
+      class="section section-band"
+      id="space"
+      aria-labelledby="space-title"
+      style={sectionPattern}
+    >
       <div class="split">
         <div>
           <p class="eyebrow">{content.space.eyebrow}</p>
@@ -43,6 +49,30 @@ const whatsappIconStyle = `--icon-url: url("${asset("icons/whatsapp.svg")}")`;
         </div>
       </div>
     </section>
+
+    {
+      content.gallery && (
+        <section class="section gallery-section" id="gallery" aria-labelledby="gallery-title">
+          <div class="section-heading">
+            <p class="eyebrow">{content.gallery.eyebrow}</p>
+            <h2 id="gallery-title">{content.gallery.title}</h2>
+            <p>{content.gallery.body}</p>
+          </div>
+          <div class="gallery-grid">
+            {content.gallery.images.map((image, index) => (
+              <figure>
+                <img
+                  src={asset(image.src)}
+                  alt={image.alt}
+                  loading={index < 3 ? undefined : "lazy"}
+                  decoding="async"
+                />
+              </figure>
+            ))}
+          </div>
+        </section>
+      )
+    }
 
     <section class="section location-section" id="location" aria-labelledby="location-title">
       <div class="section-heading">

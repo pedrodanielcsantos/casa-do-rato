@@ -1,6 +1,6 @@
 export const translationMeta = {
   sourceLocale: "pt",
-  sourceHash: "7caa1265dd8e450197aa6343e4fc4f1e641ae82ef57774f52ac5de85b89efeb7",
+  sourceHash: "9edcb6051cc5fa5e3c4ccbb5844f7aa6924b8829fe45dc3815ce8cf017d18780",
 };
 
 export const content = {
@@ -10,11 +10,16 @@ export const content = {
     title: "Casa do Rato - Private event venue in Vila Nova de Gaia, Porto",
     description:
       "Private venue in Vila Nova de Gaia for up to 35 people. Birthdays, baby showers, workshops, and corporate events - versatile, refined, made to fit.",
+    ogImage: "photos/15.webp",
+    ogImageWidth: "1600",
+    ogImageHeight: "1200",
+    ogImageAlt: "Casa do Rato - event venue in Vila Nova de Gaia",
   },
   navigation: {
     ariaLabel: "Primary navigation",
     events: "Events",
     space: "Space",
+    gallery: "Gallery",
     contact: "Contact",
     instagram: "Instagram ↗",
     instagramHref: "https://instagram.com/casadorato.eventos",
@@ -73,6 +78,77 @@ export const content = {
       "Private events up to 35 people",
       "Versatile for personal celebrations, workshops, and corporate events",
       "Set up your way — food, music, decoration",
+    ],
+  },
+  gallery: {
+    eyebrow: "The space in action",
+    title: "Versatile, every time",
+    body: "The same space, set up for different occasions.",
+    images: [
+      {
+        src: "photos/1.webp",
+        alt: "Entrance area with white cabinets, plants, and decorative lighting.",
+      },
+      {
+        src: "photos/2.webp",
+        alt: "Decorative sideboard with a diffuser, framed sign, and graphic wall mural.",
+      },
+      {
+        src: "photos/3.webp",
+        alt: "Long table set up in the room for meals, workshops, or group gatherings.",
+      },
+      {
+        src: "photos/3-5.webp",
+        alt: "View of the main room from the entrance, with natural light and a lounge area in the back.",
+      },
+      {
+        src: "photos/4.webp",
+        alt: "Side table next to the sideboard, prepared for group gatherings.",
+      },
+      {
+        src: "photos/5.webp",
+        alt: "Support area with a refrigerator, microwave, and built-in storage.",
+      },
+      {
+        src: "photos/6.webp",
+        alt: "Sofa area with a small table prepared for a relaxed reception.",
+      },
+      {
+        src: "photos/7.webp",
+        alt: "Kids' area with a slide next to the sofa area.",
+      },
+      {
+        src: "photos/8.webp",
+        alt: "Kids' corner with colorful tables, small stools, and a slide.",
+      },
+      {
+        src: "photos/9.webp",
+        alt: "Room decorated with a balloon arch and main table for a celebration.",
+      },
+      {
+        src: "photos/10.webp",
+        alt: "Decorative welcome sign for a themed birthday party.",
+      },
+      {
+        src: "photos/11.webp",
+        alt: "Themed birthday table with balloons, decorative curtain, and cake.",
+      },
+      {
+        src: "photos/12.webp",
+        alt: "Birthday buffet table with sweets and savory food beneath balloon decorations.",
+      },
+      {
+        src: "photos/13.webp",
+        alt: "Themed birthday cake displayed on a glass cake stand.",
+      },
+      {
+        src: "photos/14.webp",
+        alt: "Drinks station with a dispenser, glasses, and jugs on the sideboard.",
+      },
+      {
+        src: "photos/15.webp",
+        alt: "Buffet table with savory food, sweets, and a floral arrangement for a private event.",
+      },
     ],
   },
   contact: {
