@@ -1,6 +1,6 @@
 export const translationMeta = {
   sourceLocale: "pt",
-  sourceHash: "9edcb6051cc5fa5e3c4ccbb5844f7aa6924b8829fe45dc3815ce8cf017d18780",
+  sourceHash: "223f7baaef9d15adcb7e5b6979675ad0224aa547e6816d2eaf5a727a9a777b44",
 };
 
 export const content = {
@@ -84,6 +84,11 @@ export const content = {
     eyebrow: "The space in action",
     title: "Versatile, every time",
     body: "The same space, set up for different occasions.",
+    openLabel: "Open photo",
+    dialogLabel: "Expanded photo gallery",
+    closeLabel: "Close gallery",
+    previousLabel: "Previous photo",
+    nextLabel: "Next photo",
     images: [
       {
         src: "photos/1.webp",
