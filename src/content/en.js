@@ -1,6 +1,6 @@
 export const translationMeta = {
   sourceLocale: "pt",
-  sourceHash: "ef694c689a7f8dbd17b3077377beebc3288801512d10ec1a9cd073f750479171",
+  sourceHash: "e43bea8d62cd2b21675a7ae2bd99057f51b9d608aa887fd4572e4854c50a5152",
 };
 
 export const content = {
@@ -10,10 +10,10 @@ export const content = {
     title: "Private Event Venue in Vila Nova de Gaia, Porto | Casa do Rato",
     description:
       "Private venue in Avintes, Vila Nova de Gaia, for up to 35 guests — from €120/4h. Birthdays, baby showers, workshops, and corporate events. Book via WhatsApp.",
-    ogImage: "photos/casa-do-rato-buffet-evento-privado.webp",
-    ogImageWidth: "1600",
-    ogImageHeight: "1200",
-    ogImageAlt: "Casa do Rato - event venue in Vila Nova de Gaia",
+    ogImage: "brand/logo-original.png",
+    ogImageWidth: "1679",
+    ogImageHeight: "1171",
+    ogImageAlt: "Casa do Rato Eventos logo",
     business: {
       telephone: "+351916411228",
       priceRange: "from €120/4h",

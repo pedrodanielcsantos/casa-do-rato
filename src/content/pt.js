@@ -5,10 +5,10 @@ export const content = {
     title: "Espaço para Festas e Eventos em Gaia | Casa do Rato",
     description:
       "Espaço privado em Avintes, Vila Nova de Gaia, para até 35 pessoas — desde 120€/4h. Festas, baby showers, workshops e eventos corporativos. Reserve por WhatsApp.",
-    ogImage: "photos/casa-do-rato-buffet-evento-privado.webp",
-    ogImageWidth: "1600",
-    ogImageHeight: "1200",
-    ogImageAlt: "Casa do Rato - espaço de eventos em Vila Nova de Gaia",
+    ogImage: "brand/logo-original.png",
+    ogImageWidth: "1679",
+    ogImageHeight: "1171",
+    ogImageAlt: "Logótipo da Casa do Rato Eventos",
     business: {
       telephone: "+351916411228",
       priceRange: "desde 120€/4h",
