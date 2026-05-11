@@ -70,10 +70,10 @@ npm run check
 npm run preview
 ```
 
-Test the GitHub Pages base path locally:
+Test the production domain root locally:
 
 ```bash
-SITE_BASE_PATH=/casa-do-rato SITE_URL=http://localhost:4321 npm run check
+SITE_BASE_PATH=/ SITE_URL=http://localhost:4321 npm run check
 npm run preview
 ```
 
