@@ -1,6 +1,6 @@
 export const translationMeta = {
   sourceLocale: "pt",
-  sourceHash: "e43bea8d62cd2b21675a7ae2bd99057f51b9d608aa887fd4572e4854c50a5152",
+  sourceHash: "ab43a80f6a0c9878421aa4804aaefd7b5bef15712b7c12fdca2aed8313446424",
 };
 
 export const content = {
@@ -199,7 +199,7 @@ export const content = {
         answer: "At Rua Cunha de Cima 17, in Avintes, Vila Nova de Gaia, near Porto.",
       },
       {
-        question: "How many people does it fit?",
+        question: "How many guests can I bring to an event at Casa do Rato?",
         answer: "The venue hosts private events for up to 35 people.",
       },
       {
