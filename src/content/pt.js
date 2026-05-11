@@ -79,6 +79,11 @@ export const content = {
     eyebrow: "O espaço em uso",
     title: "Versátil, vez após vez",
     body: "O mesmo espaço, configurado para diferentes ocasiões.",
+    openLabel: "Abrir fotografia",
+    dialogLabel: "Galeria de fotografias ampliadas",
+    closeLabel: "Fechar galeria",
+    previousLabel: "Fotografia anterior",
+    nextLabel: "Fotografia seguinte",
     images: [
       {
         src: "photos/1.webp",
