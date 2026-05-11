@@ -107,7 +107,7 @@ export const content = {
       },
       {
         src: "photos/5.webp",
-        alt: "Área de apoio com frigorífico, micro-ondas e arrumação integrada.",
+        alt: "Área de apoio com frigorífico, micro-ondas, máquina de café e arrumação integrada.",
       },
       {
         src: "photos/6.webp",
