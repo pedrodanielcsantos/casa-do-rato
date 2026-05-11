@@ -30,7 +30,11 @@ const locationContactGroups = content.location.contacts.reduce((groups, contact)
     <section class="hero" style={heroPattern}>
       <div class="hero-inner">
         <p class="eyebrow">{content.hero.capacity}</p>
-        <h1>{content.site.shortName}</h1>
+        <h1>
+          <span class="hero-title-brand">{content.hero.title.brand}</span>
+          <span class="hero-title-separator">—</span>
+          <span class="hero-title-qualifier">{content.hero.title.qualifier}</span>
+        </h1>
         <p class="hero-copy">{content.hero.body}</p>
         <a class="primary-action" href={heroCtaHref}>{content.hero.cta}</a>
       </div>
@@ -80,12 +84,7 @@ const locationContactGroups = content.location.contacts.reduce((groups, contact)
                       data-gallery-src={asset(image.src)}
                       data-gallery-alt={image.alt}
                     >
-                      <img
-                        src={asset(image.src)}
-                        alt={image.alt}
-                        loading={index < 3 ? undefined : "lazy"}
-                        decoding="async"
-                      />
+                      <img src={asset(image.src)} alt={image.alt} loading="lazy" decoding="async" />
                     </button>
                   </figure>
                 ))}

@@ -9,7 +9,7 @@ const contactTypes = ["whatsapp", "google", "instagram"];
 const contactVariants = ["primary", "secondary"];
 
 const requiredContentStrings = {
-  site: ["name", "shortName", "description"],
+  site: ["name", "shortName", "title", "description"],
   navigation: ["ariaLabel", "events", "space", "faq", "location", "contact"],
   languageSwitcher: ["ariaLabel"],
   hero: ["capacity", "body", "cta"],
@@ -142,6 +142,58 @@ function validateContent(content, locale) {
       requireStrings(content[section], path, fields);
     }
   });
+
+  if (isRecord(content.site)) {
+    if (requireObject(content.site.business, `${rootPath}.site.business`)) {
+      requireStrings(content.site.business, `${rootPath}.site.business`, [
+        "telephone",
+        "priceRange",
+        "openingHours",
+      ]);
+
+      if (requireObject(content.site.business.address, `${rootPath}.site.business.address`)) {
+        requireStrings(content.site.business.address, `${rootPath}.site.business.address`, [
+          "streetAddress",
+          "addressLocality",
+          "addressRegion",
+          "postalCode",
+          "addressCountry",
+        ]);
+      }
+
+      if (requireObject(content.site.business.geo, `${rootPath}.site.business.geo`)) {
+        ["latitude", "longitude"].forEach((key) => {
+          if (typeof content.site.business.geo[key] !== "number") {
+            fail(`${rootPath}.site.business.geo.${key}`, "expected number");
+          }
+        });
+      }
+
+      if (requireArray(content.site.business.areaServed, `${rootPath}.site.business.areaServed`)) {
+        content.site.business.areaServed.forEach((area, index) => {
+          requireString(area, `${rootPath}.site.business.areaServed[${index}]`);
+        });
+      }
+
+      if (content.site.business.sameAs !== undefined) {
+        if (requireArray(content.site.business.sameAs, `${rootPath}.site.business.sameAs`)) {
+          content.site.business.sameAs.forEach((url, index) => {
+            const path = `${rootPath}.site.business.sameAs[${index}]`;
+
+            requireString(url, path);
+
+            if (typeof url === "string" && url.trim()) {
+              requireHttpUrl(url, path);
+            }
+          });
+        }
+      }
+    }
+  }
+
+  if (isRecord(content.hero) && requireObject(content.hero.title, `${rootPath}.hero.title`)) {
+    requireStrings(content.hero.title, `${rootPath}.hero.title`, ["brand", "qualifier"]);
+  }
 
   if (isRecord(content.events) && requireArray(content.events.items, `${rootPath}.events.items`)) {
     content.events.items.forEach((item, index) => {
