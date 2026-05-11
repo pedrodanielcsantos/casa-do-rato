@@ -58,27 +58,45 @@ const whatsappIconStyle = `--icon-url: url("${asset("icons/whatsapp.svg")}")`;
             <h2 id="gallery-title">{content.gallery.title}</h2>
             <p>{content.gallery.body}</p>
           </div>
-          <div class="gallery-grid" data-gallery>
-            {content.gallery.images.map((image, index) => (
-              <figure>
-                <button
-                  class="gallery-item"
-                  type="button"
-                  aria-label={`${content.gallery.openLabel}: ${image.alt}`}
-                  data-gallery-trigger
-                  data-gallery-index={index}
-                  data-gallery-src={asset(image.src)}
-                  data-gallery-alt={image.alt}
-                >
-                  <img
-                    src={asset(image.src)}
-                    alt={image.alt}
-                    loading={index < 3 ? undefined : "lazy"}
-                    decoding="async"
-                  />
-                </button>
-              </figure>
-            ))}
+          <div class="gallery-carousel" data-gallery-carousel>
+            <button
+              class="gallery-rail-nav gallery-rail-prev"
+              type="button"
+              aria-label={content.gallery.previousLabel}
+              data-gallery-rail-prev
+            >
+              ‹
+            </button>
+            <div class="gallery-rail" data-gallery>
+              {content.gallery.images.map((image, index) => (
+                <figure>
+                  <button
+                    class="gallery-item"
+                    type="button"
+                    aria-label={`${content.gallery.openLabel}: ${image.alt}`}
+                    data-gallery-trigger
+                    data-gallery-index={index}
+                    data-gallery-src={asset(image.src)}
+                    data-gallery-alt={image.alt}
+                  >
+                    <img
+                      src={asset(image.src)}
+                      alt={image.alt}
+                      loading={index < 3 ? undefined : "lazy"}
+                      decoding="async"
+                    />
+                  </button>
+                </figure>
+              ))}
+            </div>
+            <button
+              class="gallery-rail-nav gallery-rail-next"
+              type="button"
+              aria-label={content.gallery.nextLabel}
+              data-gallery-rail-next
+            >
+              ›
+            </button>
           </div>
 
           <div
@@ -90,13 +108,7 @@ const whatsappIconStyle = `--icon-url: url("${asset("icons/whatsapp.svg")}")`;
             hidden
             data-gallery-lightbox
           >
-            <button
-              class="gallery-lightbox-backdrop"
-              type="button"
-              aria-label={content.gallery.closeLabel}
-              tabindex="-1"
-              data-gallery-close
-            />
+            <div class="gallery-lightbox-backdrop" aria-hidden="true" data-gallery-close />
             <div class="gallery-lightbox-panel">
               <button
                 class="gallery-lightbox-close"
@@ -203,9 +215,10 @@ const whatsappIconStyle = `--icon-url: url("${asset("icons/whatsapp.svg")}")`;
   <script>
     document.querySelectorAll("[data-gallery]").forEach((gallery) => {
       const section = gallery.closest(".gallery-section");
+      const carousel = gallery.closest("[data-gallery-carousel]");
       const lightbox = section?.querySelector("[data-gallery-lightbox]");
 
-      if (!section || !(lightbox instanceof HTMLElement)) {
+      if (!(gallery instanceof HTMLElement) || !section || !(lightbox instanceof HTMLElement)) {
         return;
       }
 
@@ -216,10 +229,19 @@ const whatsappIconStyle = `--icon-url: url("${asset("icons/whatsapp.svg")}")`;
       const closeButton = lightbox.querySelector(".gallery-lightbox-close");
       const previousButton = lightbox.querySelector("[data-gallery-prev]");
       const nextButton = lightbox.querySelector("[data-gallery-next]");
+      const railPreviousButton = carousel?.querySelector("[data-gallery-rail-prev]");
+      const railNextButton = carousel?.querySelector("[data-gallery-rail-next]");
       const focusableSelector =
         "button, [href], input, select, textarea, [tabindex]:not([tabindex='-1'])";
+      const reducedMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+      const scrollSpeed = 18;
       let activeIndex = 0;
       let lastFocusedElement = null;
+      let isRailPaused = false;
+      let isRailVisible = true;
+      let animationFrameId = null;
+      let previousFrameTime = null;
+      let resumeRailTimeout = null;
 
       const updateLightbox = () => {
         const trigger = triggers[activeIndex];
@@ -248,6 +270,7 @@ const whatsappIconStyle = `--icon-url: url("${asset("icons/whatsapp.svg")}")`;
       const openLightbox = (index) => {
         activeIndex = index;
         lastFocusedElement = document.activeElement;
+        isRailPaused = true;
         updateLightbox();
         lightbox.hidden = false;
         lightbox.setAttribute("aria-hidden", "false");
@@ -268,11 +291,74 @@ const whatsappIconStyle = `--icon-url: url("${asset("icons/whatsapp.svg")}")`;
         if (lastFocusedElement instanceof HTMLElement) {
           lastFocusedElement.focus();
         }
+
+        isRailPaused = gallery.matches(":hover") || gallery.contains(document.activeElement);
       };
 
       const showPhoto = (direction) => {
         activeIndex = (activeIndex + direction + triggers.length) % triggers.length;
         updateLightbox();
+      };
+
+      const shouldAutoScrollRail = () =>
+        !reducedMotionQuery.matches &&
+        !isRailPaused &&
+        isRailVisible &&
+        lightbox.hidden &&
+        gallery.scrollWidth > gallery.clientWidth;
+
+      const scrollRail = (timestamp) => {
+        if (previousFrameTime === null) {
+          previousFrameTime = timestamp;
+        }
+
+        const elapsed = timestamp - previousFrameTime;
+        previousFrameTime = timestamp;
+
+        if (shouldAutoScrollRail()) {
+          const maxScroll = gallery.scrollWidth - gallery.clientWidth;
+          const nextScroll = gallery.scrollLeft + (elapsed / 1000) * scrollSpeed;
+
+          gallery.scrollLeft = nextScroll >= maxScroll - 1 ? 0 : nextScroll;
+        }
+
+        animationFrameId = window.requestAnimationFrame(scrollRail);
+      };
+
+      const startRailAnimation = () => {
+        if (animationFrameId === null && !reducedMotionQuery.matches) {
+          animationFrameId = window.requestAnimationFrame(scrollRail);
+        }
+      };
+
+      const stopRailAnimation = () => {
+        if (animationFrameId !== null) {
+          window.cancelAnimationFrame(animationFrameId);
+          animationFrameId = null;
+        }
+
+        previousFrameTime = null;
+      };
+
+      const pauseRailTemporarily = () => {
+        isRailPaused = true;
+
+        if (resumeRailTimeout !== null) {
+          window.clearTimeout(resumeRailTimeout);
+        }
+
+        resumeRailTimeout = window.setTimeout(() => {
+          isRailPaused = gallery.matches(":hover") || gallery.contains(document.activeElement);
+          resumeRailTimeout = null;
+        }, 2400);
+      };
+
+      const moveRail = (direction) => {
+        pauseRailTemporarily();
+        gallery.scrollBy({
+          left: direction * gallery.clientWidth * 0.82,
+          behavior: reducedMotionQuery.matches ? "auto" : "smooth",
+        });
       };
 
       const trapFocus = (event) => {
@@ -308,6 +394,56 @@ const whatsappIconStyle = `--icon-url: url("${asset("icons/whatsapp.svg")}")`;
 
       previousButton?.addEventListener("click", () => showPhoto(-1));
       nextButton?.addEventListener("click", () => showPhoto(1));
+      railPreviousButton?.addEventListener("click", () => moveRail(-1));
+      railNextButton?.addEventListener("click", () => moveRail(1));
+
+      gallery.addEventListener("mouseenter", () => {
+        isRailPaused = true;
+      });
+
+      gallery.addEventListener("mouseleave", () => {
+        isRailPaused = gallery.contains(document.activeElement);
+      });
+
+      gallery.addEventListener("focusin", () => {
+        isRailPaused = true;
+      });
+
+      gallery.addEventListener("focusout", () => {
+        isRailPaused = gallery.matches(":hover");
+      });
+
+      gallery.addEventListener("pointerdown", () => {
+        pauseRailTemporarily();
+      });
+
+      gallery.addEventListener("pointercancel", () => {
+        isRailPaused = gallery.matches(":hover") || gallery.contains(document.activeElement);
+      });
+
+      gallery.addEventListener("pointerup", () => {
+        isRailPaused = gallery.matches(":hover") || gallery.contains(document.activeElement);
+      });
+
+      reducedMotionQuery.addEventListener("change", () => {
+        if (reducedMotionQuery.matches) {
+          stopRailAnimation();
+        } else {
+          startRailAnimation();
+        }
+      });
+
+      if ("IntersectionObserver" in window) {
+        const observer = new IntersectionObserver(
+          ([entry]) => {
+            isRailVisible = Boolean(entry?.isIntersecting);
+          },
+          { threshold: 0.1 },
+        );
+
+        isRailVisible = false;
+        observer.observe(gallery);
+      }
 
       document.addEventListener("keydown", (event) => {
         if (lightbox.hidden) {
@@ -324,6 +460,8 @@ const whatsappIconStyle = `--icon-url: url("${asset("icons/whatsapp.svg")}")`;
           trapFocus(event);
         }
       });
+
+      startRailAnimation();
     });
   </script>
 </BaseLayout>
