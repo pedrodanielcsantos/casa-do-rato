@@ -50,6 +50,50 @@ Required top-level sections:
 - `faq`
 - `contact`
 
+## Site SEO
+
+The `site` section owns document metadata and business facts used for JSON-LD
+structured data.
+
+Required fields:
+
+- `name`
+- `shortName`
+- `title`
+- `description`
+- `business`
+
+The `site.business` object is used for the `LocalBusiness` / `EventVenue`
+schema in the document head.
+
+Required `site.business` fields:
+
+- `telephone`
+- `priceRange`
+- `openingHours`
+- `address`
+- `geo`
+- `areaServed`
+
+`site.business.address` requires `streetAddress`, `addressLocality`,
+`addressRegion`, `postalCode`, and `addressCountry`.
+
+`site.business.geo` requires numeric `latitude` and `longitude`.
+
+## Hero
+
+The H1 is split into `hero.title.brand` and `hero.title.qualifier` so the brand
+can stay visually prominent while the full heading includes local venue
+keywords.
+
+Required fields:
+
+- `title.brand`
+- `title.qualifier`
+- `capacity`
+- `body`
+- `cta`
+
 ## Event Items
 
 Each event item requires:

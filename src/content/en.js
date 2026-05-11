@@ -1,19 +1,37 @@
 export const translationMeta = {
   sourceLocale: "pt",
-  sourceHash: "09ee2c26a47ca935b48f63a7aec23a80c44178fb58ea5171bc22ab2575786ca2",
+  sourceHash: "ef694c689a7f8dbd17b3077377beebc3288801512d10ec1a9cd073f750479171",
 };
 
 export const content = {
   site: {
     name: "Casa do Rato Eventos",
     shortName: "Casa do Rato",
-    title: "Casa do Rato - Private event venue in Vila Nova de Gaia, Porto",
+    title: "Private Event Venue in Vila Nova de Gaia, Porto | Casa do Rato",
     description:
-      "Private venue in Vila Nova de Gaia for up to 35 people. Birthdays, baby showers, workshops, and corporate events - versatile, refined, made to fit.",
-    ogImage: "photos/15.webp",
+      "Private venue in Avintes, Vila Nova de Gaia, for up to 35 guests — from €120/4h. Birthdays, baby showers, workshops, and corporate events. Book via WhatsApp.",
+    ogImage: "photos/casa-do-rato-buffet-evento-privado.webp",
     ogImageWidth: "1600",
     ogImageHeight: "1200",
     ogImageAlt: "Casa do Rato - event venue in Vila Nova de Gaia",
+    business: {
+      telephone: "+351916411228",
+      priceRange: "from €120/4h",
+      openingHours: "By appointment",
+      address: {
+        streetAddress: "Rua Cunha de Cima 17",
+        addressLocality: "Avintes, Vila Nova de Gaia",
+        addressRegion: "Porto",
+        postalCode: "4430-681",
+        addressCountry: "PT",
+      },
+      geo: {
+        latitude: 41.0958703,
+        longitude: -8.5569088,
+      },
+      areaServed: ["Avintes", "Vila Nova de Gaia", "Porto"],
+      sameAs: ["https://share.google/4G4qyWvjWJs1PBRb8"],
+    },
   },
   navigation: {
     ariaLabel: "Primary navigation",
@@ -29,8 +47,12 @@ export const content = {
     ariaLabel: "Choose language",
   },
   hero: {
+    title: {
+      brand: "Casa do Rato",
+      qualifier: "Private Event Venue in Vila Nova de Gaia, Porto",
+    },
     capacity: "Vila Nova de Gaia · up to 35 guests",
-    body: "A versatile space for birthdays, baby showers, gatherings, workshops, and corporate events — in Vila Nova de Gaia, Porto.",
+    body: "A private venue to hire for birthday parties, baby showers, gatherings, workshops, and corporate events in Avintes, Vila Nova de Gaia, near Porto.",
     cta: "Book",
     ctaHref:
       "https://wa.me/351916411228?text=Hi!%20I%27d%20like%20to%20check%20availability%20at%20Casa%20do%20Rato.%0A%0APreferred%20date%3A%20%0AEvent%20type%3A%20%0AGuest%20count%3A%20%0ATime%3A%20",
@@ -41,17 +63,17 @@ export const content = {
     items: [
       {
         title: "Kids' birthdays",
-        description: "A flexible space for playful celebrations with family and friends.",
+        description: "A birthday party venue in Avintes with room for family, friends, and play.",
         icon: "cake",
       },
       {
         title: "Adult birthdays",
-        description: "Private, comfortable gatherings with the ease of a home.",
+        description: "A private party venue to hire with the comfort and ease of a home.",
         icon: "gift",
       },
       {
         title: "Baby showers",
-        description: "A warm setting to celebrate what's coming.",
+        description: "A warm, easy-to-prepare space for baby showers and family celebrations.",
         icon: "sparkles",
       },
       {
@@ -61,7 +83,7 @@ export const content = {
       },
       {
         title: "Workshops & training",
-        description: "A modular space with natural light, ideal for groups up to 25.",
+        description: "A workshop room near Porto, modular and filled with natural light.",
         icon: "presentation",
       },
       {
@@ -74,7 +96,7 @@ export const content = {
   space: {
     eyebrow: "The space",
     title: "The space, in detail",
-    body: "See the space in use and find answers to the most common questions.",
+    body: "See the space in use for parties, workshops, and private gatherings, and find answers to the most common questions.",
   },
   gallery: {
     openLabel: "Open photo",
@@ -84,67 +106,67 @@ export const content = {
     nextLabel: "Next photo",
     images: [
       {
-        src: "photos/1.webp",
+        src: "photos/casa-do-rato-entrada-armarios-plantas.webp",
         alt: "Entrance area with white cabinets, plants, and decorative lighting.",
       },
       {
-        src: "photos/2.webp",
+        src: "photos/casa-do-rato-aparador-decorativo-mural.webp",
         alt: "Decorative sideboard with a diffuser, framed sign, and graphic wall mural.",
       },
       {
-        src: "photos/3.webp",
+        src: "photos/casa-do-rato-mesa-corrida-workshop.webp",
         alt: "Long table set up in the room for meals, workshops, or group gatherings.",
       },
       {
-        src: "photos/3-5.webp",
+        src: "photos/casa-do-rato-sala-principal-luz-natural.webp",
         alt: "View of the main room from the entrance, with natural light and a lounge area in the back.",
       },
       {
-        src: "photos/4.webp",
+        src: "photos/casa-do-rato-mesa-apoio-encontros-grupo.webp",
         alt: "Side table next to the sideboard, prepared for group gatherings.",
       },
       {
-        src: "photos/5.webp",
+        src: "photos/casa-do-rato-area-apoio-cafe-frigorifico.webp",
         alt: "Support area with a refrigerator, microwave, coffee machine, and built-in storage.",
       },
       {
-        src: "photos/6.webp",
+        src: "photos/casa-do-rato-zona-sofas-rececao.webp",
         alt: "Sofa area with a small table prepared for a relaxed reception.",
       },
       {
-        src: "photos/7.webp",
+        src: "photos/casa-do-rato-zona-infantil-escorrega.webp",
         alt: "Kids' area with a slide next to the sofa area.",
       },
       {
-        src: "photos/8.webp",
+        src: "photos/casa-do-rato-canto-infantil-mesas-coloridas.webp",
         alt: "Kids' corner with colorful tables, small stools, and a slide.",
       },
       {
-        src: "photos/9.webp",
+        src: "photos/casa-do-rato-festa-baloes-mesa-principal.webp",
         alt: "Room decorated with a balloon arch and main table for a celebration.",
       },
       {
-        src: "photos/10.webp",
+        src: "photos/casa-do-rato-placa-boas-vindas-aniversario.webp",
         alt: "Decorative welcome sign for a themed birthday party.",
       },
       {
-        src: "photos/11.webp",
+        src: "photos/casa-do-rato-mesa-tematica-aniversario-bolo.webp",
         alt: "Themed birthday table with balloons, decorative curtain, and cake.",
       },
       {
-        src: "photos/12.webp",
+        src: "photos/casa-do-rato-buffet-aniversario-baloes.webp",
         alt: "Birthday buffet table with sweets and savory food beneath balloon decorations.",
       },
       {
-        src: "photos/13.webp",
+        src: "photos/casa-do-rato-bolo-aniversario-tematico.webp",
         alt: "Themed birthday cake displayed on a glass cake stand.",
       },
       {
-        src: "photos/14.webp",
+        src: "photos/casa-do-rato-estacao-bebidas-aparador.webp",
         alt: "Drinks station with a dispenser, glasses, and jugs on the sideboard.",
       },
       {
-        src: "photos/15.webp",
+        src: "photos/casa-do-rato-buffet-evento-privado.webp",
         alt: "Buffet table with savory food, sweets, and a floral arrangement for a private event.",
       },
     ],
@@ -174,11 +196,16 @@ export const content = {
     items: [
       {
         question: "Where is Casa do Rato?",
-        answer: "At Rua Cunha de Cima 17, in Avintes, Vila Nova de Gaia.",
+        answer: "At Rua Cunha de Cima 17, in Avintes, Vila Nova de Gaia, near Porto.",
       },
       {
         question: "How many people does it fit?",
         answer: "The venue hosts private events for up to 35 people.",
+      },
+      {
+        question: "What type of events can I host?",
+        answer:
+          "Casa do Rato is set up for birthday parties, baby showers, family and friends gatherings, workshops, training sessions, and small corporate events.",
       },
       {
         question: "How long is the booking?",
@@ -250,8 +277,8 @@ export const content = {
   },
   location: {
     eyebrow: "Location",
-    title: "Vila Nova de Gaia",
-    body: "See the location on the map and use the contacts below to reach us directly.",
+    title: "Avintes, Vila Nova de Gaia",
+    body: "Casa do Rato is in Avintes, Vila Nova de Gaia, with quick access from Gaia and Porto. See the location on the map and use the contacts below to reach us directly.",
     mapTitle: "Casa do Rato map",
     mapSrc:
       "https://www.google.com/maps?q=Casa%20do%20Rato%20Eventos%2C%20Vila%20Nova%20de%20Gaia%2C%20Porto&output=embed",
@@ -266,6 +293,11 @@ export const content = {
     directionsHref: "https://share.google/wthpJCybsH4YGAJo9",
     contactsLabel: "Contacts",
     contacts: [
+      {
+        label: "Google",
+        value: "Google profile",
+        href: "https://share.google/4G4qyWvjWJs1PBRb8",
+      },
       {
         label: "WhatsApp",
         value: "+351 916 411 228",

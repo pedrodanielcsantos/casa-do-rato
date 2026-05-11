@@ -2,13 +2,31 @@ export const content = {
   site: {
     name: "Casa do Rato Eventos",
     shortName: "Casa do Rato",
-    title: "Casa do Rato - Espaço privado para eventos em Vila Nova de Gaia",
+    title: "Espaço para Festas e Eventos em Gaia | Casa do Rato",
     description:
-      "Espaço privado em Vila Nova de Gaia para até 35 pessoas. Aniversários, baby showers, workshops e eventos corporativos - versátil, sóbrio, à sua medida.",
-    ogImage: "photos/15.webp",
+      "Espaço privado em Avintes, Vila Nova de Gaia, para até 35 pessoas — desde 120€/4h. Festas, baby showers, workshops e eventos corporativos. Reserve por WhatsApp.",
+    ogImage: "photos/casa-do-rato-buffet-evento-privado.webp",
     ogImageWidth: "1600",
     ogImageHeight: "1200",
     ogImageAlt: "Casa do Rato - espaço de eventos em Vila Nova de Gaia",
+    business: {
+      telephone: "+351916411228",
+      priceRange: "desde 120€/4h",
+      openingHours: "Mediante reserva",
+      address: {
+        streetAddress: "Rua Cunha de Cima 17",
+        addressLocality: "Avintes, Vila Nova de Gaia",
+        addressRegion: "Porto",
+        postalCode: "4430-681",
+        addressCountry: "PT",
+      },
+      geo: {
+        latitude: 41.0958703,
+        longitude: -8.5569088,
+      },
+      areaServed: ["Avintes", "Vila Nova de Gaia", "Porto"],
+      sameAs: ["https://share.google/4G4qyWvjWJs1PBRb8"],
+    },
   },
   navigation: {
     ariaLabel: "Navegação principal",
@@ -24,8 +42,12 @@ export const content = {
     ariaLabel: "Escolher idioma",
   },
   hero: {
+    title: {
+      brand: "Casa do Rato",
+      qualifier: "Espaço privado para eventos em Vila Nova de Gaia",
+    },
     capacity: "Vila Nova de Gaia · até 35 convidados",
-    body: "Um espaço à sua medida para aniversários, baby showers, encontros, workshops e eventos corporativos — em Vila Nova de Gaia.",
+    body: "Aluguer de espaço para festas de aniversário, chá de bebé, baby showers, encontros, workshops e eventos corporativos em Avintes, Vila Nova de Gaia, perto do Porto.",
     cta: "Marcar",
     ctaHref:
       "https://wa.me/351916411228?text=Ol%C3%A1!%20Gostaria%20de%20saber%20a%20disponibilidade%20da%20Casa%20do%20Rato.%0A%0AData%20pretendida%3A%20%0ATipo%20de%20evento%3A%20%0AN%C2%BA%20de%20convidados%3A%20%0AHor%C3%A1rio%3A%20",
@@ -36,17 +58,20 @@ export const content = {
     items: [
       {
         title: "Aniversários de crianças",
-        description: "Espaço flexível para festejar com família, amigos e muita brincadeira.",
+        description:
+          "Espaço para festa de aniversário em Avintes, com margem para família, amigos e brincadeira.",
         icon: "cake",
       },
       {
         title: "Aniversários de adultos",
-        description: "Encontros privados, com o à-vontade de uma casa.",
+        description:
+          "Aluguer de espaço para festas privadas, com o conforto e à-vontade de uma casa.",
         icon: "gift",
       },
       {
         title: "Baby showers & chá de bebé",
-        description: "Um ambiente acolhedor para celebrar o que vem aí.",
+        description:
+          "Espaço para chá de bebé e baby showers num ambiente acolhedor e fácil de preparar.",
         icon: "sparkles",
       },
       {
@@ -56,7 +81,7 @@ export const content = {
       },
       {
         title: "Workshops & formações",
-        description: "Espaço modular, luz natural, ideal para grupos até 25.",
+        description: "Sala para workshops perto do Porto, modular e com luz natural.",
         icon: "presentation",
       },
       {
@@ -69,7 +94,7 @@ export const content = {
   space: {
     eyebrow: "O espaço",
     title: "O espaço, em detalhe",
-    body: "Veja o espaço em uso e encontre respostas às dúvidas mais comuns.",
+    body: "Veja o espaço em uso para festas, workshops e encontros privados, e encontre respostas às dúvidas mais comuns.",
   },
   gallery: {
     openLabel: "Abrir fotografia",
@@ -79,67 +104,67 @@ export const content = {
     nextLabel: "Fotografia seguinte",
     images: [
       {
-        src: "photos/1.webp",
+        src: "photos/casa-do-rato-entrada-armarios-plantas.webp",
         alt: "Zona de entrada com armários brancos, plantas e luz decorativa.",
       },
       {
-        src: "photos/2.webp",
+        src: "photos/casa-do-rato-aparador-decorativo-mural.webp",
         alt: "Aparador decorativo com difusor, moldura e mural gráfico na parede.",
       },
       {
-        src: "photos/3.webp",
+        src: "photos/casa-do-rato-mesa-corrida-workshop.webp",
         alt: "Mesa corrida montada na sala para refeições, workshops ou encontros de grupo.",
       },
       {
-        src: "photos/3-5.webp",
+        src: "photos/casa-do-rato-sala-principal-luz-natural.webp",
         alt: "Vista da sala principal a partir da entrada, com luz natural e zona de descanso ao fundo.",
       },
       {
-        src: "photos/4.webp",
+        src: "photos/casa-do-rato-mesa-apoio-encontros-grupo.webp",
         alt: "Mesa de apoio junto ao aparador, preparada para encontros em grupo.",
       },
       {
-        src: "photos/5.webp",
+        src: "photos/casa-do-rato-area-apoio-cafe-frigorifico.webp",
         alt: "Área de apoio com frigorífico, micro-ondas, máquina de café e arrumação integrada.",
       },
       {
-        src: "photos/6.webp",
+        src: "photos/casa-do-rato-zona-sofas-rececao.webp",
         alt: "Zona de sofás com mesa de apoio preparada para uma receção tranquila.",
       },
       {
-        src: "photos/7.webp",
+        src: "photos/casa-do-rato-zona-infantil-escorrega.webp",
         alt: "Área infantil com escorrega junto à zona de sofás.",
       },
       {
-        src: "photos/8.webp",
+        src: "photos/casa-do-rato-canto-infantil-mesas-coloridas.webp",
         alt: "Canto infantil com mesas coloridas, bancos pequenos e escorrega.",
       },
       {
-        src: "photos/9.webp",
+        src: "photos/casa-do-rato-festa-baloes-mesa-principal.webp",
         alt: "Sala decorada com arco de balões e mesa principal para uma celebração.",
       },
       {
-        src: "photos/10.webp",
+        src: "photos/casa-do-rato-placa-boas-vindas-aniversario.webp",
         alt: "Placa decorativa de boas-vindas para uma festa temática de aniversário.",
       },
       {
-        src: "photos/11.webp",
+        src: "photos/casa-do-rato-mesa-tematica-aniversario-bolo.webp",
         alt: "Mesa temática de aniversário com balões, cortina decorativa e bolo.",
       },
       {
-        src: "photos/12.webp",
+        src: "photos/casa-do-rato-buffet-aniversario-baloes.webp",
         alt: "Mesa de aniversário com doces e salgados sob decoração de balões.",
       },
       {
-        src: "photos/13.webp",
+        src: "photos/casa-do-rato-bolo-aniversario-tematico.webp",
         alt: "Bolo de aniversário temático apresentado sobre prato de vidro.",
       },
       {
-        src: "photos/14.webp",
+        src: "photos/casa-do-rato-estacao-bebidas-aparador.webp",
         alt: "Estação de bebidas com dispensador, copos e jarros sobre o aparador.",
       },
       {
-        src: "photos/15.webp",
+        src: "photos/casa-do-rato-buffet-evento-privado.webp",
         alt: "Mesa de buffet com salgados, doces e arranjo floral para um evento privado.",
       },
     ],
@@ -169,11 +194,16 @@ export const content = {
     items: [
       {
         question: "Onde fica a Casa do Rato?",
-        answer: "Na Rua Cunha de Cima 17, em Avintes, Vila Nova de Gaia.",
+        answer: "Na Rua Cunha de Cima 17, em Avintes, Vila Nova de Gaia, perto do Porto.",
       },
       {
         question: "Quantas pessoas leva?",
         answer: "O espaço recebe eventos privados até 35 pessoas.",
+      },
+      {
+        question: "Que tipo de eventos posso fazer?",
+        answer:
+          "A Casa do Rato está preparada para festas de aniversário, baby showers, chá de bebé, encontros de família e amigos, workshops, formações e pequenos eventos corporativos.",
       },
       {
         question: "Qual é a duração da reserva?",
@@ -246,8 +276,8 @@ export const content = {
   },
   location: {
     eyebrow: "Localização",
-    title: "Vila Nova de Gaia",
-    body: "Veja a localização no mapa e use os contactos abaixo para falar connosco diretamente.",
+    title: "Avintes, Vila Nova de Gaia",
+    body: "A Casa do Rato fica em Avintes, Vila Nova de Gaia, com acesso rápido desde Gaia e Porto. Veja a localização no mapa e use os contactos abaixo para falar connosco diretamente.",
     mapTitle: "Mapa da Casa do Rato",
     mapSrc:
       "https://www.google.com/maps?q=Casa%20do%20Rato%20Eventos%2C%20Vila%20Nova%20de%20Gaia%2C%20Porto&output=embed",
@@ -262,6 +292,11 @@ export const content = {
     directionsHref: "https://share.google/wthpJCybsH4YGAJo9",
     contactsLabel: "Contactos",
     contacts: [
+      {
+        label: "Google",
+        value: "Perfil no Google",
+        href: "https://share.google/4G4qyWvjWJs1PBRb8",
+      },
       {
         label: "WhatsApp",
         value: "+351 916 411 228",

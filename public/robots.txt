@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://pedrodanielcsantos.github.io/casa-do-rato/sitemap-index.xml
+Sitemap: https://casadorato.pt/sitemap-index.xml
