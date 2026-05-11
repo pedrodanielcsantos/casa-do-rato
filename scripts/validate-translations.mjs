@@ -10,11 +10,13 @@ const contactVariants = ["primary", "secondary"];
 
 const requiredContentStrings = {
   site: ["name", "shortName", "description"],
-  navigation: ["ariaLabel", "events", "space", "contact"],
+  navigation: ["ariaLabel", "events", "space", "faq", "location", "contact"],
   languageSwitcher: ["ariaLabel"],
   hero: ["capacity", "body", "cta"],
   events: ["eyebrow", "title"],
-  space: ["eyebrow", "title", "ariaLabel"],
+  space: ["eyebrow", "title", "body"],
+  booking: ["eyebrow", "title"],
+  faq: ["eyebrow", "title", "ariaLabel"],
   contact: ["eyebrow", "title", "body", "linksAriaLabel"],
   location: [
     "eyebrow",
@@ -153,11 +155,33 @@ function validateContent(content, locale) {
   }
 
   if (
-    isRecord(content.space) &&
-    requireArray(content.space.highlights, `${rootPath}.space.highlights`)
+    isRecord(content.booking) &&
+    requireArray(content.booking.steps, `${rootPath}.booking.steps`)
   ) {
-    content.space.highlights.forEach((item, index) => {
-      requireString(item, `${rootPath}.space.highlights[${index}]`);
+    content.booking.steps.forEach((step, index) => {
+      const path = `${rootPath}.booking.steps[${index}]`;
+
+      if (requireObject(step, path)) {
+        requireStrings(step, path, ["title", "body"]);
+      }
+    });
+  }
+
+  if (isRecord(content.faq) && requireArray(content.faq.items, `${rootPath}.faq.items`)) {
+    content.faq.items.forEach((item, index) => {
+      const path = `${rootPath}.faq.items[${index}]`;
+
+      if (requireObject(item, path)) {
+        requireStrings(item, path, ["question", "answer"]);
+
+        if (item.link !== undefined && requireObject(item.link, `${path}.link`)) {
+          requireStrings(item.link, `${path}.link`, ["label", "href"]);
+
+          if (typeof item.link.href === "string" && item.link.href.trim()) {
+            requireHttpUrl(item.link.href, `${path}.link.href`);
+          }
+        }
+      }
     });
   }
 

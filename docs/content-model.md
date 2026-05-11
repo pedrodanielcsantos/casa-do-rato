@@ -46,6 +46,8 @@ Required top-level sections:
 - `events`
 - `space`
 - `location`
+- `booking`
+- `faq`
 - `contact`
 
 ## Event Items
@@ -112,3 +114,46 @@ Each `location.contacts` item requires:
 - `label`
 - `value`
 - `href`
+
+## Space
+
+The `space` section introduces the venue evaluation area. The homepage template also renders the gallery and FAQ inside this section so venue evaluation stays in one place.
+
+Required fields:
+
+- `eyebrow`
+- `title`
+- `body`
+
+## Booking
+
+The `booking` section explains the reservation flow rendered inside the bottom contact section.
+
+Required fields:
+
+- `eyebrow`
+- `title`
+- `steps`
+
+Each `booking.steps` item requires:
+
+- `title`
+- `body`
+
+## FAQ
+
+The `faq` section uses native `<details>` elements inside the merged space section.
+
+Required fields:
+
+- `eyebrow`
+- `title`
+- `ariaLabel`
+- `items`
+
+Each `faq.items` item requires:
+
+- `question`
+- `answer`
+
+An FAQ item may include a `link` object with `label` and `href`.

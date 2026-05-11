@@ -14,8 +14,9 @@ export const content = {
     ariaLabel: "Navegação principal",
     events: "Eventos",
     space: "Espaço",
-    gallery: "Galeria",
-    contact: "Contactos",
+    faq: "FAQ",
+    location: "Localização",
+    contact: "Reservar",
     instagram: "Instagram ↗",
     instagramHref: "https://instagram.com/casadorato.eventos",
   },
@@ -67,18 +68,10 @@ export const content = {
   },
   space: {
     eyebrow: "O espaço",
-    title: "Privado, sóbrio, e à sua medida",
-    ariaLabel: "Destaques do espaço",
-    highlights: [
-      "Eventos privados até 35 pessoas",
-      "Versátil para celebrações pessoais, workshops e eventos corporativos",
-      "Configuração à sua medida — comida, música, decoração",
-    ],
+    title: "O espaço, em detalhe",
+    body: "Veja o espaço em uso e encontre respostas às dúvidas mais comuns.",
   },
   gallery: {
-    eyebrow: "O espaço em uso",
-    title: "Versátil, vez após vez",
-    body: "O mesmo espaço, configurado para diferentes ocasiões.",
     openLabel: "Abrir fotografia",
     dialogLabel: "Galeria de fotografias ampliadas",
     closeLabel: "Fechar galeria",
@@ -151,10 +144,87 @@ export const content = {
       },
     ],
   },
+  booking: {
+    eyebrow: "Como reservar",
+    title: "Reserve por mensagem",
+    steps: [
+      {
+        title: "Envie a sua data",
+        body: "Diga-nos a data pretendida, horário, tipo de evento e número de convidados.",
+      },
+      {
+        title: "Confirme os detalhes",
+        body: "Confirmamos disponibilidade, preço, extras e valor do sinal para garantir a reserva.",
+      },
+      {
+        title: "Aproveite o seu evento",
+        body: "No dia, o espaço é vosso durante o período contratado, com 20 minutos de tolerância para entrar e 20 minutos para sair.",
+      },
+    ],
+  },
+  faq: {
+    eyebrow: "FAQ",
+    title: "Perguntas frequentes",
+    ariaLabel: "Perguntas frequentes",
+    items: [
+      {
+        question: "Onde fica a Casa do Rato?",
+        answer: "Na Rua Cunha de Cima 17, em Avintes, Vila Nova de Gaia.",
+      },
+      {
+        question: "Quantas pessoas leva?",
+        answer: "O espaço recebe eventos privados até 35 pessoas.",
+      },
+      {
+        question: "Qual é a duração da reserva?",
+        answer:
+          "O pacote base inclui 4 horas. Há 20 minutos de tolerância para fazer o check-in e 20 minutos de tolerância na hora de sair.",
+      },
+      {
+        question: "Quanto custa?",
+        answer:
+          "O aluguer base custa 120€ por 4 horas. O pacote infantil pode ser adicionado por 20€.",
+      },
+      {
+        question: "Como funciona a reserva e o pagamento?",
+        answer:
+          "Depois de confirmarmos disponibilidade, a data fica garantida com sinal. O valor restante deve estar pago até ao momento do check-in.",
+      },
+      {
+        question: "O que está incluído?",
+        answer:
+          "Pratos de refeição e sobremesa, talheres, facas de bolo, copos, 2 jarros grandes para bebidas, tabuleiros, toalhas para as mesas, frigorífico, micro-ondas, máquina de café, casas de banho privadas e estacionamento privado.",
+      },
+      {
+        question: "Que extras posso adicionar?",
+        answer:
+          "Pode adicionar o pacote infantil com trampolim, escorrega, mesa de jogos e pinturas, e tenda de bolas. O trocador de fraldas está disponível gratuitamente mediante pedido.",
+      },
+      {
+        question: "Como funciona a máquina de café?",
+        answer:
+          "Disponibilizamos copos, açúcar e colheres. As cápsulas ficam à vossa responsabilidade e devem ser compatíveis com a máquina exclusiva Continente.",
+        link: {
+          label: "Ver cápsulas compatíveis",
+          href: "https://www.continente.pt/produto/capsulas-de-cafe-classico-int-10-pack-poupanca-continente-continente-7241223.html",
+        },
+      },
+      {
+        question: "Posso decorar ou reorganizar o espaço?",
+        answer:
+          "Sim. Enquanto estiverem na Casa do Rato, podem tratar o espaço como vosso, mudar coisas de sítio e trazer decoração.",
+      },
+      {
+        question: "O que é preciso fazer à saída?",
+        answer:
+          "Pedimos que deixem a disposição do espaço como a encontraram, coloquem a louça usada no carrinho, levem toda a decoração que trouxeram e levem o vosso lixo.",
+      },
+    ],
+  },
   contact: {
     eyebrow: "Reservas",
-    title: "Vamos planear o seu evento",
-    body: "Envie-nos uma mensagem com a data pretendida, tipo de evento e número de convidados. Respondemos assim que possível.",
+    title: "Vamos confirmar a sua data",
+    body: "Envie-nos uma mensagem com a data pretendida, horário, tipo de evento e número de convidados. Respondemos assim que possível.",
     linksAriaLabel: "Links de contacto",
     fabAriaLabel: "Contactar via WhatsApp",
     links: [
