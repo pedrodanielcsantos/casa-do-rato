@@ -197,7 +197,7 @@ export const content = {
         answer: "Na Rua Cunha de Cima 17, em Avintes, Vila Nova de Gaia, perto do Porto.",
       },
       {
-        question: "Quantas pessoas leva?",
+        question: "Quantos convidados posso levar para um evento na Casa do Rato?",
         answer: "O espaço recebe eventos privados até 35 pessoas.",
       },
       {
