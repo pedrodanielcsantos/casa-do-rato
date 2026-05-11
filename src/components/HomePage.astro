@@ -50,113 +50,131 @@ const locationContactGroups = content.location.contacts.reduce((groups, contact)
       aria-labelledby="space-title"
       style={sectionPattern}
     >
-      <div class="split">
-        <div>
-          <p class="eyebrow">{content.space.eyebrow}</p>
-          <h2 id="space-title">{content.space.title}</h2>
-        </div>
-        <div class="feature-list" aria-label={content.space.ariaLabel}>
-          {content.space.highlights.map((highlight) => <p>{highlight}</p>)}
-        </div>
+      <div class="section-heading">
+        <p class="eyebrow">{content.space.eyebrow}</p>
+        <h2 id="space-title">{content.space.title}</h2>
+        <p>{content.space.body}</p>
       </div>
-    </section>
 
-    {
-      content.gallery && (
-        <section class="section gallery-section" id="gallery" aria-labelledby="gallery-title">
-          <div class="section-heading">
-            <p class="eyebrow">{content.gallery.eyebrow}</p>
-            <h2 id="gallery-title">{content.gallery.title}</h2>
-            <p>{content.gallery.body}</p>
-          </div>
-          <div class="gallery-carousel" data-gallery-carousel>
-            <button
-              class="gallery-rail-nav gallery-rail-prev"
-              type="button"
-              aria-label={content.gallery.previousLabel}
-              data-gallery-rail-prev
-            >
-              ‹
-            </button>
-            <div class="gallery-rail" data-gallery>
-              {content.gallery.images.map((image, index) => (
-                <figure>
-                  <button
-                    class="gallery-item"
-                    type="button"
-                    aria-label={`${content.gallery.openLabel}: ${image.alt}`}
-                    data-gallery-trigger
-                    data-gallery-index={index}
-                    data-gallery-src={asset(image.src)}
-                    data-gallery-alt={image.alt}
-                  >
-                    <img
-                      src={asset(image.src)}
-                      alt={image.alt}
-                      loading={index < 3 ? undefined : "lazy"}
-                      decoding="async"
-                    />
-                  </button>
-                </figure>
-              ))}
-            </div>
-            <button
-              class="gallery-rail-nav gallery-rail-next"
-              type="button"
-              aria-label={content.gallery.nextLabel}
-              data-gallery-rail-next
-            >
-              ›
-            </button>
-          </div>
-
-          <div
-            class="gallery-lightbox"
-            role="dialog"
-            aria-modal="true"
-            aria-label={content.gallery.dialogLabel}
-            aria-hidden="true"
-            hidden
-            data-gallery-lightbox
-          >
-            <div class="gallery-lightbox-backdrop" aria-hidden="true" data-gallery-close />
-            <div class="gallery-lightbox-panel">
+      {
+        content.gallery && (
+          <div class="space-subsection gallery-section">
+            <div class="gallery-carousel" data-gallery-carousel>
               <button
-                class="gallery-lightbox-close"
-                type="button"
-                aria-label={content.gallery.closeLabel}
-                data-gallery-close
-              >
-                ×
-              </button>
-              <button
-                class="gallery-lightbox-nav gallery-lightbox-prev"
+                class="gallery-rail-nav gallery-rail-prev"
                 type="button"
                 aria-label={content.gallery.previousLabel}
-                data-gallery-prev
+                data-gallery-rail-prev
               >
                 ‹
               </button>
-              <figure class="gallery-lightbox-figure">
-                <img alt="" data-gallery-lightbox-image />
-                <figcaption>
-                  <span data-gallery-lightbox-caption />
-                  <span data-gallery-lightbox-count />
-                </figcaption>
-              </figure>
+              <div class="gallery-rail" data-gallery>
+                {content.gallery.images.map((image, index) => (
+                  <figure>
+                    <button
+                      class="gallery-item"
+                      type="button"
+                      aria-label={`${content.gallery.openLabel}: ${image.alt}`}
+                      data-gallery-trigger
+                      data-gallery-index={index}
+                      data-gallery-src={asset(image.src)}
+                      data-gallery-alt={image.alt}
+                    >
+                      <img
+                        src={asset(image.src)}
+                        alt={image.alt}
+                        loading={index < 3 ? undefined : "lazy"}
+                        decoding="async"
+                      />
+                    </button>
+                  </figure>
+                ))}
+              </div>
               <button
-                class="gallery-lightbox-nav gallery-lightbox-next"
+                class="gallery-rail-nav gallery-rail-next"
                 type="button"
                 aria-label={content.gallery.nextLabel}
-                data-gallery-next
+                data-gallery-rail-next
               >
                 ›
               </button>
             </div>
+
+            <div
+              class="gallery-lightbox"
+              role="dialog"
+              aria-modal="true"
+              aria-label={content.gallery.dialogLabel}
+              aria-hidden="true"
+              hidden
+              data-gallery-lightbox
+            >
+              <div class="gallery-lightbox-backdrop" aria-hidden="true" data-gallery-close />
+              <div class="gallery-lightbox-panel">
+                <button
+                  class="gallery-lightbox-close"
+                  type="button"
+                  aria-label={content.gallery.closeLabel}
+                  data-gallery-close
+                >
+                  ×
+                </button>
+                <button
+                  class="gallery-lightbox-nav gallery-lightbox-prev"
+                  type="button"
+                  aria-label={content.gallery.previousLabel}
+                  data-gallery-prev
+                >
+                  ‹
+                </button>
+                <figure class="gallery-lightbox-figure">
+                  <img alt="" data-gallery-lightbox-image />
+                  <figcaption>
+                    <span data-gallery-lightbox-caption />
+                    <span data-gallery-lightbox-count />
+                  </figcaption>
+                </figure>
+                <button
+                  class="gallery-lightbox-nav gallery-lightbox-next"
+                  type="button"
+                  aria-label={content.gallery.nextLabel}
+                  data-gallery-next
+                >
+                  ›
+                </button>
+              </div>
+            </div>
           </div>
-        </section>
-      )
-    }
+        )
+      }
+
+      <div class="space-subsection faq-section" id="faq" aria-labelledby="faq-title">
+        <div class="section-heading">
+          <p class="eyebrow">{content.faq.eyebrow}</p>
+          <h2 id="faq-title">{content.faq.title}</h2>
+        </div>
+        <div class="faq-list">
+          {
+            content.faq.items.map((item) => (
+              <details>
+                <summary>{item.question}</summary>
+                <p>
+                  {item.answer}
+                  {item.link && (
+                    <>
+                      {" "}
+                      <a href={item.link.href} target="_blank" rel="noopener noreferrer">
+                        {item.link.label}
+                      </a>
+                    </>
+                  )}
+                </p>
+              </details>
+            ))
+          }
+        </div>
+      </div>
+    </section>
 
     <section class="section location-section" id="location" aria-labelledby="location-title">
       <div class="section-heading">
@@ -214,6 +232,17 @@ const locationContactGroups = content.location.contacts.reduce((groups, contact)
         <h2 id="contact-title">{content.contact.title}</h2>
         <p>{content.contact.body}</p>
       </div>
+      <ol class="booking-steps contact-booking-steps" aria-label={content.booking.title}>
+        {
+          content.booking.steps.map((step, index) => (
+            <li>
+              <span class="booking-step-number">{index + 1}</span>
+              <h3>{step.title}</h3>
+              <p>{step.body}</p>
+            </li>
+          ))
+        }
+      </ol>
       <ContactLinks
         links={content.contact.links}
         ariaLabel={content.contact.linksAriaLabel}

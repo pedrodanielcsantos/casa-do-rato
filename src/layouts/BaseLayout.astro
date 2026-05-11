@@ -76,7 +76,8 @@ const ogImageHeight = content.site.ogImageHeight ?? "630";
         <nav class="site-nav" aria-label={content.navigation.ariaLabel}>
           <a href="#events">{content.navigation.events}</a>
           <a href="#space">{content.navigation.space}</a>
-          {content.navigation.gallery && <a href="#gallery">{content.navigation.gallery}</a>}
+          {content.navigation.faq && <a href="#faq">{content.navigation.faq}</a>}
+          {content.navigation.location && <a href="#location">{content.navigation.location}</a>}
           <a href="#contact">{content.navigation.contact}</a>
           {
             content.navigation.instagramHref && (

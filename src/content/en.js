@@ -1,6 +1,6 @@
 export const translationMeta = {
   sourceLocale: "pt",
-  sourceHash: "e7cd539e1cec2b9cbc9575349f205dd995f6bd5698d82748e0d8aa84c11566a9",
+  sourceHash: "09ee2c26a47ca935b48f63a7aec23a80c44178fb58ea5171bc22ab2575786ca2",
 };
 
 export const content = {
@@ -19,8 +19,9 @@ export const content = {
     ariaLabel: "Primary navigation",
     events: "Events",
     space: "Space",
-    gallery: "Gallery",
-    contact: "Contact",
+    faq: "FAQ",
+    location: "Location",
+    contact: "Book",
     instagram: "Instagram ↗",
     instagramHref: "https://instagram.com/casadorato.eventos",
   },
@@ -72,18 +73,10 @@ export const content = {
   },
   space: {
     eyebrow: "The space",
-    title: "Private, refined, and made to fit",
-    ariaLabel: "Venue highlights",
-    highlights: [
-      "Private events up to 35 people",
-      "Versatile for personal celebrations, workshops, and corporate events",
-      "Set up your way — food, music, decoration",
-    ],
+    title: "The space, in detail",
+    body: "See the space in use and find answers to the most common questions.",
   },
   gallery: {
-    eyebrow: "The space in action",
-    title: "Versatile, every time",
-    body: "The same space, set up for different occasions.",
     openLabel: "Open photo",
     dialogLabel: "Expanded photo gallery",
     closeLabel: "Close gallery",
@@ -156,10 +149,86 @@ export const content = {
       },
     ],
   },
+  booking: {
+    eyebrow: "How to book",
+    title: "Book by message",
+    steps: [
+      {
+        title: "Send your date",
+        body: "Tell us your preferred date, time, event type, and number of guests.",
+      },
+      {
+        title: "Confirm the details",
+        body: "We'll confirm availability, price, extras, and the deposit amount to secure the booking.",
+      },
+      {
+        title: "Enjoy your event",
+        body: "On the day, the venue is yours for the booked period, with 20 minutes of tolerance for arrival and 20 minutes for departure.",
+      },
+    ],
+  },
+  faq: {
+    eyebrow: "FAQ",
+    title: "Frequently asked questions",
+    ariaLabel: "Frequently asked questions",
+    items: [
+      {
+        question: "Where is Casa do Rato?",
+        answer: "At Rua Cunha de Cima 17, in Avintes, Vila Nova de Gaia.",
+      },
+      {
+        question: "How many people does it fit?",
+        answer: "The venue hosts private events for up to 35 people.",
+      },
+      {
+        question: "How long is the booking?",
+        answer:
+          "The base package includes 4 hours. There is a 20-minute tolerance for check-in and a 20-minute tolerance when leaving.",
+      },
+      {
+        question: "How much does it cost?",
+        answer: "The base rental costs €120 for 4 hours. The kids' package can be added for €20.",
+      },
+      {
+        question: "How do booking and payment work?",
+        answer:
+          "After we confirm availability, the date is secured with a deposit. The remaining amount must be paid by check-in.",
+      },
+      {
+        question: "What is included?",
+        answer:
+          "Meal and dessert plates, cutlery, cake knives, cups, 2 large drink jugs, trays, tablecloths, refrigerator, microwave, coffee machine, private bathrooms, and private parking.",
+      },
+      {
+        question: "What extras can I add?",
+        answer:
+          "You can add the kids' package with trampoline, slide, games and painting table, and ball tent. The changing table is available free of charge on request.",
+      },
+      {
+        question: "How does the coffee machine work?",
+        answer:
+          "We provide cups, sugar, and spoons. Capsules are your responsibility and must be compatible with the exclusive Continente machine.",
+        link: {
+          label: "See compatible capsules",
+          href: "https://www.continente.pt/produto/capsulas-de-cafe-classico-int-10-pack-poupanca-continente-continente-7241223.html",
+        },
+      },
+      {
+        question: "Can I decorate or rearrange the space?",
+        answer:
+          "Yes. While you are at Casa do Rato, you can treat the space as yours, move things around, and bring decoration.",
+      },
+      {
+        question: "What should we do before leaving?",
+        answer:
+          "We ask that you leave the space arranged as you found it, place used tableware on the trolley, take all decoration you brought, and take your rubbish with you.",
+      },
+    ],
+  },
   contact: {
     eyebrow: "Bookings",
-    title: "Let's plan your event",
-    body: "Send us a message with your preferred date, event type, and guest count. We'll reply as soon as possible.",
+    title: "Let's confirm your date",
+    body: "Send us a message with your preferred date, time, event type, and guest count. We'll reply as soon as possible.",
     linksAriaLabel: "Contact links",
     fabAriaLabel: "Contact via WhatsApp",
     links: [
