@@ -1,6 +1,6 @@
 export const translationMeta = {
   sourceLocale: "pt",
-  sourceHash: "223f7baaef9d15adcb7e5b6979675ad0224aa547e6816d2eaf5a727a9a777b44",
+  sourceHash: "81a779eada1f760e590255c1c93ebf509b1fd3da55f97bba3ba6d6acf608875c",
 };
 
 export const content = {
@@ -112,7 +112,7 @@ export const content = {
       },
       {
         src: "photos/5.webp",
-        alt: "Support area with a refrigerator, microwave, and built-in storage.",
+        alt: "Support area with a refrigerator, microwave, coffee machine, and built-in storage.",
       },
       {
         src: "photos/6.webp",
