@@ -37,5 +37,5 @@ jobs:
       - name: Validate
         run: npm run check
         env:
-          SITE_BASE_PATH: /casa-do-rato
-          SITE_URL: https://pedrodanielcsantos.github.io
+          SITE_BASE_PATH: /
+          SITE_URL: https://casadorato.pt

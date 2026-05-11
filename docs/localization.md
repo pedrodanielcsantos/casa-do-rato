@@ -11,17 +11,17 @@ Use Astro's built-in i18n routing with Portuguese as the unprefixed default loca
 /en/
 ```
 
-On GitHub Pages, those become:
+On the production domain, those are:
 
 ```text
-/casa-do-rato/
-/casa-do-rato/en/
+/
+/en/
 ```
 
-The root project URL serves Portuguese directly:
+The root URL serves Portuguese directly:
 
 ```text
-/casa-do-rato/
+/
 ```
 
 Portuguese should be treated as the primary/default language unless Pedro decides otherwise.

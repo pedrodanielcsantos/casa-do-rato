@@ -5,14 +5,14 @@ The site deploys to GitHub Pages from GitHub Actions.
 ## Production URL
 
 ```text
-https://pedrodanielcsantos.github.io/casa-do-rato/
+https://casadorato.pt/
 ```
 
 Localized routes:
 
 ```text
-Portuguese: https://pedrodanielcsantos.github.io/casa-do-rato/
-English:    https://pedrodanielcsantos.github.io/casa-do-rato/en/
+Portuguese: https://casadorato.pt/
+English:    https://casadorato.pt/en/
 ```
 
 ## Workflow
@@ -40,17 +40,17 @@ On pushes to `main`, it:
 
 ## Base Path
 
-Because this is currently a GitHub Pages project site, the production base path is:
+Because the site uses a custom domain, the production base path is the domain root:
 
 ```text
-/casa-do-rato/
+/
 ```
 
 The workflow sets:
 
 ```text
-SITE_BASE_PATH=/casa-do-rato
-SITE_URL=https://pedrodanielcsantos.github.io
+SITE_BASE_PATH=/
+SITE_URL=https://casadorato.pt
 ```
 
 `astro.config.mjs` normalizes that base path so asset URLs work correctly.
@@ -79,18 +79,27 @@ npm run check
 npm run preview
 ```
 
-To test the GitHub Pages base path locally:
+To test the production domain root locally:
 
 ```bash
-SITE_BASE_PATH=/casa-do-rato SITE_URL=http://localhost:4321 npm run check
+SITE_BASE_PATH=/ SITE_URL=http://localhost:4321 npm run check
 npm run preview
 ```
 
-## Custom Domain Later
+## Custom Domain
 
-When a custom domain is configured:
+GitHub Pages is configured with:
 
-1. Add the custom domain in GitHub Pages settings.
-2. Add the required DNS records.
-3. Update or remove `SITE_BASE_PATH` in `.github/workflows/deploy.yml`.
-4. Verify generated URLs and assets no longer require `/casa-do-rato/`.
+```text
+casadorato.pt
+```
+
+DNS should point the apex domain to GitHub Pages with `A` records, and the `www`
+subdomain should use a `CNAME` record pointing to:
+
+```text
+pedrodanielcsantos.github.io
+```
+
+This project deploys from a custom GitHub Actions workflow, so a repository
+`CNAME` file is not required.
