@@ -12,6 +12,17 @@ const sectionPattern = `--section-pattern-url: url("${asset("brand/pattern-origi
 const heroCtaHref = content.hero.ctaHref ?? "#contact";
 const whatsappLink = content.contact.links.find((link) => link.type === "whatsapp");
 const whatsappIconStyle = `--icon-url: url("${asset("icons/whatsapp.svg")}")`;
+const locationContactGroups = content.location.contacts.reduce((groups, contact) => {
+  const group = groups.find((item) => item.label === contact.label);
+
+  if (group) {
+    group.contacts.push(contact);
+  } else {
+    groups.push({ label: contact.label, contacts: [contact] });
+  }
+
+  return groups;
+}, []);
 ---
 
 <BaseLayout content={content} locale={locale}>
@@ -174,10 +185,21 @@ const whatsappIconStyle = `--icon-url: url("${asset("icons/whatsapp.svg")}")`;
           <span class="location-detail-label">{content.location.contactsLabel}</span>
           <ul>
             {
-              content.location.contacts.map((contact) => (
+              locationContactGroups.map((group) => (
                 <li>
-                  <span>{contact.label}</span>
-                  <a href={contact.href}>{contact.value}</a>
+                  <span>{group.label}</span>
+                  <span class="location-contact-values">
+                    {group.contacts.map((contact, index) => (
+                      <>
+                        {index > 0 && (
+                          <span class="location-contact-separator" aria-hidden="true">
+                            |
+                          </span>
+                        )}
+                        <a href={contact.href}>{contact.value}</a>
+                      </>
+                    ))}
+                  </span>
                 </li>
               ))
             }

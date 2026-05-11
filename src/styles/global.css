@@ -665,6 +665,23 @@ body.gallery-lightbox-open {
   color: var(--color-muted);
 }
 
+.location-contact-values {
+  display: inline-flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 4px 8px;
+  text-align: right;
+}
+
+.location-contact-values a {
+  white-space: nowrap;
+}
+
+.location-contact-separator {
+  color: var(--color-muted);
+  font-weight: 400;
+}
+
 @media (max-width: 880px) {
   .event-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -788,5 +805,10 @@ body.gallery-lightbox-open {
   .location-contacts li {
     flex-direction: column;
     gap: 4px;
+  }
+
+  .location-contact-values {
+    justify-content: flex-start;
+    text-align: left;
   }
 }

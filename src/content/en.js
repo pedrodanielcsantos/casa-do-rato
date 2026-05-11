@@ -1,6 +1,6 @@
 export const translationMeta = {
   sourceLocale: "pt",
-  sourceHash: "81a779eada1f760e590255c1c93ebf509b1fd3da55f97bba3ba6d6acf608875c",
+  sourceHash: "e7cd539e1cec2b9cbc9575349f205dd995f6bd5698d82748e0d8aa84c11566a9",
 };
 
 export const content = {
@@ -203,7 +203,7 @@ export const content = {
         href: "https://wa.me/351916411228?text=Hi!%20I%27d%20like%20to%20check%20availability%20at%20Casa%20do%20Rato.%0A%0APreferred%20date%3A%20%0AEvent%20type%3A%20%0AGuest%20count%3A%20%0ATime%3A%20",
       },
       {
-        label: "WhatsApp Rita",
+        label: "WhatsApp",
         value: "+351 933 562 673",
         href: "https://wa.me/351933562673?text=Hi!%20I%27d%20like%20to%20check%20availability%20at%20Casa%20do%20Rato.%0A%0APreferred%20date%3A%20%0AEvent%20type%3A%20%0AGuest%20count%3A%20%0ATime%3A%20",
       },

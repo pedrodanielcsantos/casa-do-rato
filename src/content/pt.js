@@ -198,7 +198,7 @@ export const content = {
         href: "https://wa.me/351916411228?text=Ol%C3%A1!%20Gostaria%20de%20saber%20a%20disponibilidade%20da%20Casa%20do%20Rato.%0A%0AData%20pretendida%3A%20%0ATipo%20de%20evento%3A%20%0AN%C2%BA%20de%20convidados%3A%20%0AHor%C3%A1rio%3A%20",
       },
       {
-        label: "WhatsApp Rita",
+        label: "WhatsApp",
         value: "+351 933 562 673",
         href: "https://wa.me/351933562673?text=Ol%C3%A1!%20Gostaria%20de%20saber%20a%20disponibilidade%20da%20Casa%20do%20Rato.%0A%0AData%20pretendida%3A%20%0ATipo%20de%20evento%3A%20%0AN%C2%BA%20de%20convidados%3A%20%0AHor%C3%A1rio%3A%20",
       },
