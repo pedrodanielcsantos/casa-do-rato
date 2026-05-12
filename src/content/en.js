@@ -1,6 +1,6 @@
 export const translationMeta = {
   sourceLocale: "pt",
-  sourceHash: "57f5d361a14f1bbdfa2a3032d1fa21675bbb99baa00ea79d9d2222ea4a66f9a9",
+  sourceHash: "ba5ff1acb7bfc58b7740e343cd7a25b0ef6f2ba09f72a92ca345254829a45cdd",
 };
 
 export const content = {
@@ -198,59 +198,77 @@ export const content = {
     items: [
       {
         question: "Where is Casa do Rato?",
-        answer: "At Rua Cunha de Cima 17, in Avintes, Vila Nova de Gaia, near Porto.",
+        answer:
+          "Casa do Rato is at Rua Cunha de Cima 17, in Avintes, Vila Nova de Gaia, with quick access from Gaia and Porto.",
       },
       {
-        question: "How many guests can I bring to an event at Casa do Rato?",
-        answer: "The venue hosts private events for up to 35 people.",
+        question: "What is the venue's maximum capacity?",
+        answer: "We host private events for up to 35 people.",
       },
       {
         question: "What type of events can I host?",
         answer:
-          "Casa do Rato is set up for birthday parties, baby showers, family and friends gatherings, workshops, training sessions, and small corporate events.",
+          "The venue is suitable for kids' and adult birthdays, baby showers, family or friends gatherings, workshops, training sessions, and small corporate events.",
       },
       {
-        question: "How long is the booking?",
+        question: "How much does it cost to rent Casa do Rato?",
         answer:
-          "The base package includes 4 hours. There is a 20-minute tolerance for check-in and a 20-minute tolerance when leaving.",
+          "The rental price depends on the event duration and the extras you would like to include. Tell us what you are looking for and we can prepare a fully personalized quote aligned with what you need.",
       },
       {
-        question: "How much does it cost?",
-        answer: "The base rental costs €120 for 4 hours. The kids' package can be added for €20.",
-      },
-      {
-        question: "How do booking and payment work?",
+        question: "How many hours are included in the booking?",
         answer:
-          "After we confirm availability, the date is secured with a deposit. The remaining amount must be paid by check-in.",
+          "The choice is entirely yours. Tell us the duration you have in mind and we will adjust the booking to the type of event you want to organize.",
+      },
+      {
+        question: "When is payment due?",
+        answer:
+          "The date is reserved after the deposit is paid. The remaining amount must be paid before entering the venue.",
       },
       {
         question: "What is included?",
-        answer:
-          "Meal and dessert plates, cutlery, cake knives, cups, 2 large drink jugs, trays, tablecloths, refrigerator, microwave, coffee machine, private bathrooms, and private parking.",
+        answer: "The rental includes:",
+        answerItems: [
+          "Meal and dessert plates",
+          "Cutlery, cake knives, and cups",
+          "2 large drink jugs",
+          "Trays and tablecloths",
+          "Refrigerator, microwave, and coffee machine",
+          "Private bathrooms",
+          "Private parking",
+        ],
       },
       {
         question: "What extras can I add?",
-        answer:
-          "You can add the kids' package with trampoline, slide, games and painting table, and ball tent. The changing table is available free of charge on request.",
+        answer: "You can add:",
+        answerItems: [
+          "Kids' package, with a trampoline, slide, games and painting table, and ball tent",
+          "Free changing table, on request",
+          "Decoration service",
+          "Catering service",
+          "Custom cakes",
+          "Kids' entertainment",
+          "And much more: your requests are the limit",
+        ],
       },
       {
         question: "How does the coffee machine work?",
         answer:
-          "We provide cups, sugar, and spoons. Capsules are your responsibility and must be compatible with the exclusive Continente machine.",
+          "We provide cups, sugar, and spoons. Coffee capsules are the booker's responsibility and must be compatible with the Continente capsule machine.",
         link: {
           label: "See compatible capsules",
           href: "https://www.continente.pt/produto/capsulas-de-cafe-classico-int-10-pack-poupanca-continente-continente-7241223.html",
         },
       },
       {
-        question: "Can I decorate or rearrange the space?",
+        question: "Can I decorate or change the room layout?",
         answer:
-          "Yes. While you are at Casa do Rato, you can treat the space as yours, move things around, and bring decoration.",
+          "Yes. During your booking, you can adapt the room layout and bring decorations, as long as everything is returned to its original place at the end.",
       },
       {
-        question: "What should we do before leaving?",
+        question: "What do we need to do before leaving?",
         answer:
-          "We ask that you leave the space arranged as you found it, place used tableware on the trolley, take all decoration you brought, and take your rubbish with you.",
+          "At the end, please restore the original layout, place used tableware on the trolley, remove any decorations you brought, and take your rubbish with you.",
       },
     ],
   },
