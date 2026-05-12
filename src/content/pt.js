@@ -46,8 +46,8 @@ export const content = {
       brand: "Casa do Rato",
       qualifier: "Espaço privado para eventos em Vila Nova de Gaia",
     },
-    capacity: "Vila Nova de Gaia · até 35 convidados",
-    body: "Aluguer de espaço para festas de aniversário, chá de bebé, baby showers, encontros, workshops e eventos corporativos em Avintes, Vila Nova de Gaia, perto do Porto.",
+    capacity: "Fazemos história juntos?",
+    body: "Um espaço versátil e acolhedor, ideal para festas de aniversário, chá de bebé, baby showers, encontros de amigos e família, workshops e eventos corporativos em Avintes, Vila Nova de Gaia.",
     cta: "Marcar",
     ctaHref:
       "https://wa.me/351916411228?text=Ol%C3%A1!%20Gostaria%20de%20saber%20a%20disponibilidade%20da%20Casa%20do%20Rato.%0A%0AData%20pretendida%3A%20%0ATipo%20de%20evento%3A%20%0AN%C2%BA%20de%20convidados%3A%20%0AHor%C3%A1rio%3A%20",
@@ -57,15 +57,15 @@ export const content = {
     title: "Pensado para qualquer ocasião",
     items: [
       {
-        title: "Aniversários de crianças",
+        title: "Aniversários infantis",
         description:
-          "Espaço para festa de aniversário em Avintes, com margem para família, amigos e brincadeira.",
+          "O espaço ideal para celebrar os nossos pequenos, com animação e brincadeiras para todos.",
         icon: "cake",
       },
       {
         title: "Aniversários de adultos",
         description:
-          "Aluguer de espaço para festas privadas, com o conforto e à-vontade de uma casa.",
+          "O espaço ideal para celebrar os momentos mais marcantes com o conforto e à-vontade de quem está em casa.",
         icon: "gift",
       },
       {
@@ -81,7 +81,8 @@ export const content = {
       },
       {
         title: "Workshops & formações",
-        description: "Sala para workshops perto do Porto, modular e com luz natural.",
+        description:
+          "Um salão equipado e preparado para momentos de aprendizagem e partilha de conhecimento.",
         icon: "presentation",
       },
       {
@@ -93,7 +94,7 @@ export const content = {
   },
   space: {
     eyebrow: "O espaço",
-    title: "O espaço, em detalhe",
+    title: "A Casa do Rato ao detalhe",
     body: "Veja o espaço em uso para festas, workshops e encontros privados, e encontre respostas às dúvidas mais comuns.",
   },
   gallery: {

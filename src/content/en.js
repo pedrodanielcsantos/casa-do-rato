@@ -1,6 +1,6 @@
 export const translationMeta = {
   sourceLocale: "pt",
-  sourceHash: "ab43a80f6a0c9878421aa4804aaefd7b5bef15712b7c12fdca2aed8313446424",
+  sourceHash: "57f5d361a14f1bbdfa2a3032d1fa21675bbb99baa00ea79d9d2222ea4a66f9a9",
 };
 
 export const content = {
@@ -51,8 +51,8 @@ export const content = {
       brand: "Casa do Rato",
       qualifier: "Private Event Venue in Vila Nova de Gaia, Porto",
     },
-    capacity: "Vila Nova de Gaia · up to 35 guests",
-    body: "A private venue to hire for birthday parties, baby showers, gatherings, workshops, and corporate events in Avintes, Vila Nova de Gaia, near Porto.",
+    capacity: "Shall we make memories together?",
+    body: "A versatile and welcoming space, ideal for birthday parties, baby showers, friends and family gatherings, workshops, and corporate events in Avintes, Vila Nova de Gaia.",
     cta: "Book",
     ctaHref:
       "https://wa.me/351916411228?text=Hi!%20I%27d%20like%20to%20check%20availability%20at%20Casa%20do%20Rato.%0A%0APreferred%20date%3A%20%0AEvent%20type%3A%20%0AGuest%20count%3A%20%0ATime%3A%20",
@@ -62,13 +62,15 @@ export const content = {
     title: "Made for any occasion",
     items: [
       {
-        title: "Kids' birthdays",
-        description: "A birthday party venue in Avintes with room for family, friends, and play.",
+        title: "Kids' birthday parties",
+        description:
+          "The ideal space to celebrate little ones, with entertainment and play for everyone.",
         icon: "cake",
       },
       {
         title: "Adult birthdays",
-        description: "A private party venue to hire with the comfort and ease of a home.",
+        description:
+          "The ideal space to celebrate life's most meaningful moments with the comfort and ease of feeling at home.",
         icon: "gift",
       },
       {
@@ -83,7 +85,7 @@ export const content = {
       },
       {
         title: "Workshops & training",
-        description: "A workshop room near Porto, modular and filled with natural light.",
+        description: "An equipped room prepared for moments of learning and knowledge sharing.",
         icon: "presentation",
       },
       {
@@ -95,7 +97,7 @@ export const content = {
   },
   space: {
     eyebrow: "The space",
-    title: "The space, in detail",
+    title: "Casa do Rato in detail",
     body: "See the space in use for parties, workshops, and private gatherings, and find answers to the most common questions.",
   },
   gallery: {
