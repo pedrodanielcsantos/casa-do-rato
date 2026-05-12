@@ -201,3 +201,6 @@ Each `faq.items` item requires:
 - `answer`
 
 An FAQ item may include a `link` object with `label` and `href`.
+
+An FAQ item may include an `answerItems` array when the answer should render a
+short bullet list after the main answer text.

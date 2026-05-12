@@ -233,6 +233,14 @@ function validateContent(content, locale) {
             requireHttpUrl(item.link.href, `${path}.link.href`);
           }
         }
+
+        if (item.answerItems !== undefined) {
+          if (requireArray(item.answerItems, `${path}.answerItems`)) {
+            item.answerItems.forEach((answerItem, answerItemIndex) => {
+              requireString(answerItem, `${path}.answerItems[${answerItemIndex}]`);
+            });
+          }
+        }
       }
     });
   }

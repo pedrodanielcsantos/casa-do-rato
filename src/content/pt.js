@@ -195,60 +195,77 @@ export const content = {
     items: [
       {
         question: "Onde fica a Casa do Rato?",
-        answer: "Na Rua Cunha de Cima 17, em Avintes, Vila Nova de Gaia, perto do Porto.",
-      },
-      {
-        question: "Quantos convidados posso levar para um evento na Casa do Rato?",
-        answer: "O espaço recebe eventos privados até 35 pessoas.",
-      },
-      {
-        question: "Que tipo de eventos posso fazer?",
         answer:
-          "A Casa do Rato está preparada para festas de aniversário, baby showers, chá de bebé, encontros de família e amigos, workshops, formações e pequenos eventos corporativos.",
+          "A Casa do Rato fica na Rua Cunha de Cima 17, em Avintes, Vila Nova de Gaia, com acesso rápido desde Gaia e Porto.",
       },
       {
-        question: "Qual é a duração da reserva?",
-        answer:
-          "O pacote base inclui 4 horas. Há 20 minutos de tolerância para fazer o check-in e 20 minutos de tolerância na hora de sair.",
+        question: "Qual é a lotação máxima do espaço?",
+        answer: "Recebemos eventos privados até 35 pessoas.",
       },
       {
-        question: "Quanto custa?",
+        question: "Que tipo de eventos posso organizar?",
         answer:
-          "O aluguer base custa 120€ por 4 horas. O pacote infantil pode ser adicionado por 20€.",
+          "O espaço é indicado para aniversários infantis e de adultos, baby showers, chá de bebé, encontros de família ou amigos, workshops, formações e pequenos eventos corporativos.",
       },
       {
-        question: "Como funciona a reserva e o pagamento?",
+        question: "Quanto custa alugar a Casa do Rato?",
         answer:
-          "Depois de confirmarmos disponibilidade, a data fica garantida com sinal. O valor restante deve estar pago até ao momento do check-in.",
+          "O valor do aluguer depende da duração do evento e dos extras que queira incluir. Diga-nos o que está à procura e podemos preparar um orçamento totalmente personalizado, alinhado com o que precisa.",
+      },
+      {
+        question: "Quantas horas estão incluídas na reserva?",
+        answer:
+          "A decisão é totalmente sua. Diga-nos a duração que tem em mente e ajustamos a reserva ao tipo de evento que quer organizar.",
+      },
+      {
+        question: "Quando é feito o pagamento?",
+        answer:
+          "A data fica reservada após o pagamento do sinal. O restante valor deve estar pago até à entrada no espaço.",
       },
       {
         question: "O que está incluído?",
-        answer:
-          "Pratos de refeição e sobremesa, talheres, facas de bolo, copos, 2 jarros grandes para bebidas, tabuleiros, toalhas para as mesas, frigorífico, micro-ondas, máquina de café, casas de banho privadas e estacionamento privado.",
+        answer: "O aluguer inclui:",
+        answerItems: [
+          "Pratos de refeição e sobremesa",
+          "Talheres, facas de bolo e copos",
+          "2 jarros grandes para bebidas",
+          "Tabuleiros e toalhas de mesa",
+          "Frigorífico, micro-ondas e máquina de café",
+          "Casas de banho privadas",
+          "Estacionamento privado",
+        ],
       },
       {
         question: "Que extras posso adicionar?",
-        answer:
-          "Pode adicionar o pacote infantil com trampolim, escorrega, mesa de jogos e pinturas, e tenda de bolas. O trocador de fraldas está disponível gratuitamente mediante pedido.",
+        answer: "Pode adicionar:",
+        answerItems: [
+          "Pacote infantil, com trampolim, escorrega, mesa de jogos e pinturas e tenda de bolas",
+          "Trocador de fraldas gratuito, mediante pedido",
+          "Serviço de decoração",
+          "Serviço de catering",
+          "Bolos personalizados",
+          "Animação infantil",
+          "E muito mais: os seus pedidos são o limite",
+        ],
       },
       {
         question: "Como funciona a máquina de café?",
         answer:
-          "Disponibilizamos copos, açúcar e colheres. As cápsulas ficam à vossa responsabilidade e devem ser compatíveis com a máquina exclusiva Continente.",
+          "Disponibilizamos copos, açúcar e colheres. As cápsulas ficam a cargo de quem reserva e devem ser compatíveis com a máquina de cápsulas Continente.",
         link: {
           label: "Ver cápsulas compatíveis",
           href: "https://www.continente.pt/produto/capsulas-de-cafe-classico-int-10-pack-poupanca-continente-continente-7241223.html",
         },
       },
       {
-        question: "Posso decorar ou reorganizar o espaço?",
+        question: "Posso decorar ou mudar a disposição do espaço?",
         answer:
-          "Sim. Enquanto estiverem na Casa do Rato, podem tratar o espaço como vosso, mudar coisas de sítio e trazer decoração.",
+          "Sim. Durante a reserva, podem adaptar a disposição do espaço e trazer decoração, desde que tudo fique como estava no final.",
       },
       {
-        question: "O que é preciso fazer à saída?",
+        question: "O que é preciso fazer antes de sair?",
         answer:
-          "Pedimos que deixem a disposição do espaço como a encontraram, coloquem a louça usada no carrinho, levem toda a decoração que trouxeram e levem o vosso lixo.",
+          "No final, pedimos que reponham a disposição inicial, coloquem a louça usada no carrinho, retirem a decoração que trouxeram e levem o lixo convosco.",
       },
     ],
   },

@@ -80,6 +80,14 @@ const localBusinessSchema = business && {
   hasMap: content.location.directionsHref,
   sameAs,
 };
+const formatFaqAnswer = (item) =>
+  [
+    item.answer,
+    item.answerItems?.join("; "),
+    item.link ? `${item.link.label}: ${item.link.href}` : undefined,
+  ]
+    .filter(Boolean)
+    .join(" ");
 const faqSchema = content.faq.items.length && {
   "@type": "FAQPage",
   "@id": `${currentUrl}#faq`,
@@ -88,7 +96,7 @@ const faqSchema = content.faq.items.length && {
     name: item.question,
     acceptedAnswer: {
       "@type": "Answer",
-      text: item.link ? `${item.answer} ${item.link.label}: ${item.link.href}` : item.answer,
+      text: formatFaqAnswer(item),
     },
   })),
 };

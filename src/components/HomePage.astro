@@ -168,6 +168,13 @@ const locationContactGroups = content.location.contacts.reduce((groups, contact)
                     </>
                   )}
                 </p>
+                {item.answerItems && (
+                  <ul>
+                    {item.answerItems.map((answerItem) => (
+                      <li>{answerItem}</li>
+                    ))}
+                  </ul>
+                )}
               </details>
             ))
           }
