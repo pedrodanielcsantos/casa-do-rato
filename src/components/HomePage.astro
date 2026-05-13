@@ -155,26 +155,33 @@ const locationContactGroups = content.location.contacts.reduce((groups, contact)
         <div class="faq-list">
           {
             content.faq.items.map((item) => (
-              <details>
-                <summary>{item.question}</summary>
-                <p>
-                  {item.answer}
-                  {item.link && (
-                    <>
-                      {" "}
-                      <a href={item.link.href} target="_blank" rel="noopener noreferrer">
-                        {item.link.label}
-                      </a>
-                    </>
-                  )}
-                </p>
-                {item.answerItems && (
-                  <ul>
-                    {item.answerItems.map((answerItem) => (
-                      <li>{answerItem}</li>
-                    ))}
-                  </ul>
-                )}
+              <details data-faq-item>
+                <summary>
+                  <span>{item.question}</span>
+                  <span class="faq-toggle" aria-hidden="true" />
+                </summary>
+                <div class="faq-answer" data-faq-answer>
+                  <div class="faq-answer-inner">
+                    <p>
+                      {item.answer}
+                      {item.link && (
+                        <>
+                          {" "}
+                          <a href={item.link.href} target="_blank" rel="noopener noreferrer">
+                            {item.link.label}
+                          </a>
+                        </>
+                      )}
+                    </p>
+                    {item.answerItems && (
+                      <ul>
+                        {item.answerItems.map((answerItem) => (
+                          <li>{answerItem}</li>
+                        ))}
+                      </ul>
+                    )}
+                  </div>
+                </div>
               </details>
             ))
           }
@@ -270,6 +277,113 @@ const locationContactGroups = content.location.contacts.reduce((groups, contact)
   }
 
   <script>
+    document.querySelectorAll("[data-faq-item]").forEach((details) => {
+      const summary = details.querySelector("summary");
+      const answer = details.querySelector("[data-faq-answer]");
+      const reducedMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+      let animation = null;
+
+      if (
+        !(details instanceof HTMLDetailsElement) ||
+        !summary ||
+        !(answer instanceof HTMLElement)
+      ) {
+        return;
+      }
+
+      const clearAnimationStyles = () => {
+        answer.style.height = "";
+        answer.style.opacity = "";
+        answer.style.transform = "";
+        delete details.dataset.faqState;
+        animation = null;
+      };
+
+      const cancelRunningAnimation = () => {
+        if (animation) {
+          animation.cancel();
+          animation = null;
+        }
+      };
+
+      const openItem = () => {
+        const startHeight = details.open ? answer.getBoundingClientRect().height : 0;
+
+        cancelRunningAnimation();
+        details.open = true;
+        details.dataset.faqState = "opening";
+        answer.style.height = `${startHeight}px`;
+        answer.style.opacity = startHeight > 0 ? "1" : "0";
+        answer.style.transform = startHeight > 0 ? "translateY(0)" : "translateY(-6px)";
+
+        const endHeight = answer.scrollHeight;
+
+        if (reducedMotionQuery.matches) {
+          clearAnimationStyles();
+          return;
+        }
+
+        animation = answer.animate(
+          [
+            {
+              height: `${startHeight}px`,
+              opacity: startHeight > 0 ? 1 : 0,
+              transform: startHeight > 0 ? "translateY(0)" : "translateY(-6px)",
+            },
+            { height: `${endHeight}px`, opacity: 1, transform: "translateY(0)" },
+          ],
+          { duration: 260, easing: "cubic-bezier(0.2, 0.8, 0.2, 1)" },
+        );
+
+        animation.onfinish = clearAnimationStyles;
+        animation.oncancel = () => {
+          animation = null;
+        };
+      };
+
+      const closeItem = () => {
+        const startHeight = answer.getBoundingClientRect().height;
+
+        cancelRunningAnimation();
+        details.dataset.faqState = "closing";
+        answer.style.height = `${startHeight}px`;
+        answer.style.opacity = "1";
+        answer.style.transform = "translateY(0)";
+
+        if (reducedMotionQuery.matches) {
+          details.open = false;
+          clearAnimationStyles();
+          return;
+        }
+
+        animation = answer.animate(
+          [
+            { height: `${startHeight}px`, opacity: 1, transform: "translateY(0)" },
+            { height: "0px", opacity: 0, transform: "translateY(-6px)" },
+          ],
+          { duration: 220, easing: "cubic-bezier(0.4, 0, 0.2, 1)" },
+        );
+
+        animation.onfinish = () => {
+          details.open = false;
+          clearAnimationStyles();
+        };
+        animation.oncancel = () => {
+          animation = null;
+        };
+      };
+
+      summary.addEventListener("click", (event) => {
+        event.preventDefault();
+
+        if (details.open && details.dataset.faqState !== "closing") {
+          closeItem();
+        } else {
+          openItem();
+        }
+      });
+    });
+
     document.querySelectorAll("[data-gallery]").forEach((gallery) => {
       const section = gallery.closest(".gallery-section");
       const carousel = gallery.closest("[data-gallery-carousel]");
