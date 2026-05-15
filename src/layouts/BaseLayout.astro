@@ -2,7 +2,21 @@
 import { defaultLocale, getLocalePath, localeOrder, locales } from "../content/locales.js";
 import "../styles/global.css";
 
-const { content, locale } = Astro.props;
+const {
+  content,
+  locale,
+  alternatePaths,
+  breadcrumbs,
+  includeFaqSchema = true,
+  pageDescription,
+  pageOgImage,
+  pageOgImageAlt,
+  pageOgImageHeight,
+  pageOgImageWidth,
+  pagePath,
+  pageTitle,
+  structuredData = [],
+} = Astro.props;
 const currentLocale = locales[locale];
 
 if (!currentLocale) {
@@ -12,17 +26,20 @@ if (!currentLocale) {
 const base = import.meta.env.BASE_URL;
 const asset = (path) => `${base}${path.replace(/^\//, "")}`;
 const absoluteAsset = (path) => new URL(asset(path), Astro.site).toString();
-const localeHref = (localeCode) => `${base}${getLocalePath(localeCode)}`;
-const absoluteLocaleHref = (localeCode) => new URL(localeHref(localeCode), Astro.site).toString();
+const homeHref = (localeCode) => `${base}${getLocalePath(localeCode)}`;
+const pageHref = (localeCode) =>
+  `${base}${alternatePaths?.[localeCode] ?? getLocalePath(localeCode)}`;
+const absoluteLocaleHref = (localeCode) => new URL(pageHref(localeCode), Astro.site).toString();
 const alternateLocales = localeOrder.filter((localeCode) => localeCode !== locale);
-const currentUrl = absoluteLocaleHref(locale);
-const defaultUrl = absoluteLocaleHref(defaultLocale);
-const title = content.site.title ?? content.site.name;
-const description = content.site.description;
-const ogImage = absoluteAsset(content.site.ogImage ?? "social/og-image.jpg");
-const ogImageAlt = content.site.ogImageAlt ?? content.site.name;
-const ogImageWidth = content.site.ogImageWidth ?? "1200";
-const ogImageHeight = content.site.ogImageHeight ?? "630";
+const currentPath = pagePath ?? alternatePaths?.[locale] ?? getLocalePath(locale);
+const currentUrl = new URL(`${base}${currentPath.replace(/^\//, "")}`, Astro.site).toString();
+const defaultUrl = new URL(homeHref(defaultLocale), Astro.site).toString();
+const title = pageTitle ?? content.site.title ?? content.site.name;
+const description = pageDescription ?? content.site.description;
+const ogImage = absoluteAsset(pageOgImage ?? content.site.ogImage ?? "social/og-image.jpg");
+const ogImageAlt = pageOgImageAlt ?? content.site.ogImageAlt ?? content.site.name;
+const ogImageWidth = pageOgImageWidth ?? content.site.ogImageWidth ?? "1200";
+const ogImageHeight = pageOgImageHeight ?? content.site.ogImageHeight ?? "630";
 const footerContactGroups = content.location.contacts.reduce((groups, contact) => {
   const group = groups.find((item) => item.label === contact.label);
 
@@ -59,8 +76,8 @@ const localBusinessSchema = business && {
   "@id": `${defaultUrl}#local-business`,
   name: content.site.name,
   alternateName: content.site.shortName,
-  description,
-  url: currentUrl,
+  description: content.site.description,
+  url: defaultUrl,
   image: structuredImages,
   logo: absoluteAsset("brand/logo-transparent.svg"),
   telephone: business.telephone,
@@ -78,6 +95,15 @@ const localBusinessSchema = business && {
   areaServed: business.areaServed,
   maximumAttendeeCapacity: 35,
   hasMap: content.location.directionsHref,
+  contactPoint: business.contactPoints?.map((contactPoint) => ({
+    "@type": "ContactPoint",
+    ...contactPoint,
+  })),
+  amenityFeature: business.amenityFeatures?.map((name) => ({
+    "@type": "LocationFeatureSpecification",
+    name,
+    value: true,
+  })),
   sameAs,
 };
 const formatFaqAnswer = (item) =>
@@ -88,37 +114,54 @@ const formatFaqAnswer = (item) =>
   ]
     .filter(Boolean)
     .join(" ");
-const faqSchema = content.faq.items.length && {
-  "@type": "FAQPage",
-  "@id": `${currentUrl}#faq`,
-  mainEntity: content.faq.items.map((item) => ({
-    "@type": "Question",
-    name: item.question,
-    acceptedAnswer: {
-      "@type": "Answer",
-      text: formatFaqAnswer(item),
-    },
-  })),
-};
-const breadcrumbSchema = locale !== defaultLocale && {
-  "@type": "BreadcrumbList",
-  "@id": `${currentUrl}#breadcrumb`,
-  itemListElement: [
-    {
-      "@type": "ListItem",
-      position: 1,
-      name: content.site.shortName,
-      item: defaultUrl,
-    },
-    {
-      "@type": "ListItem",
-      position: 2,
-      name: currentLocale.name,
-      item: currentUrl,
-    },
-  ],
-};
-const structuredDataGraph = [localBusinessSchema, faqSchema, breadcrumbSchema].filter(Boolean);
+const faqSchema = includeFaqSchema &&
+  content.faq.items.length && {
+    "@type": "FAQPage",
+    "@id": `${currentUrl}#faq`,
+    mainEntity: content.faq.items.map((item) => ({
+      "@type": "Question",
+      name: item.question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: formatFaqAnswer(item),
+      },
+    })),
+  };
+const breadcrumbSchema = breadcrumbs?.length
+  ? {
+      "@type": "BreadcrumbList",
+      "@id": `${currentUrl}#breadcrumb`,
+      itemListElement: breadcrumbs.map((breadcrumb, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        name: breadcrumb.name,
+        item: new URL(`${base}${breadcrumb.path.replace(/^\//, "")}`, Astro.site).toString(),
+      })),
+    }
+  : locale !== defaultLocale && {
+      "@type": "BreadcrumbList",
+      "@id": `${currentUrl}#breadcrumb`,
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: content.site.shortName,
+          item: defaultUrl,
+        },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: currentLocale.name,
+          item: currentUrl,
+        },
+      ],
+    };
+const structuredDataGraph = [
+  localBusinessSchema,
+  faqSchema,
+  breadcrumbSchema,
+  ...structuredData,
+].filter(Boolean);
 const structuredDataJson = structuredDataGraph.length
   ? JSON.stringify({
       "@context": "https://schema.org",
@@ -172,16 +215,29 @@ const structuredDataJson = structuredDataGraph.length
   </head>
   <body>
     <header class="site-header">
-      <a class="brand" href={localeHref(locale)}>
-        <img src={asset("brand/logo-transparent.svg")} alt={content.site.name} />
+      <a class="brand" href={homeHref(locale)}>
+        <img
+          src={asset("brand/logo-transparent.svg")}
+          alt={content.site.name}
+          width="403"
+          height="281"
+        />
       </a>
       <div class="header-actions">
         <nav class="site-nav" aria-label={content.navigation.ariaLabel}>
-          <a href="#events">{content.navigation.events}</a>
-          <a href="#space">{content.navigation.space}</a>
-          {content.navigation.faq && <a href="#faq">{content.navigation.faq}</a>}
-          {content.navigation.location && <a href="#location">{content.navigation.location}</a>}
-          <a href="#contact">{content.navigation.contact}</a>
+          <a href={`${homeHref(locale)}#events`}>{content.navigation.events}</a>
+          <a href={`${homeHref(locale)}#space`}>{content.navigation.space}</a>
+          {
+            content.navigation.faq && (
+              <a href={`${homeHref(locale)}#faq`}>{content.navigation.faq}</a>
+            )
+          }
+          {
+            content.navigation.location && (
+              <a href={`${homeHref(locale)}#location`}>{content.navigation.location}</a>
+            )
+          }
+          <a href={`${homeHref(locale)}#contact`}>{content.navigation.contact}</a>
           {
             content.navigation.instagramHref && (
               <a href={content.navigation.instagramHref} target="_blank" rel="noopener noreferrer">
@@ -195,7 +251,7 @@ const structuredDataJson = structuredDataGraph.length
             localeOrder.map((localeCode) => (
               <a
                 class:list={["language-link", { "is-active": localeCode === locale }]}
-                href={localeHref(localeCode)}
+                href={pageHref(localeCode)}
                 aria-current={localeCode === locale ? "page" : undefined}
                 aria-label={locales[localeCode].name}
               >
@@ -212,8 +268,14 @@ const structuredDataJson = structuredDataGraph.length
     <footer class="site-footer" id="site-footer" aria-label={content.site.name}>
       <div class="site-footer-inner">
         <div class="footer-brand">
-          <a class="footer-logo" href={localeHref(locale)}>
-            <img src={asset("brand/logo-transparent.svg")} alt={content.site.name} loading="lazy" />
+          <a class="footer-logo" href={homeHref(locale)}>
+            <img
+              src={asset("brand/logo-transparent.svg")}
+              alt={content.site.name}
+              loading="lazy"
+              width="403"
+              height="281"
+            />
           </a>
           <p class="footer-business-name">{content.site.name}</p>
         </div>

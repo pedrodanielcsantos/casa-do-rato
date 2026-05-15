@@ -10,15 +10,12 @@ This is a lightweight working list for agents and humans. Use GitHub Issues if t
 - Review and refine the Portuguese homepage copy.
 - Keep English copy synced through the repo-local translation skill.
 - Add real venue photos.
-- Add social preview image for Open Graph/Twitter cards.
-- Add LocalBusiness structured data.
 
 ## Later
 
 - Configure custom domain.
 - Add favicon variants if needed.
-- Add photo gallery.
-- Add FAQ section.
+- Add custom non-logo social preview image if Pedro changes direction.
 - Add pricing/package guidance if desired.
 - Add accessibility pass.
 - Add optional analytics if Pedro wants it.
