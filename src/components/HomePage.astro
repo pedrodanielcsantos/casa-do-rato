@@ -45,7 +45,7 @@ const locationContactGroups = content.location.contacts.reduce((groups, contact)
         <p class="eyebrow">{content.events.eyebrow}</p>
         <h2 id="events-title">{content.events.title}</h2>
       </div>
-      <EventTypes items={content.events.items} />
+      <EventTypes items={content.events.items} detailsLabel={content.events.detailsLabel} />
     </section>
 
     <section
@@ -84,7 +84,14 @@ const locationContactGroups = content.location.contacts.reduce((groups, contact)
                       data-gallery-src={asset(image.src)}
                       data-gallery-alt={image.alt}
                     >
-                      <img src={asset(image.src)} alt={image.alt} loading="lazy" decoding="async" />
+                      <img
+                        src={asset(image.src)}
+                        alt={image.alt}
+                        loading="lazy"
+                        decoding="async"
+                        width={image.width}
+                        height={image.height}
+                      />
                     </button>
                   </figure>
                 ))}

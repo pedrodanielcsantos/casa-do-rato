@@ -11,7 +11,7 @@ const icons = {
   users: Users,
 };
 
-export default function EventTypes({ items = [] }) {
+export default function EventTypes({ detailsLabel, items = [] }) {
   return (
     <div className="event-grid">
       {items.map((item) => {
@@ -22,6 +22,11 @@ export default function EventTypes({ items = [] }) {
             <Icon aria-hidden="true" size={22} strokeWidth={1.7} />
             <h3>{item.title}</h3>
             <p>{item.description}</p>
+            {item.href && (item.linkLabel || detailsLabel) ? (
+              <a className="event-card-link" href={item.href}>
+                {item.linkLabel || detailsLabel}
+              </a>
+            ) : null}
           </article>
         );
       })}

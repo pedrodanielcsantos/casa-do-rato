@@ -44,7 +44,9 @@ Required top-level sections:
 - `languageSwitcher`
 - `hero`
 - `events`
+- `occasionPages`
 - `space`
+- `gallery`
 - `location`
 - `booking`
 - `faq`
@@ -75,6 +77,12 @@ Required `site.business` fields:
 - `geo`
 - `areaServed`
 
+Optional `site.business` fields:
+
+- `contactPoints`
+- `amenityFeatures`
+- `sameAs`
+
 `site.business.address` requires `streetAddress`, `addressLocality`,
 `addressRegion`, `postalCode`, and `addressCountry`.
 
@@ -102,6 +110,9 @@ Each event item requires:
 - `description`
 - `icon`
 
+Each event item may include `href` to link to a localized occasion page and
+`linkLabel` to override the default card link text.
+
 Allowed event icons:
 
 - `cake`
@@ -112,6 +123,39 @@ Allowed event icons:
 - `briefcase`
 
 These map to icons in `src/components/EventTypes.jsx`.
+
+## Occasion Pages
+
+The `occasionPages` section powers localized, static landing pages for
+high-intent search queries such as birthday parties, baby showers, workshops,
+and corporate events in Vila Nova de Gaia.
+
+Required fields:
+
+- `backLabel`
+- `contactLabel`
+- `summaryLabel`
+- `includedLabel`
+- `items`
+
+Each `occasionPages.items` item requires:
+
+- `key`
+- `slug`
+- `title`
+- `description`
+- `breadcrumbLabel`
+- `hero.eyebrow`
+- `hero.title`
+- `hero.body`
+- `image.src`
+- `image.alt`
+- `image.width`
+- `image.height`
+- `summary`
+- `details`
+
+Each detail item requires `title` and `body`.
 
 ## Contact Links
 
@@ -168,6 +212,17 @@ Required fields:
 - `eyebrow`
 - `title`
 - `body`
+
+## Gallery
+
+The `gallery` section renders venue photos and feeds structured data image URLs.
+
+Each gallery image requires:
+
+- `src`
+- `alt`
+- `width`
+- `height`
 
 ## Booking
 

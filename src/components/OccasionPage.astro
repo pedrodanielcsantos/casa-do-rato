@@ -1,0 +1,129 @@
+---
+import { defaultLocale, getLocalePath } from "../content/locales.js";
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const { alternatePaths, content, locale, occasion, pagePath } = Astro.props;
+
+const base = import.meta.env.BASE_URL;
+const asset = (path) => `${base}${path.replace(/^\//, "")}`;
+const homePath = getLocalePath(locale);
+const contactHref =
+  content.contact.links.find((link) => link.type === "whatsapp")?.href ?? "#contact";
+const currentUrl = new URL(`${base}${pagePath.replace(/^\//, "")}`, Astro.site).toString();
+const localBusinessId = new URL(
+  `${base}${getLocalePath(defaultLocale)}#local-business`,
+  Astro.site,
+).toString();
+const imageUrl = new URL(`${base}${occasion.image.src.replace(/^\//, "")}`, Astro.site).toString();
+const breadcrumbs = [
+  {
+    name: content.site.shortName,
+    path: homePath,
+  },
+  {
+    name: occasion.breadcrumbLabel,
+    path: pagePath,
+  },
+];
+const structuredData = [
+  {
+    "@type": "WebPage",
+    "@id": `${currentUrl}#webpage`,
+    url: currentUrl,
+    name: occasion.title,
+    description: occasion.description,
+    inLanguage: locale,
+    image: imageUrl,
+    about: {
+      "@id": localBusinessId,
+    },
+  },
+  {
+    "@type": "Service",
+    "@id": `${currentUrl}#service`,
+    name: occasion.hero.title,
+    description: occasion.description,
+    serviceType: occasion.summary,
+    areaServed: content.site.business.areaServed,
+    provider: {
+      "@id": localBusinessId,
+    },
+  },
+];
+---
+
+<BaseLayout
+  content={content}
+  locale={locale}
+  pageTitle={occasion.title}
+  pageDescription={occasion.description}
+  pagePath={pagePath}
+  alternatePaths={alternatePaths}
+  breadcrumbs={breadcrumbs}
+  includeFaqSchema={false}
+  structuredData={structuredData}
+>
+  <main>
+    <section class="occasion-hero">
+      <div class="occasion-hero-copy">
+        <a class="back-link" href={asset(homePath)}>{content.occasionPages.backLabel}</a>
+        <p class="eyebrow">{occasion.hero.eyebrow}</p>
+        <h1>{occasion.hero.title}</h1>
+        <p class="hero-copy">{occasion.hero.body}</p>
+        <a class="primary-action" href={contactHref}>{content.occasionPages.contactLabel}</a>
+      </div>
+
+      <figure class="occasion-hero-media">
+        <img
+          src={asset(occasion.image.src)}
+          alt={occasion.image.alt}
+          width={occasion.image.width}
+          height={occasion.image.height}
+          decoding="async"
+          fetchpriority="high"
+        />
+      </figure>
+    </section>
+
+    <section class="section occasion-section" aria-labelledby="occasion-summary-title">
+      <div class="section-heading">
+        <p class="eyebrow">{content.occasionPages.summaryLabel}</p>
+        <h2 id="occasion-summary-title">{occasion.breadcrumbLabel}</h2>
+      </div>
+
+      <ul class="occasion-summary-list">
+        {occasion.summary.map((item) => <li>{item}</li>)}
+      </ul>
+    </section>
+
+    <section class="section section-band occasion-section" aria-labelledby="occasion-details-title">
+      <div class="section-heading">
+        <p class="eyebrow">{content.occasionPages.includedLabel}</p>
+        <h2 id="occasion-details-title">{content.space.title}</h2>
+      </div>
+
+      <div class="occasion-detail-grid">
+        {
+          occasion.details.map((detail) => (
+            <article class="occasion-detail">
+              <h3>{detail.title}</h3>
+              <p>{detail.body}</p>
+            </article>
+          ))
+        }
+      </div>
+    </section>
+
+    <section
+      class="section contact-section occasion-contact"
+      aria-labelledby="occasion-contact-title"
+    >
+      <div class="section-heading">
+        <p class="eyebrow">{content.contact.eyebrow}</p>
+        <h2 id="occasion-contact-title">{content.contact.title}</h2>
+        <p>{content.contact.body}</p>
+      </div>
+      <a class="primary-action" href={contactHref}>{content.occasionPages.contactLabel}</a>
+    </section>
+  </main>
+</BaseLayout>

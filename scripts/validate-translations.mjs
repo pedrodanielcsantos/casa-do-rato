@@ -13,7 +13,7 @@ const requiredContentStrings = {
   navigation: ["ariaLabel", "events", "space", "faq", "location", "contact"],
   languageSwitcher: ["ariaLabel"],
   hero: ["capacity", "body", "cta"],
-  events: ["eyebrow", "title"],
+  events: ["eyebrow", "title", "detailsLabel"],
   space: ["eyebrow", "title", "body"],
   booking: ["eyebrow", "title"],
   faq: ["eyebrow", "title", "ariaLabel"],
@@ -188,6 +188,42 @@ function validateContent(content, locale) {
           });
         }
       }
+
+      if (content.site.business.contactPoints !== undefined) {
+        if (
+          requireArray(
+            content.site.business.contactPoints,
+            `${rootPath}.site.business.contactPoints`,
+          )
+        ) {
+          content.site.business.contactPoints.forEach((contactPoint, index) => {
+            const path = `${rootPath}.site.business.contactPoints[${index}]`;
+
+            if (requireObject(contactPoint, path)) {
+              requireStrings(contactPoint, path, ["telephone", "contactType"]);
+
+              if (requireArray(contactPoint.availableLanguage, `${path}.availableLanguage`)) {
+                contactPoint.availableLanguage.forEach((language, languageIndex) => {
+                  requireString(language, `${path}.availableLanguage[${languageIndex}]`);
+                });
+              }
+            }
+          });
+        }
+      }
+
+      if (content.site.business.amenityFeatures !== undefined) {
+        if (
+          requireArray(
+            content.site.business.amenityFeatures,
+            `${rootPath}.site.business.amenityFeatures`,
+          )
+        ) {
+          content.site.business.amenityFeatures.forEach((feature, index) => {
+            requireString(feature, `${rootPath}.site.business.amenityFeatures[${index}]`);
+          });
+        }
+      }
     }
   }
 
@@ -202,8 +238,65 @@ function validateContent(content, locale) {
       if (requireObject(item, path)) {
         requireStrings(item, path, ["title", "description"]);
         requireOneOf(item.icon, eventIcons, `${path}.icon`);
+
+        if (item.href !== undefined) {
+          requireString(item.href, `${path}.href`);
+        }
+
+        if (item.linkLabel !== undefined) {
+          requireString(item.linkLabel, `${path}.linkLabel`);
+        }
       }
     });
+  }
+
+  if (isRecord(content.occasionPages)) {
+    requireStrings(content.occasionPages, `${rootPath}.occasionPages`, [
+      "backLabel",
+      "contactLabel",
+      "summaryLabel",
+      "includedLabel",
+    ]);
+
+    if (requireArray(content.occasionPages.items, `${rootPath}.occasionPages.items`)) {
+      content.occasionPages.items.forEach((item, index) => {
+        const path = `${rootPath}.occasionPages.items[${index}]`;
+
+        if (requireObject(item, path)) {
+          requireStrings(item, path, ["key", "slug", "title", "description", "breadcrumbLabel"]);
+
+          if (requireObject(item.hero, `${path}.hero`)) {
+            requireStrings(item.hero, `${path}.hero`, ["eyebrow", "title", "body"]);
+          }
+
+          if (requireObject(item.image, `${path}.image`)) {
+            requireStrings(item.image, `${path}.image`, ["src", "alt"]);
+
+            ["width", "height"].forEach((key) => {
+              if (typeof item.image[key] !== "number") {
+                fail(`${path}.image.${key}`, "expected number");
+              }
+            });
+          }
+
+          if (requireArray(item.summary, `${path}.summary`)) {
+            item.summary.forEach((summaryItem, summaryIndex) => {
+              requireString(summaryItem, `${path}.summary[${summaryIndex}]`);
+            });
+          }
+
+          if (requireArray(item.details, `${path}.details`)) {
+            item.details.forEach((detail, detailIndex) => {
+              const detailPath = `${path}.details[${detailIndex}]`;
+
+              if (requireObject(detail, detailPath)) {
+                requireStrings(detail, detailPath, ["title", "body"]);
+              }
+            });
+          }
+        }
+      });
+    }
   }
 
   if (
@@ -295,6 +388,25 @@ function validateContent(content, locale) {
         }
       });
     }
+  }
+
+  if (
+    isRecord(content.gallery) &&
+    requireArray(content.gallery.images, `${rootPath}.gallery.images`)
+  ) {
+    content.gallery.images.forEach((image, index) => {
+      const path = `${rootPath}.gallery.images[${index}]`;
+
+      if (requireObject(image, path)) {
+        requireStrings(image, path, ["src", "alt"]);
+
+        ["width", "height"].forEach((key) => {
+          if (typeof image[key] !== "number") {
+            fail(`${path}.${key}`, "expected number");
+          }
+        });
+      }
+    });
   }
 }
 

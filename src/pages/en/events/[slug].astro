@@ -1,0 +1,34 @@
+---
+import OccasionPage from "../../../components/OccasionPage.astro";
+import { content } from "../../../content/en.js";
+import { content as portugueseContent } from "../../../content/pt.js";
+
+export function getStaticPaths() {
+  return content.occasionPages.items.map((occasion) => {
+    const portugueseOccasion = portugueseContent.occasionPages.items.find(
+      (item) => item.key === occasion.key,
+    );
+
+    return {
+      params: { slug: occasion.slug },
+      props: {
+        alternatePaths: {
+          pt: `eventos/${portugueseOccasion.slug}/`,
+          en: `en/events/${occasion.slug}/`,
+        },
+        occasion,
+      },
+    };
+  });
+}
+
+const { alternatePaths, occasion } = Astro.props;
+---
+
+<OccasionPage
+  content={content}
+  locale="en"
+  occasion={occasion}
+  pagePath={alternatePaths.en}
+  alternatePaths={alternatePaths}
+/>

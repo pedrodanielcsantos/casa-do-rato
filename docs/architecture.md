@@ -24,6 +24,9 @@ The homepage is rendered through a shared localized template:
 - `src/pages/en/index.astro` renders English from `src/content/en.js`.
 - Both pages use `src/components/HomePage.astro`.
 - `HomePage.astro` renders the homepage sections.
+- `src/pages/eventos/[slug].astro` and `src/pages/en/events/[slug].astro`
+  render localized occasion landing pages from `content.occasionPages`.
+- `src/components/OccasionPage.astro` renders the shared occasion page template.
 - `src/layouts/BaseLayout.astro` owns the document shell, navigation, language links, metadata, and global CSS import.
 
 ## Component Pattern
