@@ -1,6 +1,6 @@
 export const translationMeta = {
   sourceLocale: "pt",
-  sourceHash: "d5bf69d3900b14091fb2dcf5d6dd6515d7426466e5941d02e2e61ea871c12213",
+  sourceHash: "c80d182c9e19d605bb045db7b18f3b51e1d0771dd6afb204c832c29dd3a2e4c7",
 };
 
 export const content = {
@@ -15,7 +15,7 @@ export const content = {
     ogImageHeight: "1171",
     ogImageAlt: "Casa do Rato Eventos logo",
     business: {
-      telephone: "+351916411228",
+      telephone: "+351912692140",
       priceRange: "from €120/4h",
       openingHours: "By appointment",
       address: {
@@ -32,12 +32,7 @@ export const content = {
       areaServed: ["Avintes", "Vila Nova de Gaia", "Porto"],
       contactPoints: [
         {
-          telephone: "+351916411228",
-          contactType: "bookings",
-          availableLanguage: ["pt", "en"],
-        },
-        {
-          telephone: "+351933562673",
+          telephone: "+351912692140",
           contactType: "bookings",
           availableLanguage: ["pt", "en"],
         },
@@ -76,7 +71,7 @@ export const content = {
     body: "A versatile and welcoming space, ideal for birthday parties, baby showers, friends and family gatherings, workshops, and corporate events in Avintes, Vila Nova de Gaia.",
     cta: "Book",
     ctaHref:
-      "https://wa.me/351916411228?text=Hi!%20I%27d%20like%20to%20check%20availability%20at%20Casa%20do%20Rato.%0APreferred%20date%3A%20%0AEvent%20type%3A%20%0AAdditional%20services%3A%20(kids%20package%2C%20cake%2C%20decoration%2C%20catering%2C%20other).%20%0ATime%3A%20",
+      "https://wa.me/351912692140?text=Hi!%20I%27d%20like%20to%20check%20availability%20at%20Casa%20do%20Rato.%0APreferred%20date%3A%20%0AEvent%20type%3A%20%0AAdditional%20services%3A%20(kids%20package%2C%20cake%2C%20decoration%2C%20catering%2C%20other).%20%0ATime%3A%20",
   },
   events: {
     eyebrow: "Occasions",
@@ -540,7 +535,7 @@ export const content = {
       {
         type: "whatsapp",
         label: "WhatsApp",
-        href: "https://wa.me/351916411228?text=Hi!%20I%27d%20like%20to%20check%20availability%20at%20Casa%20do%20Rato.%0APreferred%20date%3A%20%0AEvent%20type%3A%20%0AAdditional%20services%3A%20(kids%20package%2C%20cake%2C%20decoration%2C%20catering%2C%20other).%20%0ATime%3A%20",
+        href: "https://wa.me/351912692140?text=Hi!%20I%27d%20like%20to%20check%20availability%20at%20Casa%20do%20Rato.%0APreferred%20date%3A%20%0AEvent%20type%3A%20%0AAdditional%20services%3A%20(kids%20package%2C%20cake%2C%20decoration%2C%20catering%2C%20other).%20%0ATime%3A%20",
         ariaLabel: "Contact via WhatsApp",
         variant: "primary",
       },
@@ -578,13 +573,8 @@ export const content = {
       },
       {
         label: "WhatsApp",
-        value: "+351 916 411 228",
-        href: "https://wa.me/351916411228?text=Hi!%20I%27d%20like%20to%20check%20availability%20at%20Casa%20do%20Rato.%0APreferred%20date%3A%20%0AEvent%20type%3A%20%0AAdditional%20services%3A%20(kids%20package%2C%20cake%2C%20decoration%2C%20catering%2C%20other).%20%0ATime%3A%20",
-      },
-      {
-        label: "WhatsApp",
-        value: "+351 933 562 673",
-        href: "https://wa.me/351933562673?text=Hi!%20I%27d%20like%20to%20check%20availability%20at%20Casa%20do%20Rato.%0APreferred%20date%3A%20%0AEvent%20type%3A%20%0AAdditional%20services%3A%20(kids%20package%2C%20cake%2C%20decoration%2C%20catering%2C%20other).%20%0ATime%3A%20",
+        value: "+351 912 692 140",
+        href: "https://wa.me/351912692140?text=Hi!%20I%27d%20like%20to%20check%20availability%20at%20Casa%20do%20Rato.%0APreferred%20date%3A%20%0AEvent%20type%3A%20%0AAdditional%20services%3A%20(kids%20package%2C%20cake%2C%20decoration%2C%20catering%2C%20other).%20%0ATime%3A%20",
       },
       {
         label: "Instagram",

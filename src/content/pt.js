@@ -10,7 +10,7 @@ export const content = {
     ogImageHeight: "1171",
     ogImageAlt: "Logótipo da Casa do Rato Eventos",
     business: {
-      telephone: "+351916411228",
+      telephone: "+351912692140",
       priceRange: "desde 120€/4h",
       openingHours: "Mediante reserva",
       address: {
@@ -27,12 +27,7 @@ export const content = {
       areaServed: ["Avintes", "Vila Nova de Gaia", "Porto"],
       contactPoints: [
         {
-          telephone: "+351916411228",
-          contactType: "reservas",
-          availableLanguage: ["pt", "en"],
-        },
-        {
-          telephone: "+351933562673",
+          telephone: "+351912692140",
           contactType: "reservas",
           availableLanguage: ["pt", "en"],
         },
@@ -71,7 +66,7 @@ export const content = {
     body: "Um espaço versátil e acolhedor, ideal para festas de aniversário, chá de bebé, baby showers, encontros de amigos e família, workshops e eventos corporativos em Avintes, Vila Nova de Gaia.",
     cta: "Marcar",
     ctaHref:
-      "https://wa.me/351916411228?text=Ol%C3%A1!%20Gostaria%20de%20saber%20a%20disponibilidade%20da%20Casa%20do%20Rato.%0AData%20pretendida%3A%20%0ATipo%20de%20evento%3A%20%0AServi%C3%A7os%20adicionais%3A%20(Pacote%20infantil%2C%20bolo%2C%20decora%C3%A7%C3%A3o%2C%20catering%2C%20outros).%20%0AHor%C3%A1rio%3A%20",
+      "https://wa.me/351912692140?text=Ol%C3%A1!%20Gostaria%20de%20saber%20a%20disponibilidade%20da%20Casa%20do%20Rato.%0AData%20pretendida%3A%20%0ATipo%20de%20evento%3A%20%0AServi%C3%A7os%20adicionais%3A%20(Pacote%20infantil%2C%20bolo%2C%20decora%C3%A7%C3%A3o%2C%20catering%2C%20outros).%20%0AHor%C3%A1rio%3A%20",
   },
   events: {
     eyebrow: "Ocasiões",
@@ -537,7 +532,7 @@ export const content = {
       {
         type: "whatsapp",
         label: "WhatsApp",
-        href: "https://wa.me/351916411228?text=Ol%C3%A1!%20Gostaria%20de%20saber%20a%20disponibilidade%20da%20Casa%20do%20Rato.%0AData%20pretendida%3A%20%0ATipo%20de%20evento%3A%20%0AServi%C3%A7os%20adicionais%3A%20(Pacote%20infantil%2C%20bolo%2C%20decora%C3%A7%C3%A3o%2C%20catering%2C%20outros).%20%0AHor%C3%A1rio%3A%20",
+        href: "https://wa.me/351912692140?text=Ol%C3%A1!%20Gostaria%20de%20saber%20a%20disponibilidade%20da%20Casa%20do%20Rato.%0AData%20pretendida%3A%20%0ATipo%20de%20evento%3A%20%0AServi%C3%A7os%20adicionais%3A%20(Pacote%20infantil%2C%20bolo%2C%20decora%C3%A7%C3%A3o%2C%20catering%2C%20outros).%20%0AHor%C3%A1rio%3A%20",
         ariaLabel: "Contactar via WhatsApp",
         variant: "primary",
       },
@@ -575,13 +570,8 @@ export const content = {
       },
       {
         label: "WhatsApp",
-        value: "+351 916 411 228",
-        href: "https://wa.me/351916411228?text=Ol%C3%A1!%20Gostaria%20de%20saber%20a%20disponibilidade%20da%20Casa%20do%20Rato.%0AData%20pretendida%3A%20%0ATipo%20de%20evento%3A%20%0AServi%C3%A7os%20adicionais%3A%20(Pacote%20infantil%2C%20bolo%2C%20decora%C3%A7%C3%A3o%2C%20catering%2C%20outros).%20%0AHor%C3%A1rio%3A%20",
-      },
-      {
-        label: "WhatsApp",
-        value: "+351 933 562 673",
-        href: "https://wa.me/351933562673?text=Ol%C3%A1!%20Gostaria%20de%20saber%20a%20disponibilidade%20da%20Casa%20do%20Rato.%0AData%20pretendida%3A%20%0ATipo%20de%20evento%3A%20%0AServi%C3%A7os%20adicionais%3A%20(Pacote%20infantil%2C%20bolo%2C%20decora%C3%A7%C3%A3o%2C%20catering%2C%20outros).%20%0AHor%C3%A1rio%3A%20",
+        value: "+351 912 692 140",
+        href: "https://wa.me/351912692140?text=Ol%C3%A1!%20Gostaria%20de%20saber%20a%20disponibilidade%20da%20Casa%20do%20Rato.%0AData%20pretendida%3A%20%0ATipo%20de%20evento%3A%20%0AServi%C3%A7os%20adicionais%3A%20(Pacote%20infantil%2C%20bolo%2C%20decora%C3%A7%C3%A3o%2C%20catering%2C%20outros).%20%0AHor%C3%A1rio%3A%20",
       },
       {
         label: "Instagram",
