@@ -23,7 +23,7 @@ Use the existing brand assets as the foundation:
 
 The current CSS defines the starting palette in `src/styles/global.css`. The canonical brand tokens are documented in `docs/design-tokens.md`:
 
-- `#C99853` for accents, button backgrounds, and richer visual elements.
+- `#C99853` for accents and richer visual elements. Buttons use the darker `--color-gold-dark` for readable white text.
 - `#545454` for text.
 - `#FDFCF7` for general backgrounds.
 
@@ -35,7 +35,15 @@ The current CSS defines the starting palette in `src/styles/global.css`. The can
 - Prefer direct sections over decorative cards.
 - Keep mobile layouts simple and readable.
 - Make contact links obvious.
-- Add real venue photos as soon as available.
+- Show real venue photos and a WhatsApp action on the first screen of every page.
+- Keep call-to-action labels short ("Reservar", "Perguntar"). The WhatsApp icon shows where the button leads, and `WhatsAppButton.astro` adds a hidden "(WhatsApp)" for screen readers.
+- Show trust signals, such as the Google rating, next to the main action.
+
+## Motion
+
+Keep motion subtle and purposeful. Entrance, scroll, and page-transition animations live in the `prefers-reduced-motion: no-preference` block in `src/styles/global.css`, and the `reduce` block removes hover and state transitions, so visitors who ask for less motion don't get them.
+
+Prefer CSS over JavaScript: scroll-driven reveals, cross-document view transitions, and small hover states. Don't auto-play or auto-scroll content.
 
 ## Avoid
 

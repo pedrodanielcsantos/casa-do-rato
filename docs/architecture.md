@@ -8,7 +8,9 @@ This is an Astro static site with React components used where they add value.
 - `src/pages/`: file-based routes.
 - `src/layouts/`: shared page layout, document metadata, and site shell.
 - `src/components/`: reusable React or Astro components.
-- `src/content/`: localized content files and locale metadata.
+- `src/content/`: localized content files, locale metadata, and the phone number.
+- `src/lib/photos.js`: helpers that turn a photo path into optimized image URLs.
+- `src/assets/photos/`: venue photos, processed by Astro at build time.
 - `src/styles/global.css`: global styling.
 - `public/`: static files served as-is.
 - `public/brand/`: web-facing brand assets used by the site.
@@ -27,6 +29,9 @@ The homepage is rendered through a shared localized template:
 - `src/pages/eventos/[slug].astro` and `src/pages/en/events/[slug].astro`
   render localized occasion landing pages from `content.occasionPages`.
 - `src/components/OccasionPage.astro` renders the shared occasion page template.
+- `src/components/ContactSection.astro` renders the booking steps and contact panel on both templates.
+- `src/components/WhatsAppButton.astro` is the shared primary call to action.
+- `src/pages/404.astro` renders the not-found page, in Portuguese. It is `noindex`.
 - `src/layouts/BaseLayout.astro` owns the document shell, navigation, language links, metadata, and global CSS import.
 
 ## Component Pattern
@@ -58,6 +63,8 @@ src/content/locales.js
 ```
 
 `src/content/pt.js` is the source of truth. `src/content/en.js` is maintained by the repo-local `update-translations` skill and validated by `npm run check-translations`.
+
+`src/content/contact.js` is the only place the phone number is written. The locale files use it to build every telephone field and WhatsApp link, and validation fails if a different number appears anywhere under `src/`.
 
 The validated content model is documented in `docs/content-model.md`.
 

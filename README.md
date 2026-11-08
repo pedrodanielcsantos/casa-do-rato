@@ -1,6 +1,6 @@
 # Casa do Rato
 
-Website for Casa do Rato Eventos, a small event venue for private gatherings of up to 35 people.
+Website for Casa do Rato Eventos, a small event venue for private gatherings of up to 50 people.
 
 ## Stack
 
@@ -75,14 +75,14 @@ Preview the production build locally:
 npm run preview
 ```
 
-To test the GitHub Pages base path locally:
+Check the site still works under a subpath (production runs at the root):
 
 ```bash
 SITE_BASE_PATH=/casa-do-rato SITE_URL=http://localhost:4321 npm run check
 npm run preview
 ```
 
-The GitHub Pages workflow builds with `SITE_BASE_PATH=/casa-do-rato`, which matches the repository URL. When the site moves to a custom domain, remove that base path from `.github/workflows/deploy.yml`.
+The GitHub Pages workflow builds at the root with `SITE_BASE_PATH=/` and `SITE_URL=https://casadorato.pt`, the custom domain. The subpath build above only guards against hardcoded root URLs.
 
 The deploy job is skipped while the repository is private unless the repository variable `ENABLE_GITHUB_PAGES` is set to `true`. GitHub Pages must also be enabled in the repository settings before the deploy job can publish the site.
 

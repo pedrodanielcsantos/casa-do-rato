@@ -1,6 +1,6 @@
 # Agent Instructions
 
-This repository contains the website for Casa do Rato Eventos, a small private event venue for gatherings of up to 35 people.
+This repository contains the website for Casa do Rato Eventos, a small private event venue for gatherings of up to 50 people.
 
 The project is both a serious side business website and a learning playground for web technologies. Treat production quality and clarity as equally important.
 
@@ -74,7 +74,7 @@ Preview the production build:
 npm run preview
 ```
 
-Test the GitHub Pages base path locally:
+Check the site still works under a subpath (production runs at the root):
 
 ```bash
 SITE_BASE_PATH=/casa-do-rato SITE_URL=http://localhost:4321 npm run check
@@ -100,6 +100,7 @@ Do not run multiple Astro build/check commands in parallel because they write to
 - Prefer Astro pages/layouts for page structure.
 - Use React for focused components, not for turning the whole site into a client app.
 - Keep business copy and localized text centralized instead of scattering strings through components.
+- The phone number lives only in `src/content/contact.js`. Never hardcode a phone number or `wa.me` link elsewhere; `npm run check-translations` fails if a different number appears under `src/`.
 - Use Prettier for formatting. Do not introduce TypeScript, linting, testing, routing, or state-management tools without a clear reason and owner approval.
 - Keep CSS readable and close to the current design system until a stronger design system exists.
 
@@ -107,6 +108,7 @@ Do not run multiple Astro build/check commands in parallel because they write to
 
 - Website brand assets live in `public/brand/`.
 - Other public website assets should live in a clear folder under `public/`.
+- Venue photos live in `src/assets/photos/` so Astro can generate optimized sizes.
 - The original downloaded logo package is intentionally not kept in the repo. Add only the source/export files the website actually needs.
 - Binary media and brand files are tracked with Git LFS through `.gitattributes`.
 - Keep SVGs in normal Git unless there is a strong reason to move them to LFS.
@@ -115,7 +117,7 @@ Do not run multiple Astro build/check commands in parallel because they write to
 ## Design Guidelines
 
 - This is a real venue website, not a generic startup landing page.
-- Use `#C99853` for accents and primary action surfaces, `#545454` for primary text, and `#FDFCF7` for main backgrounds.
+- Use `#C99853` for accents, `#545454` for primary text, and `#FDFCF7` for main backgrounds. Buttons and small gold text use the darker `--color-gold-dark`, because white text on `#C99853` is too low in contrast (see `docs/design-tokens.md`).
 - Prioritize trust, warmth, clarity, and ease of contact.
 - Show the venue and the practical event experience as soon as real photos are available.
 - Avoid overbuilt animations, abstract illustrations, decorative gradients, and generic marketing copy.
@@ -133,13 +135,13 @@ Keep reusable components language-agnostic. Pass translated strings from the con
 
 ## Deployment Notes
 
-The current public URL is:
+The site is published by GitHub Pages on the custom domain:
 
 ```text
-https://pedrodanielcsantos.github.io/casa-do-rato/
+https://casadorato.pt/
 ```
 
-GitHub Pages uses the `/casa-do-rato/` base path until a custom domain is configured. Be careful with absolute URLs and asset paths.
+The deploy workflow builds at the root (`SITE_BASE_PATH=/`). Still build URLs from `import.meta.env.BASE_URL` rather than hardcoding `/`, so the site keeps working under a subpath such as `/casa-do-rato/`. See `docs/deployment.md`.
 
 ## Communication
 

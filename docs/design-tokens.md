@@ -4,11 +4,11 @@ These are the current brand color tokens. Treat them as the source of truth unti
 
 ## Brand Colors
 
-| Token           | Value     | Usage                                                                  |
-| --------------- | --------- | ---------------------------------------------------------------------- |
-| `--color-gold`  | `#C99853` | Accents, primary buttons, active language state, richer visual moments |
-| `--color-ink`   | `#545454` | Primary text                                                           |
-| `--color-paper` | `#FDFCF7` | Main page background                                                   |
+| Token           | Value     | Usage                                                            |
+| --------------- | --------- | ---------------------------------------------------------------- |
+| `--color-gold`  | `#C99853` | Accents, decorative details, star ratings, richer visual moments |
+| `--color-ink`   | `#545454` | Primary text                                                     |
+| `--color-paper` | `#FDFCF7` | Main page background                                             |
 
 The CSS lives in `src/styles/global.css`.
 
@@ -16,11 +16,13 @@ The CSS lives in `src/styles/global.css`.
 
 Supporting colors are derived around the brand palette:
 
-- `--color-gold-dark` is used for hover states.
-- `--color-on-gold` is used for accessible text on `--color-gold`.
+- `--color-gold-dark` is used for buttons and small gold text, because white text on `--color-gold` is too low in contrast.
+- `--color-gold-deep` is used for button hover states.
+- `--color-on-gold` is used for text on `--color-gold-dark`.
 - `--color-muted` is used for secondary text.
 - `--color-line` is used for borders.
-- `--color-blush` is a restrained warm accent used sparingly.
+- `--color-sand` is used for alternating section backgrounds and the footer.
+- `--color-whatsapp` and `--color-on-whatsapp` are used only for the floating WhatsApp button.
 
 Do not add a new dominant palette without discussing it with Pedro. The site should stay warm, calm, practical, and aligned with the logo.
 
