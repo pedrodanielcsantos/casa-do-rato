@@ -1,6 +1,18 @@
+import { buildAvailabilityHref, callHref, phone } from "./contact.js";
+
+const whatsappMessage = {
+  intro: "Hi! I'd like to check availability at Casa do Rato.",
+  date: "Preferred date",
+  time: "Time",
+  eventType: "Event type",
+  guests: "Number of guests",
+  extras: "Additional services (kids' package, cake, decoration, catering, other)",
+};
+const availabilityHref = buildAvailabilityHref(whatsappMessage);
+
 export const translationMeta = {
   sourceLocale: "pt",
-  sourceHash: "c80d182c9e19d605bb045db7b18f3b51e1d0771dd6afb204c832c29dd3a2e4c7",
+  sourceHash: "d0885c7aa3ccad6bc24afdf8b21b2721cac9117143119bcf63cbac883018e48c",
 };
 
 export const content = {
@@ -9,15 +21,15 @@ export const content = {
     shortName: "Casa do Rato",
     title: "Private Event Venue in Vila Nova de Gaia, Porto | Casa do Rato",
     description:
-      "Private venue in Avintes, Vila Nova de Gaia, for up to 35 guests — from €120/4h. Birthdays, baby showers, workshops, and corporate events. Book via WhatsApp.",
+      "Private venue hire in Avintes, Gaia, for up to 50 guests. Birthdays, baby showers, workshops, and corporate events. Ask for availability on WhatsApp.",
     ogImage: "brand/logo-original.png",
     ogImageWidth: "1679",
     ogImageHeight: "1171",
     ogImageAlt: "Casa do Rato Eventos logo",
     business: {
-      telephone: "+351912692140",
-      priceRange: "from €120/4h",
-      openingHours: "By appointment",
+      telephone: phone.e164,
+      maximumAttendeeCapacity: 50,
+      priceRange: "€€",
       address: {
         streetAddress: "Rua Cunha de Cima 17",
         addressLocality: "Avintes, Vila Nova de Gaia",
@@ -32,7 +44,7 @@ export const content = {
       areaServed: ["Avintes", "Vila Nova de Gaia", "Porto"],
       contactPoints: [
         {
-          telephone: "+351912692140",
+          telephone: phone.e164,
           contactType: "bookings",
           availableLanguage: ["pt", "en"],
         },
@@ -56,8 +68,8 @@ export const content = {
     faq: "FAQ",
     location: "Location",
     contact: "Book",
-    instagram: "Instagram ↗",
-    instagramHref: "https://instagram.com/casadorato.eventos",
+    menuLabel: "Open menu",
+    skipLabel: "Skip to content",
   },
   languageSwitcher: {
     ariaLabel: "Choose language",
@@ -65,13 +77,18 @@ export const content = {
   hero: {
     title: {
       brand: "Casa do Rato",
-      qualifier: "Private Event Venue in Vila Nova de Gaia, Porto",
+      qualifier: "Private venue for parties and events in Vila Nova de Gaia",
     },
-    capacity: "Shall we make memories together?",
+    eyebrow: "Shall we make memories together?",
     body: "A versatile and welcoming space, ideal for birthday parties, baby showers, friends and family gatherings, workshops, and corporate events in Avintes, Vila Nova de Gaia.",
     cta: "Book",
-    ctaHref:
-      "https://wa.me/351912692140?text=Hi!%20I%27d%20like%20to%20check%20availability%20at%20Casa%20do%20Rato.%0APreferred%20date%3A%20%0AEvent%20type%3A%20%0AAdditional%20services%3A%20(kids%20package%2C%20cake%2C%20decoration%2C%20catering%2C%20other).%20%0ATime%3A%20",
+    ctaHref: availabilityHref,
+    facts: ["Up to 50 guests", "A venue all to yourselves", "Private parking"],
+    photos: [
+      "photos/casa-do-rato-sala-decorada-vista-geral.webp",
+      "photos/casa-do-rato-arco-baloes-tema-selva.webp",
+      "photos/casa-do-rato-zona-sofas-rececao.webp",
+    ],
   },
   events: {
     eyebrow: "Occasions",
@@ -82,54 +99,61 @@ export const content = {
         title: "Kids' birthday parties",
         description:
           "The ideal space to celebrate little ones, with entertainment and play for everyone.",
-        icon: "cake",
+        photo: "photos/casa-do-rato-mesa-tematica-aniversario-bolo.webp",
         href: "events/birthdays/",
       },
       {
         title: "Adult birthdays",
         description:
           "The ideal space to celebrate life's most meaningful moments with the comfort and ease of feeling at home.",
-        icon: "gift",
+        photo: "photos/casa-do-rato-buffet-evento-privado.webp",
         href: "events/birthdays/",
       },
       {
         title: "Baby showers",
         description: "A warm, easy-to-prepare space for baby showers and family celebrations.",
-        icon: "sparkles",
+        photo: "photos/casa-do-rato-festa-baloes-mesa-principal.webp",
         href: "events/baby-showers/",
       },
       {
         title: "Friends & family gatherings",
         description: "A shared table, conversation, music — no rush.",
-        icon: "users",
+        photo: "photos/casa-do-rato-mesa-apoio-encontros-grupo.webp",
         href: "events/private-celebrations/",
       },
       {
         title: "Workshops & training",
         description: "An equipped room prepared for moments of learning and knowledge sharing.",
-        icon: "presentation",
+        photo: "photos/casa-do-rato-mesa-corrida-workshop.webp",
         href: "events/workshops/",
       },
       {
         title: "Corporate events",
         description: "Off-sites, launches, and team-buildings in a venue that's all yours.",
-        icon: "briefcase",
+        photo: "photos/casa-do-rato-sala-principal-luz-natural.webp",
         href: "events/corporate-events/",
       },
     ],
   },
   occasionPages: {
-    backLabel: "Back to homepage",
-    contactLabel: "Ask for availability",
+    breadcrumbAriaLabel: "Breadcrumb",
+    contactLabel: "Book",
     summaryLabel: "Ideal for",
     includedLabel: "What helps with planning",
+    relatedTitle: "Other occasions",
     items: [
       {
         key: "birthdays",
+        eventType: "Birthday",
+        photos: [
+          "photos/casa-do-rato-buffet-aniversario-baloes.webp",
+          "photos/casa-do-rato-bolo-aniversario-tematico.webp",
+          "photos/casa-do-rato-zona-infantil-escorrega.webp",
+        ],
         slug: "birthdays",
         title: "Birthday Party Venue in Vila Nova de Gaia | Casa do Rato",
         description:
-          "Celebrate kids' and adult birthdays in a private venue in Avintes, Vila Nova de Gaia, for up to 35 guests, with support for tables, decoration, and extras.",
+          "Celebrate kids' and adult birthdays in a private venue in Avintes, Vila Nova de Gaia, for up to 50 guests, with support for tables, decoration, and extras.",
         breadcrumbLabel: "Birthdays",
         hero: {
           eyebrow: "Birthdays in Gaia",
@@ -137,14 +161,12 @@ export const content = {
           body: "Casa do Rato hosts birthday parties in Avintes, Vila Nova de Gaia, with the privacy of a venue reserved just for you and the flexibility to adapt the room to your celebration.",
         },
         image: {
-          src: "photos/casa-do-rato-festa-baloes-mesa-principal.webp",
-          alt: "Room decorated with a balloon arch and main table for a birthday party.",
-          width: 1600,
-          height: 900,
+          src: "photos/casa-do-rato-arco-baloes-tema-selva.webp",
+          alt: "Balloon arch with jungle animals above the main table, set up for a first birthday.",
         },
         summary: [
           "Kids' and adult birthdays",
-          "Up to 35 guests",
+          "Up to 50 guests",
           "Main table, support area, and room to gather",
         ],
         details: [
@@ -164,6 +186,12 @@ export const content = {
       },
       {
         key: "baby-showers",
+        eventType: "Baby shower",
+        photos: [
+          "photos/casa-do-rato-festa-baloes-mesa-principal.webp",
+          "photos/casa-do-rato-estacao-bebidas-aparador.webp",
+          "photos/casa-do-rato-zona-sofas-rececao.webp",
+        ],
         slug: "baby-showers",
         title: "Baby Shower Venue in Gaia | Casa do Rato",
         description:
@@ -175,14 +203,12 @@ export const content = {
           body: "For more intimate moments, Casa do Rato offers a private, bright, easy-to-decorate venue designed to welcome family and friends comfortably.",
         },
         image: {
-          src: "photos/casa-do-rato-mesa-tematica-aniversario-bolo.webp",
-          alt: "Themed table with balloons, decorative curtain, and cake for a family celebration.",
-          width: 868,
-          height: 1085,
+          src: "photos/casa-do-rato-buffet-evento-privado.webp",
+          alt: "Buffet table with savory food, sweets, balloons, and a floral arrangement for a family celebration.",
         },
         summary: [
           "Baby showers",
-          "Family celebrations for up to 35 people",
+          "Family celebrations for up to 50 people",
           "Changing table on request",
         ],
         details: [
@@ -202,10 +228,16 @@ export const content = {
       },
       {
         key: "private-gatherings",
+        eventType: "Private celebration",
+        photos: [
+          "photos/casa-do-rato-mesa-corrida-workshop.webp",
+          "photos/casa-do-rato-zona-sofas-rececao.webp",
+          "photos/casa-do-rato-estacao-bebidas-aparador.webp",
+        ],
         slug: "private-celebrations",
         title: "Private Celebration Venue in Gaia | Casa do Rato",
         description:
-          "Welcome family and friends in a private venue in Avintes, Vila Nova de Gaia, ideal for gatherings, surprise parties, lunches, get-togethers, and small celebrations.",
+          "Welcome family and friends in a private venue in Avintes, Vila Nova de Gaia, for gatherings, surprise parties, lunches, and small celebrations.",
         breadcrumbLabel: "Private celebrations",
         hero: {
           eyebrow: "Private celebrations",
@@ -215,8 +247,6 @@ export const content = {
         image: {
           src: "photos/casa-do-rato-mesa-apoio-encontros-grupo.webp",
           alt: "Side table next to the sideboard prepared for private group gatherings.",
-          width: 1537,
-          height: 2048,
         },
         summary: [
           "Family and friends gatherings",
@@ -234,12 +264,18 @@ export const content = {
           },
           {
             title: "Designed for small groups",
-            body: "Capacity for up to 35 people keeps the atmosphere close and comfortable, without the impersonal feel of a large event venue.",
+            body: "Capacity for up to 50 people keeps the atmosphere close and comfortable, without the impersonal feel of a large event venue.",
           },
         ],
       },
       {
         key: "workshops",
+        eventType: "Workshop / training",
+        photos: [
+          "photos/casa-do-rato-area-apoio-cafe-frigorifico.webp",
+          "photos/casa-do-rato-mesa-apoio-encontros-grupo.webp",
+          "photos/casa-do-rato-sala-principal-luz-natural.webp",
+        ],
         slug: "workshops",
         title: "Workshop and Training Room in Vila Nova de Gaia | Casa do Rato",
         description:
@@ -253,8 +289,6 @@ export const content = {
         image: {
           src: "photos/casa-do-rato-mesa-corrida-workshop.webp",
           alt: "Long table set up for a workshop, training session, or group gathering.",
-          width: 1537,
-          height: 2048,
         },
         summary: [
           "Workshops and training",
@@ -278,6 +312,12 @@ export const content = {
       },
       {
         key: "corporate-events",
+        eventType: "Corporate event",
+        photos: [
+          "photos/casa-do-rato-mesa-corrida-workshop.webp",
+          "photos/casa-do-rato-zona-sofas-rececao.webp",
+          "photos/casa-do-rato-area-apoio-cafe-frigorifico.webp",
+        ],
         slug: "corporate-events",
         title: "Small Corporate Event Venue in Gaia | Casa do Rato",
         description:
@@ -291,13 +331,11 @@ export const content = {
         image: {
           src: "photos/casa-do-rato-sala-principal-luz-natural.webp",
           alt: "View of the main room with natural light, a table, and a lounge area in the back.",
-          width: 3072,
-          height: 4080,
         },
         summary: [
           "Off-sites and team buildings",
           "Launches and team gatherings",
-          "Reserved setting for up to 35 people",
+          "Reserved setting for up to 50 people",
         ],
         details: [
           {
@@ -327,102 +365,87 @@ export const content = {
     closeLabel: "Close gallery",
     previousLabel: "Previous photo",
     nextLabel: "Next photo",
+    viewAllLabel: "See all photos",
     images: [
       {
-        src: "photos/casa-do-rato-entrada-armarios-plantas.webp",
-        alt: "Entrance area with white cabinets, plants, and decorative lighting.",
-        width: 3072,
-        height: 4080,
-      },
-      {
-        src: "photos/casa-do-rato-aparador-decorativo-mural.webp",
-        alt: "Decorative sideboard with a diffuser, framed sign, and graphic wall mural.",
-        width: 3072,
-        height: 4080,
+        src: "photos/casa-do-rato-sala-decorada-vista-geral.webp",
+        alt: "Main room decorated for a party, with the main table, lounge area, slide, and support kitchen.",
       },
       {
         src: "photos/casa-do-rato-mesa-corrida-workshop.webp",
         alt: "Long table set up in the room for meals, workshops, or group gatherings.",
-        width: 1537,
-        height: 2048,
-      },
-      {
-        src: "photos/casa-do-rato-sala-principal-luz-natural.webp",
-        alt: "View of the main room from the entrance, with natural light and a lounge area in the back.",
-        width: 3072,
-        height: 4080,
-      },
-      {
-        src: "photos/casa-do-rato-mesa-apoio-encontros-grupo.webp",
-        alt: "Side table next to the sideboard, prepared for group gatherings.",
-        width: 1537,
-        height: 2048,
-      },
-      {
-        src: "photos/casa-do-rato-area-apoio-cafe-frigorifico.webp",
-        alt: "Support area with a refrigerator, microwave, coffee machine, and built-in storage.",
-        width: 3072,
-        height: 4080,
-      },
-      {
-        src: "photos/casa-do-rato-zona-sofas-rececao.webp",
-        alt: "Sofa area with a small table prepared for a relaxed reception.",
-        width: 3072,
-        height: 4080,
-      },
-      {
-        src: "photos/casa-do-rato-zona-infantil-escorrega.webp",
-        alt: "Kids' area with a slide next to the sofa area.",
-        width: 1537,
-        height: 2048,
-      },
-      {
-        src: "photos/casa-do-rato-canto-infantil-mesas-coloridas.webp",
-        alt: "Kids' corner with colorful tables, small stools, and a slide.",
-        width: 1537,
-        height: 2048,
-      },
-      {
-        src: "photos/casa-do-rato-festa-baloes-mesa-principal.webp",
-        alt: "Room decorated with a balloon arch and main table for a celebration.",
-        width: 1600,
-        height: 900,
-      },
-      {
-        src: "photos/casa-do-rato-placa-boas-vindas-aniversario.webp",
-        alt: "Decorative welcome sign for a themed birthday party.",
-        width: 868,
-        height: 1085,
       },
       {
         src: "photos/casa-do-rato-mesa-tematica-aniversario-bolo.webp",
         alt: "Themed birthday table with balloons, decorative curtain, and cake.",
-        width: 868,
-        height: 1085,
       },
       {
-        src: "photos/casa-do-rato-buffet-aniversario-baloes.webp",
-        alt: "Birthday buffet table with sweets and savory food beneath balloon decorations.",
-        width: 868,
-        height: 1085,
-      },
-      {
-        src: "photos/casa-do-rato-bolo-aniversario-tematico.webp",
-        alt: "Themed birthday cake displayed on a glass cake stand.",
-        width: 868,
-        height: 1085,
-      },
-      {
-        src: "photos/casa-do-rato-estacao-bebidas-aparador.webp",
-        alt: "Drinks station with a dispenser, glasses, and jugs on the sideboard.",
-        width: 868,
-        height: 1085,
+        src: "photos/casa-do-rato-canto-infantil-mesas-coloridas.webp",
+        alt: "Kids' corner with colorful tables, small stools, and a slide.",
       },
       {
         src: "photos/casa-do-rato-buffet-evento-privado.webp",
         alt: "Buffet table with savory food, sweets, and a floral arrangement for a private event.",
-        width: 1600,
-        height: 1200,
+      },
+      {
+        src: "photos/casa-do-rato-arco-baloes-tema-selva.webp",
+        alt: "Balloon arch with jungle animals above the main table, set up for a first birthday.",
+      },
+      {
+        src: "photos/casa-do-rato-mesa-apoio-encontros-grupo.webp",
+        alt: "Side table next to the sideboard, prepared for group gatherings.",
+      },
+      {
+        src: "photos/casa-do-rato-festa-baloes-mesa-principal.webp",
+        alt: "Room decorated with a balloon arch and main table for a celebration.",
+      },
+      {
+        src: "photos/casa-do-rato-sala-principal-luz-natural.webp",
+        alt: "View of the main room from the entrance, with natural light and a lounge area in the back.",
+      },
+      {
+        src: "photos/casa-do-rato-sala-ampla-janela-canto-infantil.webp",
+        alt: "Spacious room with a window, kids' corner with a colorful table, slide, and lounge area.",
+      },
+      {
+        src: "photos/casa-do-rato-zona-sofas-rececao.webp",
+        alt: "Sofa area with a small table prepared for a relaxed reception.",
+      },
+      {
+        src: "photos/casa-do-rato-zona-infantil-escorrega.webp",
+        alt: "Kids' area with a slide next to the sofa area.",
+      },
+      {
+        src: "photos/casa-do-rato-buffet-aniversario-baloes.webp",
+        alt: "Birthday buffet table with sweets and savory food beneath balloon decorations.",
+      },
+      {
+        src: "photos/casa-do-rato-bolo-aniversario-tematico.webp",
+        alt: "Themed birthday cake displayed on a glass cake stand.",
+      },
+      {
+        src: "photos/casa-do-rato-estacao-bebidas-aparador.webp",
+        alt: "Drinks station with a dispenser, glasses, and jugs on the sideboard.",
+      },
+      {
+        src: "photos/casa-do-rato-mesa-apoio-loica-talheres.webp",
+        alt: "Sideboard with plates, cups, and gold cutlery ready to serve guests.",
+      },
+      {
+        src: "photos/casa-do-rato-area-apoio-cafe-frigorifico.webp",
+        alt: "Support area with a refrigerator, microwave, coffee machine, and built-in storage.",
+      },
+      {
+        src: "photos/casa-do-rato-balao-leao-placa-aniversario.webp",
+        alt: "Lion balloon and welcome sign for a jungle-themed first birthday.",
+      },
+      {
+        src: "photos/casa-do-rato-entrada-armarios-plantas.webp",
+        alt: "Entrance area with white cabinets, plants, and decorative lighting.",
+      },
+      {
+        src: "photos/casa-do-rato-aparador-decorativo-mural.webp",
+        alt: "Decorative sideboard with a diffuser, framed sign, and graphic wall mural.",
       },
     ],
   },
@@ -444,10 +467,56 @@ export const content = {
       },
     ],
   },
+  reviews: {
+    eyebrow: "Reviews",
+    title: "What our guests say",
+    rating: "5.0",
+    ratingLabel: "Rated 5.0 out of 5 on Google",
+    sourceLabel: "on Google",
+    summaryLabel: "Average rating on Google",
+    // Shown only on translated pages: quotes always stay in the original Portuguese.
+    originalLanguageNote: "Reviews are quoted in their original Portuguese.",
+    // Excerpts from Google reviews, attributed by the reviewer's name only.
+    items: [
+      {
+        quote:
+          "Adoramos o espaço. Fizemos um evento familiar e o espaço estava muito bem adaptado para os miúdos brincarem. Os responsáveis foram extremamente prestáveis e ajudaram-nos em várias partes do processo.",
+        author: "Daniel Teixeira",
+      },
+      {
+        quote:
+          "Escolhi a Casa do Rato para uma festa de aniversário e tenho a dizer que estava tudo perfeito, desde o espaço à decoração, à comida. A equipa é muito simpática e atenciosa. Recomendo muito.",
+        author: "Inês Lima",
+      },
+      {
+        quote:
+          "Muito confortável. Organizei uma formação para um grupo de 12 pessoas, foi o ideal. Muito prestáveis também.",
+        author: "Madalena Santos",
+      },
+      {
+        quote:
+          "Espaço super acolhedor e com tudo o que é publicitado e ainda mais umas surpresas que fazem a diferença quando se está a celebrar um dia especial. Espero repetir a experiência.",
+        author: "Adriana Pascoal",
+      },
+      {
+        quote:
+          "Superaram as minhas expectativas, não mudava nada, estava tudo perfeito. Com certeza que os próximos aniversários vão ser na Casa do Rato.",
+        author: "Rosa Almeida",
+      },
+      {
+        quote:
+          "Excelente local, excelente localização, ótimo local para juntar a família. Agradecer também aos responsáveis pela simpatia e amabilidade. Recomendo.",
+        author: "Gerson Magalhaes",
+      },
+    ],
+  },
   faq: {
     eyebrow: "FAQ",
     title: "Frequently asked questions",
     ariaLabel: "Frequently asked questions",
+    ctaTitle: "Still have a question?",
+    ctaBody: "Send us your question on WhatsApp. We usually reply within an hour.",
+    ctaLabel: "Ask",
     items: [
       {
         question: "Where is Casa do Rato?",
@@ -456,7 +525,7 @@ export const content = {
       },
       {
         question: "What is the venue's maximum capacity?",
-        answer: "We host private events for up to 35 people.",
+        answer: "We host private events for up to 50 people.",
       },
       {
         question: "What type of events can I host?",
@@ -466,7 +535,7 @@ export const content = {
       {
         question: "How much does it cost to rent Casa do Rato?",
         answer:
-          "The rental price depends on the event duration and the extras you would like to include. Tell us what you are looking for and we can prepare a fully personalized quote aligned with what you need.",
+          "The price depends on the event duration and the extras you would like to include. Tell us the date, event type, and number of guests and we will send you a tailored quote.",
       },
       {
         question: "How many hours are included in the booking?",
@@ -528,16 +597,24 @@ export const content = {
   contact: {
     eyebrow: "Bookings",
     title: "Let's confirm your date",
-    body: "Send us a message with your preferred date, time, event type, and guest count. We'll reply as soon as possible.",
+    body: "Send us a message with your preferred date, time, event type, and guest count. We usually reply within an hour.",
     linksAriaLabel: "Contact links",
-    fabAriaLabel: "Contact via WhatsApp",
+    fabLabel: "Book",
+    whatsappMessage,
     links: [
       {
         type: "whatsapp",
-        label: "WhatsApp",
-        href: "https://wa.me/351912692140?text=Hi!%20I%27d%20like%20to%20check%20availability%20at%20Casa%20do%20Rato.%0APreferred%20date%3A%20%0AEvent%20type%3A%20%0AAdditional%20services%3A%20(kids%20package%2C%20cake%2C%20decoration%2C%20catering%2C%20other).%20%0ATime%3A%20",
-        ariaLabel: "Contact via WhatsApp",
+        label: "Book",
+        href: availabilityHref,
+        ariaLabel: "Book on WhatsApp",
         variant: "primary",
+      },
+      {
+        type: "phone",
+        label: "Call",
+        href: callHref,
+        ariaLabel: `Call ${phone.display}`,
+        variant: "secondary",
       },
       {
         type: "instagram",
@@ -573,8 +650,13 @@ export const content = {
       },
       {
         label: "WhatsApp",
-        value: "+351 912 692 140",
-        href: "https://wa.me/351912692140?text=Hi!%20I%27d%20like%20to%20check%20availability%20at%20Casa%20do%20Rato.%0APreferred%20date%3A%20%0AEvent%20type%3A%20%0AAdditional%20services%3A%20(kids%20package%2C%20cake%2C%20decoration%2C%20catering%2C%20other).%20%0ATime%3A%20",
+        value: phone.display,
+        href: availabilityHref,
+      },
+      {
+        label: "Phone",
+        value: phone.display,
+        href: callHref,
       },
       {
         label: "Instagram",
@@ -582,5 +664,13 @@ export const content = {
         href: "https://instagram.com/casadorato.eventos",
       },
     ],
+  },
+  notFound: {
+    title: "Page not found | Casa do Rato",
+    description: "The page you are looking for doesn't exist or has moved.",
+    eyebrow: "Error 404",
+    heading: "We couldn't find this page",
+    body: "The page you are looking for doesn't exist or has moved. You can go back to the homepage or talk to us directly.",
+    homeLabel: "Back to homepage",
   },
 };

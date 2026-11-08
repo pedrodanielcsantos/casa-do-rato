@@ -1,0 +1,39 @@
+---
+import ContactLinks from "./ContactLinks.jsx";
+
+const { content, whatsappHref } = Astro.props;
+
+const base = import.meta.env.BASE_URL;
+// Occasion pages pass a WhatsApp link with the event type already filled in.
+const links = content.contact.links.map((link) =>
+  link.type === "whatsapp" && whatsappHref ? { ...link, href: whatsappHref } : link,
+);
+---
+
+<section class="section contact-section" id="contact" aria-labelledby="booking-title">
+  <div class="section-heading">
+    <p class="eyebrow">{content.booking.eyebrow}</p>
+    <h2 id="booking-title">{content.booking.title}</h2>
+  </div>
+
+  <ol class="booking-steps">
+    {
+      content.booking.steps.map((step, index) => (
+        <li>
+          <span class="booking-step-number" aria-hidden="true">
+            {index + 1}
+          </span>
+          <h3>{step.title}</h3>
+          <p>{step.body}</p>
+        </li>
+      ))
+    }
+  </ol>
+
+  <div class="contact-panel">
+    <p class="eyebrow">{content.contact.eyebrow}</p>
+    <h2>{content.contact.title}</h2>
+    <p>{content.contact.body}</p>
+    <ContactLinks links={links} ariaLabel={content.contact.linksAriaLabel} assetBase={base} />
+  </div>
+</section>

@@ -1,20 +1,45 @@
 ---
-import { defaultLocale, getLocalePath } from "../content/locales.js";
+import ContactSection from "./ContactSection.astro";
+import WhatsAppButton from "./WhatsAppButton.astro";
+import { buildAvailabilityHref } from "../content/contact.js";
+import { defaultLocale, getLocalePath, getOccasionPath } from "../content/locales.js";
 import BaseLayout from "../layouts/BaseLayout.astro";
+import {
+  findPhotoAlt,
+  getLargePhotoUrl,
+  getResponsivePhoto,
+  getSocialPhotoUrl,
+} from "../lib/photos.js";
 
 const { alternatePaths, content, locale, occasion, pagePath } = Astro.props;
 
 const base = import.meta.env.BASE_URL;
 const asset = (path) => `${base}${path.replace(/^\//, "")}`;
 const homePath = getLocalePath(locale);
-const contactHref =
-  content.contact.links.find((link) => link.type === "whatsapp")?.href ?? "#contact";
+// The visitor already chose the occasion, so every WhatsApp button on this page
+// opens with the event type filled in.
+const whatsappHref = buildAvailabilityHref(content.contact.whatsappMessage, occasion.eventType);
 const currentUrl = new URL(`${base}${pagePath.replace(/^\//, "")}`, Astro.site).toString();
 const localBusinessId = new URL(
   `${base}${getLocalePath(defaultLocale)}#local-business`,
   Astro.site,
 ).toString();
-const imageUrl = new URL(`${base}${occasion.image.src.replace(/^\//, "")}`, Astro.site).toString();
+const imageUrl = new URL(await getLargePhotoUrl(occasion.image.src), Astro.site).toString();
+const heroPhoto = await getResponsivePhoto(occasion.image.src, {
+  widths: [640, 960, 1280],
+  sizes: "(max-width: 880px) calc(100vw - 36px), min(50vw, 660px)",
+});
+const socialPhotoUrl = await getSocialPhotoUrl(occasion.image.src);
+const supportingPhotos = await Promise.all(
+  occasion.photos.map(async (path) => ({
+    alt: findPhotoAlt(content, path),
+    attributes: await getResponsivePhoto(path, {
+      widths: [240, 480, 720],
+      sizes: "(max-width: 880px) 32vw, 370px",
+    }),
+  })),
+);
+const relatedOccasions = content.occasionPages.items.filter((item) => item.key !== occasion.key);
 const breadcrumbs = [
   {
     name: content.site.shortName,
@@ -41,9 +66,9 @@ const structuredData = [
   {
     "@type": "Service",
     "@id": `${currentUrl}#service`,
-    name: occasion.hero.title,
+    name: occasion.breadcrumbLabel,
     description: occasion.description,
-    serviceType: occasion.summary,
+    serviceType: occasion.eventType,
     areaServed: content.site.business.areaServed,
     provider: {
       "@id": localBusinessId,
@@ -57,43 +82,43 @@ const structuredData = [
   locale={locale}
   pageTitle={occasion.title}
   pageDescription={occasion.description}
+  pageOgImageUrl={socialPhotoUrl}
+  pageOgImageAlt={occasion.image.alt}
+  pageOgImageWidth="1200"
+  pageOgImageHeight="630"
   pagePath={pagePath}
   alternatePaths={alternatePaths}
   breadcrumbs={breadcrumbs}
   includeFaqSchema={false}
   structuredData={structuredData}
+  whatsappHref={whatsappHref}
 >
-  <main>
+  <main id="main">
     <section class="occasion-hero">
       <div class="occasion-hero-copy">
-        <a class="back-link" href={asset(homePath)}>{content.occasionPages.backLabel}</a>
+        <nav class="breadcrumb" aria-label={content.occasionPages.breadcrumbAriaLabel}>
+          <ol>
+            <li><a href={asset(homePath)}>{content.site.shortName}</a></li>
+            <li aria-current="page">{occasion.breadcrumbLabel}</li>
+          </ol>
+        </nav>
         <p class="eyebrow">{occasion.hero.eyebrow}</p>
         <h1>{occasion.hero.title}</h1>
         <p class="hero-copy">{occasion.hero.body}</p>
-        <a class="primary-action" href={contactHref}>{content.occasionPages.contactLabel}</a>
+
+        <div class="hero-actions">
+          <WhatsAppButton href={whatsappHref} label={content.occasionPages.contactLabel} />
+        </div>
+
+        <p class="occasion-summary-label">{content.occasionPages.summaryLabel}</p>
+        <ul class="occasion-summary-list">
+          {occasion.summary.map((item) => <li>{item}</li>)}
+        </ul>
       </div>
 
       <figure class="occasion-hero-media">
-        <img
-          src={asset(occasion.image.src)}
-          alt={occasion.image.alt}
-          width={occasion.image.width}
-          height={occasion.image.height}
-          decoding="async"
-          fetchpriority="high"
-        />
+        <img {...heroPhoto} alt={occasion.image.alt} decoding="async" fetchpriority="high" />
       </figure>
-    </section>
-
-    <section class="section occasion-section" aria-labelledby="occasion-summary-title">
-      <div class="section-heading">
-        <p class="eyebrow">{content.occasionPages.summaryLabel}</p>
-        <h2 id="occasion-summary-title">{occasion.breadcrumbLabel}</h2>
-      </div>
-
-      <ul class="occasion-summary-list">
-        {occasion.summary.map((item) => <li>{item}</li>)}
-      </ul>
     </section>
 
     <section class="section section-band occasion-section" aria-labelledby="occasion-details-title">
@@ -112,18 +137,37 @@ const structuredData = [
           ))
         }
       </div>
+
+      <div class="occasion-photos">
+        {
+          supportingPhotos.map((photo) => (
+            <figure>
+              <img {...photo.attributes} alt={photo.alt} loading="lazy" decoding="async" />
+            </figure>
+          ))
+        }
+      </div>
     </section>
 
-    <section
-      class="section contact-section occasion-contact"
-      aria-labelledby="occasion-contact-title"
-    >
+    <ContactSection content={content} whatsappHref={whatsappHref} />
+
+    <section class="section related-occasions" aria-labelledby="related-occasions-title">
       <div class="section-heading">
-        <p class="eyebrow">{content.contact.eyebrow}</p>
-        <h2 id="occasion-contact-title">{content.contact.title}</h2>
-        <p>{content.contact.body}</p>
+        <p class="eyebrow">{content.events.eyebrow}</p>
+        <h2 id="related-occasions-title">{content.occasionPages.relatedTitle}</h2>
       </div>
-      <a class="primary-action" href={contactHref}>{content.occasionPages.contactLabel}</a>
+      <ul class="related-occasions-list">
+        {
+          relatedOccasions.map((item) => (
+            <li>
+              <a href={asset(getOccasionPath(locale, item.slug))}>
+                {item.breadcrumbLabel}
+                <span aria-hidden="true">→</span>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
     </section>
   </main>
 </BaseLayout>

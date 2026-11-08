@@ -1,6 +1,6 @@
 # Project Brief
 
-Casa do Rato Eventos is a small private event venue for gatherings of up to 35 people.
+Casa do Rato Eventos is a small private event venue for gatherings of up to 50 people.
 
 ## Goals
 
@@ -44,6 +44,20 @@ Keep contact simple:
 - Instagram.
 
 No contact form, booking system, CMS, or backend is planned right now.
+
+## Content Decisions
+
+- Don't show prices anywhere on the site, including meta descriptions. Asking about price
+  is a reason to start a WhatsApp conversation. `site.business.priceRange` stays a generic
+  "€€" for structured data.
+- WhatsApp buttons use short labels: "Reservar" for booking actions and "Perguntar" for
+  questions.
+- The reply-time promise is "Respondemos normalmente em uma hora." Change it everywhere if
+  that stops being true.
+- Google reviews are curated by hand: a few excerpts, attributed by the reviewer's name
+  only, plus the average rating. The review count is not shown because it would go stale.
+  Syncing reviews automatically was considered and rejected: the Google Places API needs
+  billing and returns at most five reviews chosen by Google.
 
 ## Learning Direction
 

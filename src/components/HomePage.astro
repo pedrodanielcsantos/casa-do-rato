@@ -1,17 +1,16 @@
 ---
-import ContactLinks from "./ContactLinks.jsx";
+import ContactSection from "./ContactSection.astro";
 import EventTypes from "./EventTypes.jsx";
+import WhatsAppButton from "./WhatsAppButton.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
+import { findPhotoAlt, getLargePhotoUrl, getResponsivePhoto } from "../lib/photos.js";
 
 const { content, locale } = Astro.props;
 
 const base = import.meta.env.BASE_URL;
 const asset = (path) => `${base}${path.replace(/^\//, "")}`;
-const heroPattern = `background-image: linear-gradient(rgba(253, 252, 247, 0.9), rgba(253, 252, 247, 0.86)), url("${asset("brand/pattern-original.png")}")`;
 const sectionPattern = `--section-pattern-url: url("${asset("brand/pattern-original.png")}")`;
-const heroCtaHref = content.hero.ctaHref ?? "#contact";
-const whatsappLink = content.contact.links.find((link) => link.type === "whatsapp");
-const whatsappIconStyle = `--icon-url: url("${asset("icons/whatsapp.svg")}")`;
+const whatsappHref = content.hero.ctaHref;
 const locationContactGroups = content.location.contacts.reduce((groups, contact) => {
   const group = groups.find((item) => item.label === contact.label);
 
@@ -23,20 +22,82 @@ const locationContactGroups = content.location.contacts.reduce((groups, contact)
 
   return groups;
 }, []);
+
+const heroPhotos = await Promise.all(
+  content.hero.photos.map(async (path, index) => ({
+    alt: findPhotoAlt(content, path),
+    attributes: await getResponsivePhoto(
+      path,
+      index === 0
+        ? {
+            widths: [640, 960, 1280, 1600],
+            sizes: "(max-width: 880px) calc(100vw - 36px), min(50vw, 660px)",
+          }
+        : { widths: [320, 480, 640], sizes: "min(25vw, 330px)" },
+    ),
+  })),
+);
+const eventItems = await Promise.all(
+  content.events.items.map(async (item) => ({
+    ...item,
+    photo: await getResponsivePhoto(item.photo, {
+      widths: [240, 420, 640, 760],
+      sizes: "(max-width: 560px) 120px, (max-width: 880px) 46vw, 360px",
+    }),
+  })),
+);
+const galleryPhotos = await Promise.all(
+  content.gallery.images.map(async (image, index) => ({
+    ...image,
+    attributes: await getResponsivePhoto(image.src, {
+      widths: [400, 640, 960, 1200],
+      sizes: index === 0 ? "(max-width: 880px) 74vw, 560px" : "(max-width: 880px) 74vw, 280px",
+    }),
+    largeUrl: await getLargePhotoUrl(image.src),
+  })),
+);
 ---
 
 <BaseLayout content={content} locale={locale}>
-  <main>
-    <section class="hero" style={heroPattern}>
+  <main id="main">
+    <section class="hero">
       <div class="hero-inner">
-        <p class="eyebrow">{content.hero.capacity}</p>
-        <h1>
-          <span class="hero-title-brand">{content.hero.title.brand}</span>
-          <span class="hero-title-separator">—</span>
-          <span class="hero-title-qualifier">{content.hero.title.qualifier}</span>
-        </h1>
-        <p class="hero-copy">{content.hero.body}</p>
-        <a class="primary-action" href={heroCtaHref}>{content.hero.cta}</a>
+        <div class="hero-content">
+          <p class="eyebrow">{content.hero.eyebrow}</p>
+          <h1>
+            <span class="hero-title-brand">{content.hero.title.brand}</span>
+            <span class="hero-title-separator">—</span>
+            <span class="hero-title-qualifier">{content.hero.title.qualifier}</span>
+          </h1>
+          <p class="hero-copy">{content.hero.body}</p>
+          <div class="hero-actions">
+            <WhatsAppButton href={whatsappHref} label={content.hero.cta} />
+          </div>
+          <a class="hero-rating" href="#reviews">
+            <span class="rating-stars" aria-hidden="true">★★★★★</span>
+            <span class="sr-only">{content.reviews.ratingLabel}.</span>
+            <span aria-hidden="true">{content.reviews.rating} {content.reviews.sourceLabel}</span>
+          </a>
+          <ul class="hero-facts">
+            {content.hero.facts.map((fact) => <li>{fact}</li>)}
+          </ul>
+        </div>
+
+        <div class="hero-media">
+          {
+            heroPhotos.map((photo, index) => (
+              <figure class:list={["hero-photo", { "hero-photo-main": index === 0 }]}>
+                <img
+                  {...photo.attributes}
+                  alt={photo.alt}
+                  decoding="async"
+                  fetchpriority={index === 0 ? "high" : undefined}
+                  loading={index === 0 ? "eager" : "lazy"}
+                />
+              </figure>
+            ))
+          }
+        </div>
       </div>
     </section>
 
@@ -45,7 +106,46 @@ const locationContactGroups = content.location.contacts.reduce((groups, contact)
         <p class="eyebrow">{content.events.eyebrow}</p>
         <h2 id="events-title">{content.events.title}</h2>
       </div>
-      <EventTypes items={content.events.items} detailsLabel={content.events.detailsLabel} />
+      <EventTypes items={eventItems} detailsLabel={content.events.detailsLabel} />
+    </section>
+
+    <section class="section reviews-section" id="reviews" aria-labelledby="reviews-title">
+      <div class="section-heading">
+        <p class="eyebrow">{content.reviews.eyebrow}</p>
+        <h2 id="reviews-title">{content.reviews.title}</h2>
+      </div>
+
+      <div class="reviews-summary">
+        <span class="reviews-score" aria-hidden="true">{content.reviews.rating}</span>
+        <div>
+          <span class="rating-stars" aria-hidden="true">★★★★★</span>
+          <p>
+            <span class="sr-only">{content.reviews.ratingLabel}. </span>
+            <span aria-hidden="true">{content.reviews.summaryLabel}</span>
+          </p>
+          {locale !== "pt" && <p class="reviews-note">{content.reviews.originalLanguageNote}</p>}
+        </div>
+      </div>
+
+      <ul class="reviews-list">
+        {
+          content.reviews.items.map((review) => (
+            <li>
+              <figure class="review-card">
+                <span class="rating-stars" aria-hidden="true">
+                  ★★★★★
+                </span>
+                <blockquote lang={locale === "pt" ? undefined : "pt-PT"}>
+                  <p>{review.quote}</p>
+                </blockquote>
+                <figcaption>{review.author}</figcaption>
+              </figure>
+            </li>
+          ))
+        }
+      </ul>
+
+      <WhatsAppButton href={whatsappHref} label={content.hero.cta} />
     </section>
 
     <section
@@ -60,101 +160,80 @@ const locationContactGroups = content.location.contacts.reduce((groups, contact)
         <p>{content.space.body}</p>
       </div>
 
-      {
-        content.gallery && (
-          <div class="space-subsection gallery-section">
-            <div class="gallery-carousel" data-gallery-carousel>
-              <button
-                class="gallery-rail-nav gallery-rail-prev"
-                type="button"
-                aria-label={content.gallery.previousLabel}
-                data-gallery-rail-prev
-              >
-                ‹
-              </button>
-              <div class="gallery-rail" data-gallery>
-                {content.gallery.images.map((image, index) => (
-                  <figure>
-                    <button
-                      class="gallery-item"
-                      type="button"
-                      aria-label={`${content.gallery.openLabel}: ${image.alt}`}
-                      data-gallery-trigger
-                      data-gallery-index={index}
-                      data-gallery-src={asset(image.src)}
-                      data-gallery-alt={image.alt}
-                    >
-                      <img
-                        src={asset(image.src)}
-                        alt={image.alt}
-                        loading="lazy"
-                        decoding="async"
-                        width={image.width}
-                        height={image.height}
-                      />
-                    </button>
-                  </figure>
-                ))}
-              </div>
-              <button
-                class="gallery-rail-nav gallery-rail-next"
-                type="button"
-                aria-label={content.gallery.nextLabel}
-                data-gallery-rail-next
-              >
-                ›
-              </button>
-            </div>
+      <div class="gallery-section" data-gallery-section>
+        <div class="gallery-rail">
+          {
+            galleryPhotos.map((image, index) => (
+              <figure>
+                <button
+                  class="gallery-item"
+                  type="button"
+                  aria-label={`${content.gallery.openLabel}: ${image.alt}`}
+                  data-gallery-trigger
+                  data-gallery-index={index}
+                  data-gallery-src={image.largeUrl}
+                  data-gallery-alt={image.alt}
+                >
+                  <img {...image.attributes} alt={image.alt} loading="lazy" decoding="async" />
+                </button>
+              </figure>
+            ))
+          }
+        </div>
 
-            <div
-              class="gallery-lightbox"
-              role="dialog"
-              aria-modal="true"
-              aria-label={content.gallery.dialogLabel}
-              aria-hidden="true"
-              hidden
-              data-gallery-lightbox
+        <div class="gallery-actions">
+          <button class="secondary-action" type="button" data-gallery-view-all>
+            {content.gallery.viewAllLabel} ({galleryPhotos.length})
+          </button>
+          <WhatsAppButton href={whatsappHref} label={content.hero.cta} />
+        </div>
+
+        <div
+          class="gallery-lightbox"
+          role="dialog"
+          aria-modal="true"
+          aria-label={content.gallery.dialogLabel}
+          aria-hidden="true"
+          hidden
+          data-gallery-lightbox
+        >
+          <div class="gallery-lightbox-backdrop" aria-hidden="true" data-gallery-close></div>
+          <div class="gallery-lightbox-panel">
+            <button
+              class="gallery-lightbox-close"
+              type="button"
+              aria-label={content.gallery.closeLabel}
+              data-gallery-close
             >
-              <div class="gallery-lightbox-backdrop" aria-hidden="true" data-gallery-close />
-              <div class="gallery-lightbox-panel">
-                <button
-                  class="gallery-lightbox-close"
-                  type="button"
-                  aria-label={content.gallery.closeLabel}
-                  data-gallery-close
-                >
-                  ×
-                </button>
-                <button
-                  class="gallery-lightbox-nav gallery-lightbox-prev"
-                  type="button"
-                  aria-label={content.gallery.previousLabel}
-                  data-gallery-prev
-                >
-                  ‹
-                </button>
-                <figure class="gallery-lightbox-figure">
-                  <img alt="" data-gallery-lightbox-image />
-                  <figcaption>
-                    <span data-gallery-lightbox-caption />
-                    <span data-gallery-lightbox-count />
-                  </figcaption>
-                </figure>
-                <button
-                  class="gallery-lightbox-nav gallery-lightbox-next"
-                  type="button"
-                  aria-label={content.gallery.nextLabel}
-                  data-gallery-next
-                >
-                  ›
-                </button>
-              </div>
-            </div>
+              ×
+            </button>
+            <button
+              class="gallery-lightbox-nav gallery-lightbox-prev"
+              type="button"
+              aria-label={content.gallery.previousLabel}
+              data-gallery-prev
+            >
+              ‹
+            </button>
+            <figure class="gallery-lightbox-figure">
+              <figcaption>
+                <span data-gallery-lightbox-caption></span>
+                <span data-gallery-lightbox-count></span>
+              </figcaption>
+            </figure>
+            <button
+              class="gallery-lightbox-nav gallery-lightbox-next"
+              type="button"
+              aria-label={content.gallery.nextLabel}
+              data-gallery-next
+            >
+              ›
+            </button>
           </div>
-        )
-      }
+        </div>
+      </div>
 
-      <div class="space-subsection faq-section" id="faq" aria-labelledby="faq-title">
+      <section class="faq-section" id="faq" aria-labelledby="faq-title">
         <div class="section-heading">
           <p class="eyebrow">{content.faq.eyebrow}</p>
           <h2 id="faq-title">{content.faq.title}</h2>
@@ -193,7 +272,15 @@ const locationContactGroups = content.location.contacts.reduce((groups, contact)
             ))
           }
         </div>
-      </div>
+
+        <div class="faq-cta">
+          <div>
+            <h3>{content.faq.ctaTitle}</h3>
+            <p>{content.faq.ctaBody}</p>
+          </div>
+          <WhatsAppButton href={whatsappHref} label={content.faq.ctaLabel} />
+        </div>
+      </section>
     </section>
 
     <section class="section location-section" id="location" aria-labelledby="location-title">
@@ -216,7 +303,9 @@ const locationContactGroups = content.location.contacts.reduce((groups, contact)
         <address class="location-address">
           <span class="location-detail-label">{content.location.addressLabel}</span>
           {content.location.addressLines.map((line) => <span>{line}</span>)}
-          <a href={content.location.directionsHref}>{content.location.directionsLabel}</a>
+          <a href={content.location.directionsHref} target="_blank" rel="noopener noreferrer">
+            {content.location.directionsLabel}
+          </a>
         </address>
 
         <div class="location-contacts">
@@ -234,7 +323,13 @@ const locationContactGroups = content.location.contacts.reduce((groups, contact)
                             |
                           </span>
                         )}
-                        <a href={contact.href}>{contact.value}</a>
+                        <a
+                          href={contact.href}
+                          target={contact.href.startsWith("http") ? "_blank" : undefined}
+                          rel={contact.href.startsWith("http") ? "noopener noreferrer" : undefined}
+                        >
+                          {contact.value}
+                        </a>
                       </>
                     ))}
                   </span>
@@ -246,42 +341,8 @@ const locationContactGroups = content.location.contacts.reduce((groups, contact)
       </div>
     </section>
 
-    <section class="section contact-section" id="contact" aria-labelledby="contact-title">
-      <div class="section-heading">
-        <p class="eyebrow">{content.contact.eyebrow}</p>
-        <h2 id="contact-title">{content.contact.title}</h2>
-        <p>{content.contact.body}</p>
-      </div>
-      <ol class="booking-steps contact-booking-steps" aria-label={content.booking.title}>
-        {
-          content.booking.steps.map((step, index) => (
-            <li>
-              <span class="booking-step-number">{index + 1}</span>
-              <h3>{step.title}</h3>
-              <p>{step.body}</p>
-            </li>
-          ))
-        }
-      </ol>
-      <ContactLinks
-        links={content.contact.links}
-        ariaLabel={content.contact.linksAriaLabel}
-        assetBase={base}
-      />
-    </section>
+    <ContactSection content={content} />
   </main>
-
-  {
-    whatsappLink && (
-      <a
-        class="whatsapp-fab"
-        href={whatsappLink.href}
-        aria-label={content.contact.fabAriaLabel ?? whatsappLink.ariaLabel}
-      >
-        <span class="whatsapp-fab-icon" style={whatsappIconStyle} />
-      </a>
-    )
-  }
 
   <script>
     document.querySelectorAll("[data-faq-item]").forEach((details) => {
@@ -391,38 +452,36 @@ const locationContactGroups = content.location.contacts.reduce((groups, contact)
       });
     });
 
-    document.querySelectorAll("[data-gallery]").forEach((gallery) => {
-      const section = gallery.closest(".gallery-section");
-      const carousel = gallery.closest("[data-gallery-carousel]");
-      const lightbox = section?.querySelector("[data-gallery-lightbox]");
+    document.querySelectorAll("[data-gallery-section]").forEach((section) => {
+      const lightbox = section.querySelector("[data-gallery-lightbox]");
 
-      if (!(gallery instanceof HTMLElement) || !section || !(lightbox instanceof HTMLElement)) {
+      if (!(lightbox instanceof HTMLElement)) {
         return;
       }
 
-      const triggers = Array.from(gallery.querySelectorAll("[data-gallery-trigger]"));
-      const image = lightbox.querySelector("[data-gallery-lightbox-image]");
+      const triggers = Array.from(section.querySelectorAll("[data-gallery-trigger]"));
+      // The <img> is created here rather than in the HTML: an <img> needs a src to be valid,
+      // and the real one is only known when a photo is opened.
+      const image = document.createElement("img");
+      image.alt = "";
+      lightbox.querySelector(".gallery-lightbox-figure")?.prepend(image);
       const caption = lightbox.querySelector("[data-gallery-lightbox-caption]");
       const count = lightbox.querySelector("[data-gallery-lightbox-count]");
       const closeButton = lightbox.querySelector(".gallery-lightbox-close");
       const previousButton = lightbox.querySelector("[data-gallery-prev]");
       const nextButton = lightbox.querySelector("[data-gallery-next]");
-      const railPreviousButton = carousel?.querySelector("[data-gallery-rail-prev]");
-      const railNextButton = carousel?.querySelector("[data-gallery-rail-next]");
+      const viewAllButton = section.querySelector("[data-gallery-view-all]");
       const focusableSelector =
         "button, [href], input, select, textarea, [tabindex]:not([tabindex='-1'])";
-      const reducedMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
-      const scrollSpeed = 18;
+      const swipeThreshold = 50;
       let activeIndex = 0;
       let lastFocusedElement = null;
-      let isRailPaused = false;
-      let isRailVisible = true;
-      let animationFrameId = null;
-      let previousFrameTime = null;
-      let resumeRailTimeout = null;
+      let swipeStartX = null;
+
+      const photoAt = (index) => triggers[(index + triggers.length) % triggers.length];
 
       const updateLightbox = () => {
-        const trigger = triggers[activeIndex];
+        const trigger = photoAt(activeIndex);
 
         if (!(trigger instanceof HTMLElement)) {
           return;
@@ -443,12 +502,18 @@ const locationContactGroups = content.location.contacts.reduce((groups, contact)
         if (count) {
           count.textContent = `${activeIndex + 1} / ${triggers.length}`;
         }
+
+        // Fetch the next photo in advance so moving forward feels instant.
+        const nextSrc = photoAt(activeIndex + 1)?.dataset.gallerySrc;
+
+        if (nextSrc) {
+          new Image().src = nextSrc;
+        }
       };
 
       const openLightbox = (index) => {
         activeIndex = index;
         lastFocusedElement = document.activeElement;
-        isRailPaused = true;
         updateLightbox();
         lightbox.hidden = false;
         lightbox.setAttribute("aria-hidden", "false");
@@ -469,74 +534,11 @@ const locationContactGroups = content.location.contacts.reduce((groups, contact)
         if (lastFocusedElement instanceof HTMLElement) {
           lastFocusedElement.focus();
         }
-
-        isRailPaused = gallery.matches(":hover") || gallery.contains(document.activeElement);
       };
 
       const showPhoto = (direction) => {
         activeIndex = (activeIndex + direction + triggers.length) % triggers.length;
         updateLightbox();
-      };
-
-      const shouldAutoScrollRail = () =>
-        !reducedMotionQuery.matches &&
-        !isRailPaused &&
-        isRailVisible &&
-        lightbox.hidden &&
-        gallery.scrollWidth > gallery.clientWidth;
-
-      const scrollRail = (timestamp) => {
-        if (previousFrameTime === null) {
-          previousFrameTime = timestamp;
-        }
-
-        const elapsed = timestamp - previousFrameTime;
-        previousFrameTime = timestamp;
-
-        if (shouldAutoScrollRail()) {
-          const maxScroll = gallery.scrollWidth - gallery.clientWidth;
-          const nextScroll = gallery.scrollLeft + (elapsed / 1000) * scrollSpeed;
-
-          gallery.scrollLeft = nextScroll >= maxScroll - 1 ? 0 : nextScroll;
-        }
-
-        animationFrameId = window.requestAnimationFrame(scrollRail);
-      };
-
-      const startRailAnimation = () => {
-        if (animationFrameId === null && !reducedMotionQuery.matches) {
-          animationFrameId = window.requestAnimationFrame(scrollRail);
-        }
-      };
-
-      const stopRailAnimation = () => {
-        if (animationFrameId !== null) {
-          window.cancelAnimationFrame(animationFrameId);
-          animationFrameId = null;
-        }
-
-        previousFrameTime = null;
-      };
-
-      const pauseRailTemporarily = () => {
-        isRailPaused = true;
-
-        if (resumeRailTimeout !== null) {
-          window.clearTimeout(resumeRailTimeout);
-        }
-
-        resumeRailTimeout = window.setTimeout(() => {
-          isRailPaused = gallery.matches(":hover") || gallery.contains(document.activeElement);
-          resumeRailTimeout = null;
-        }, 2400);
-      };
-
-      const moveRail = (direction) => {
-        pauseRailTemporarily();
-        gallery.scrollBy({
-          left: direction * gallery.clientWidth * 0.82,
-          behavior: reducedMotionQuery.matches ? "auto" : "smooth",
-        });
       };
 
       const trapFocus = (event) => {
@@ -566,62 +568,36 @@ const locationContactGroups = content.location.contacts.reduce((groups, contact)
         trigger.addEventListener("click", () => openLightbox(index));
       });
 
+      viewAllButton?.addEventListener("click", () => openLightbox(0));
+
       lightbox.querySelectorAll("[data-gallery-close]").forEach((button) => {
         button.addEventListener("click", closeLightbox);
       });
 
       previousButton?.addEventListener("click", () => showPhoto(-1));
       nextButton?.addEventListener("click", () => showPhoto(1));
-      railPreviousButton?.addEventListener("click", () => moveRail(-1));
-      railNextButton?.addEventListener("click", () => moveRail(1));
 
-      gallery.addEventListener("mouseenter", () => {
-        isRailPaused = true;
-      });
+      lightbox.addEventListener(
+        "touchstart",
+        (event) => {
+          swipeStartX = event.changedTouches[0]?.clientX ?? null;
+        },
+        { passive: true },
+      );
 
-      gallery.addEventListener("mouseleave", () => {
-        isRailPaused = gallery.contains(document.activeElement);
-      });
+      lightbox.addEventListener("touchend", (event) => {
+        const endX = event.changedTouches[0]?.clientX;
 
-      gallery.addEventListener("focusin", () => {
-        isRailPaused = true;
-      });
+        if (swipeStartX !== null && endX !== undefined) {
+          const distance = endX - swipeStartX;
 
-      gallery.addEventListener("focusout", () => {
-        isRailPaused = gallery.matches(":hover");
-      });
-
-      gallery.addEventListener("pointerdown", () => {
-        pauseRailTemporarily();
-      });
-
-      gallery.addEventListener("pointercancel", () => {
-        isRailPaused = gallery.matches(":hover") || gallery.contains(document.activeElement);
-      });
-
-      gallery.addEventListener("pointerup", () => {
-        isRailPaused = gallery.matches(":hover") || gallery.contains(document.activeElement);
-      });
-
-      reducedMotionQuery.addEventListener("change", () => {
-        if (reducedMotionQuery.matches) {
-          stopRailAnimation();
-        } else {
-          startRailAnimation();
+          if (Math.abs(distance) >= swipeThreshold) {
+            showPhoto(distance < 0 ? 1 : -1);
+          }
         }
+
+        swipeStartX = null;
       });
-
-      if ("IntersectionObserver" in window) {
-        const observer = new IntersectionObserver(
-          ([entry]) => {
-            isRailVisible = Boolean(entry?.isIntersecting);
-          },
-          { threshold: 0.1 },
-        );
-
-        isRailVisible = false;
-        observer.observe(gallery);
-      }
 
       document.addEventListener("keydown", (event) => {
         if (lightbox.hidden) {
@@ -638,8 +614,6 @@ const locationContactGroups = content.location.contacts.reduce((groups, contact)
           trapFocus(event);
         }
       });
-
-      startRailAnimation();
     });
   </script>
 </BaseLayout>

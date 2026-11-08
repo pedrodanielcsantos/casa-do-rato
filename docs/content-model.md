@@ -26,8 +26,8 @@ This validates:
 
 - Locale metadata in `src/content/locales.js`.
 - Required homepage content fields.
-- Event icon names.
 - Contact link types and URLs.
+- Phone references: every `wa.me/`, `tel:`, and `+351` number under `src/` and in the content must match `src/content/contact.js`.
 - Portuguese and English object shape parity.
 - English `translationMeta.sourceHash` freshness.
 
@@ -49,8 +49,10 @@ Required top-level sections:
 - `gallery`
 - `location`
 - `booking`
+- `reviews`
 - `faq`
 - `contact`
+- `notFound`
 
 ## Site SEO
 
@@ -71,8 +73,8 @@ schema in the document head.
 Required `site.business` fields:
 
 - `telephone`
-- `priceRange`
-- `openingHours`
+- `maximumAttendeeCapacity`: a number, the same in every locale. It feeds the JSON-LD.
+- `priceRange`: keep it generic ("€€"). The site does not publish prices.
 - `address`
 - `geo`
 - `areaServed`
@@ -96,11 +98,14 @@ keywords.
 
 Required fields:
 
+- `eyebrow`
 - `title.brand`
 - `title.qualifier`
-- `capacity`
 - `body`
 - `cta`
+- `ctaHref`
+- `facts`: short facts shown as chips, such as capacity and parking. Never prices.
+- `photos`: gallery paths. The first is the main photo.
 
 ## Event Items
 
@@ -108,21 +113,10 @@ Each event item requires:
 
 - `title`
 - `description`
-- `icon`
+- `photo`: a path to a file in `src/assets/photos/`.
 
 Each event item may include `href` to link to a localized occasion page and
 `linkLabel` to override the default card link text.
-
-Allowed event icons:
-
-- `cake`
-- `gift`
-- `sparkles`
-- `users`
-- `presentation`
-- `briefcase`
-
-These map to icons in `src/components/EventTypes.jsx`.
 
 ## Occasion Pages
 
@@ -132,10 +126,11 @@ and corporate events in Vila Nova de Gaia.
 
 Required fields:
 
-- `backLabel`
+- `breadcrumbAriaLabel`
 - `contactLabel`
 - `summaryLabel`
 - `includedLabel`
+- `relatedTitle`
 - `items`
 
 Each `occasionPages.items` item requires:
@@ -145,13 +140,13 @@ Each `occasionPages.items` item requires:
 - `title`
 - `description`
 - `breadcrumbLabel`
+- `eventType`: filled into the WhatsApp message on this page.
+- `photos`: gallery paths shown below the details.
 - `hero.eyebrow`
 - `hero.title`
 - `hero.body`
 - `image.src`
 - `image.alt`
-- `image.width`
-- `image.height`
 - `summary`
 - `details`
 
@@ -172,12 +167,21 @@ When links are added, each link requires:
 Allowed contact types:
 
 - `whatsapp`
+- `phone`
 - `google`
 - `instagram`
 
 These map to icons in `src/components/ContactLinks.jsx`.
 
-Use full `https://` URLs for contact links.
+Use full `https://` URLs for web contact links; they open in a new tab. Phone links use
+`callHref` from `src/content/contact.js` (`tel:` plus the number) and open the phone app.
+
+`contact.fabLabel` is the visible label of the floating WhatsApp button.
+
+`contact.whatsappMessage` holds the text of the pre-filled WhatsApp message:
+`intro`, `date`, `time`, `eventType`, `guests`, and `extras`. Use
+`buildAvailabilityHref` from `src/content/contact.js` to turn it into a link.
+Never write a phone number or `wa.me` link directly in a locale file.
 
 ## Location
 
@@ -217,12 +221,22 @@ Required fields:
 
 The `gallery` section renders venue photos and feeds structured data image URLs.
 
+Required fields:
+
+- `openLabel`
+- `dialogLabel`
+- `closeLabel`
+- `previousLabel`
+- `nextLabel`
+- `viewAllLabel`
+- `images`
+
 Each gallery image requires:
 
-- `src`
+- `src`: a path to a file in `src/assets/photos/`.
 - `alt`
-- `width`
-- `height`
+
+Other sections reuse this alt text when they reference a photo by its path.
 
 ## Booking
 
@@ -239,6 +253,23 @@ Each `booking.steps` item requires:
 - `title`
 - `body`
 
+## Reviews
+
+The `reviews` section shows the Google rating next to the hero button and a block of
+review excerpts after the occasions. It requires `eyebrow`, `title`, `rating`,
+`ratingLabel` (screen-reader sentence), `sourceLabel`, `summaryLabel`, and `originalLanguageNote`. The review
+count is deliberately not shown because it would go stale. Update the rating by hand if
+it changes.
+
+Each `reviews.items` item requires:
+
+- `quote`: an excerpt copied from a real Google review
+- `author`: the reviewer's name exactly as shown on Google, with nothing else
+
+Quotes stay in Portuguese in every locale file. Translated pages mark them `lang="pt-PT"` and show `originalLanguageNote`, so nobody appears to have written words they didn't. Do not invent or reword reviews beyond fixing obvious typos. Do not add
+`aggregateRating` to the JSON-LD: Google ignores self-published ratings for local
+businesses.
+
 ## FAQ
 
 The `faq` section uses native `<details>` elements inside the merged space section.
@@ -248,6 +279,9 @@ Required fields:
 - `eyebrow`
 - `title`
 - `ariaLabel`
+- `ctaTitle`
+- `ctaBody`
+- `ctaLabel`
 - `items`
 
 Each `faq.items` item requires:
@@ -259,3 +293,16 @@ An FAQ item may include a `link` object with `label` and `href`.
 
 An FAQ item may include an `answerItems` array when the answer should render a
 short bullet list after the main answer text.
+
+## Not Found
+
+The `notFound` section is the copy for the 404 page.
+
+Required fields:
+
+- `title`
+- `description`
+- `eyebrow`
+- `heading`
+- `body`
+- `homeLabel`

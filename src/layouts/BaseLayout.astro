@@ -1,5 +1,12 @@
 ---
-import { defaultLocale, getLocalePath, localeOrder, locales } from "../content/locales.js";
+import {
+  defaultLocale,
+  getLocalePath,
+  getOccasionPath,
+  localeOrder,
+  locales,
+} from "../content/locales.js";
+import { getLargePhotoUrl } from "../lib/photos.js";
 import "../styles/global.css";
 
 const {
@@ -8,14 +15,16 @@ const {
   alternatePaths,
   breadcrumbs,
   includeFaqSchema = true,
+  noindex = false,
   pageDescription,
-  pageOgImage,
   pageOgImageAlt,
   pageOgImageHeight,
+  pageOgImageUrl,
   pageOgImageWidth,
   pagePath,
   pageTitle,
   structuredData = [],
+  whatsappHref,
 } = Astro.props;
 const currentLocale = locales[locale];
 
@@ -25,21 +34,24 @@ if (!currentLocale) {
 
 const base = import.meta.env.BASE_URL;
 const asset = (path) => `${base}${path.replace(/^\//, "")}`;
-const absoluteAsset = (path) => new URL(asset(path), Astro.site).toString();
+const absoluteUrl = (path) => new URL(path, Astro.site).toString();
+const absoluteAsset = (path) => absoluteUrl(asset(path));
 const homeHref = (localeCode) => `${base}${getLocalePath(localeCode)}`;
 const pageHref = (localeCode) =>
   `${base}${alternatePaths?.[localeCode] ?? getLocalePath(localeCode)}`;
-const absoluteLocaleHref = (localeCode) => new URL(pageHref(localeCode), Astro.site).toString();
+const absoluteLocaleHref = (localeCode) => absoluteUrl(pageHref(localeCode));
 const alternateLocales = localeOrder.filter((localeCode) => localeCode !== locale);
 const currentPath = pagePath ?? alternatePaths?.[locale] ?? getLocalePath(locale);
-const currentUrl = new URL(`${base}${currentPath.replace(/^\//, "")}`, Astro.site).toString();
-const defaultUrl = new URL(homeHref(defaultLocale), Astro.site).toString();
+const currentUrl = absoluteUrl(`${base}${currentPath.replace(/^\//, "")}`);
+const defaultUrl = absoluteUrl(homeHref(defaultLocale));
 const title = pageTitle ?? content.site.title ?? content.site.name;
 const description = pageDescription ?? content.site.description;
-const ogImage = absoluteAsset(pageOgImage ?? content.site.ogImage ?? "social/og-image.jpg");
+const ogImage = pageOgImageUrl ? absoluteUrl(pageOgImageUrl) : absoluteAsset(content.site.ogImage);
 const ogImageAlt = pageOgImageAlt ?? content.site.ogImageAlt ?? content.site.name;
-const ogImageWidth = pageOgImageWidth ?? content.site.ogImageWidth ?? "1200";
-const ogImageHeight = pageOgImageHeight ?? content.site.ogImageHeight ?? "630";
+const ogImageWidth = pageOgImageWidth ?? content.site.ogImageWidth;
+const ogImageHeight = pageOgImageHeight ?? content.site.ogImageHeight;
+const whatsappContactHref =
+  whatsappHref ?? content.contact.links.find((link) => link.type === "whatsapp")?.href;
 const footerContactGroups = content.location.contacts.reduce((groups, contact) => {
   const group = groups.find((item) => item.label === contact.label);
 
@@ -53,24 +65,29 @@ const footerContactGroups = content.location.contacts.reduce((groups, contact) =
 }, []);
 
 const business = content.site.business;
-const structuredImages = Array.from(
-  new Set(
-    [content.site.ogImage, ...(content.gallery?.images ?? []).map((image) => image.src)]
-      .filter(Boolean)
-      .map((image) => absoluteAsset(image)),
-  ),
+const structuredImages = await Promise.all(
+  content.gallery.images
+    .slice(0, 6)
+    .map(async (image) => absoluteUrl(await getLargePhotoUrl(image.src))),
 );
 const sameAs = Array.from(
   new Set(
     [
       ...(business?.sameAs ?? []),
-      content.navigation.instagramHref,
       ...(content.contact.links ?? [])
         .filter((link) => link.type === "instagram")
         .map((link) => link.href),
     ].filter(Boolean),
   ),
 );
+const websiteSchema = {
+  "@type": "WebSite",
+  "@id": `${defaultUrl}#website`,
+  url: defaultUrl,
+  name: content.site.name,
+  alternateName: content.site.shortName,
+  inLanguage: currentLocale.htmlLang,
+};
 const localBusinessSchema = business && {
   "@type": ["LocalBusiness", "EventVenue"],
   "@id": `${defaultUrl}#local-business`,
@@ -79,10 +96,9 @@ const localBusinessSchema = business && {
   description: content.site.description,
   url: defaultUrl,
   image: structuredImages,
-  logo: absoluteAsset("brand/logo-transparent.svg"),
+  logo: absoluteAsset("brand/logo-original.png"),
   telephone: business.telephone,
   priceRange: business.priceRange,
-  openingHours: business.openingHours,
   address: {
     "@type": "PostalAddress",
     ...business.address,
@@ -93,7 +109,7 @@ const localBusinessSchema = business && {
     longitude: business.geo.longitude,
   },
   areaServed: business.areaServed,
-  maximumAttendeeCapacity: 35,
+  maximumAttendeeCapacity: business.maximumAttendeeCapacity,
   hasMap: content.location.directionsHref,
   contactPoint: business.contactPoints?.map((contactPoint) => ({
     "@type": "ContactPoint",
@@ -135,7 +151,7 @@ const breadcrumbSchema = breadcrumbs?.length
         "@type": "ListItem",
         position: index + 1,
         name: breadcrumb.name,
-        item: new URL(`${base}${breadcrumb.path.replace(/^\//, "")}`, Astro.site).toString(),
+        item: absoluteUrl(`${base}${breadcrumb.path.replace(/^\//, "")}`),
       })),
     }
   : locale !== defaultLocale && {
@@ -156,12 +172,11 @@ const breadcrumbSchema = breadcrumbs?.length
         },
       ],
     };
-const structuredDataGraph = [
-  localBusinessSchema,
-  faqSchema,
-  breadcrumbSchema,
-  ...structuredData,
-].filter(Boolean);
+const structuredDataGraph = noindex
+  ? []
+  : [websiteSchema, localBusinessSchema, faqSchema, breadcrumbSchema, ...structuredData].filter(
+      Boolean,
+    );
 const structuredDataJson = structuredDataGraph.length
   ? JSON.stringify({
       "@context": "https://schema.org",
@@ -174,21 +189,29 @@ const structuredDataJson = structuredDataGraph.length
 <html lang={currentLocale.htmlLang}>
   <head>
     <meta charset="UTF-8" />
-    <meta name="description" content={description} />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex" />}
     <meta name="theme-color" content="#FDFCF7" />
-    <link rel="icon" href={asset("favicon.ico")} />
-    <link rel="canonical" href={currentUrl} />
+    <link rel="icon" href={asset("favicon.ico")} sizes="32x32 48x48" />
+    <link rel="apple-touch-icon" href={asset("apple-touch-icon.png")} />
+    {!noindex && <link rel="canonical" href={currentUrl} />}
     {
-      localeOrder.map((localeCode) => (
-        <link
-          rel="alternate"
-          hreflang={locales[localeCode].htmlLang}
-          href={absoluteLocaleHref(localeCode)}
-        />
-      ))
+      !noindex &&
+        localeOrder.map((localeCode) => (
+          <link
+            rel="alternate"
+            hreflang={locales[localeCode].htmlLang}
+            href={absoluteLocaleHref(localeCode)}
+          />
+        ))
     }
-    <link rel="alternate" hreflang="x-default" href={absoluteLocaleHref(defaultLocale)} />
+    {
+      !noindex && (
+        <link rel="alternate" hreflang="x-default" href={absoluteLocaleHref(defaultLocale)} />
+      )
+    }
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content={content.site.name} />
     <meta property="og:title" content={title} />
@@ -211,40 +234,28 @@ const structuredDataJson = structuredDataGraph.length
     <meta name="twitter:image:alt" content={ogImageAlt} />
     <meta name="generator" content={Astro.generator} />
     {structuredDataJson && <script type="application/ld+json" set:html={structuredDataJson} />}
-    <title>{title}</title>
   </head>
-  <body>
+  <body style={`--icon-whatsapp: url("${asset("icons/whatsapp.svg")}")`}>
+    <a class="skip-link" href="#main">{content.navigation.skipLabel}</a>
+
     <header class="site-header">
       <a class="brand" href={homeHref(locale)}>
         <img
           src={asset("brand/logo-transparent.svg")}
           alt={content.site.name}
-          width="403"
-          height="281"
+          width="268"
+          height="145"
         />
       </a>
-      <div class="header-actions">
+
+      <!-- A popover gives the mobile menu open/close, Esc and click-outside without
+           custom JavaScript. On desktop, CSS shows the same element inline. -->
+      <div class="site-menu" id="site-menu" popover="auto">
         <nav class="site-nav" aria-label={content.navigation.ariaLabel}>
           <a href={`${homeHref(locale)}#events`}>{content.navigation.events}</a>
           <a href={`${homeHref(locale)}#space`}>{content.navigation.space}</a>
-          {
-            content.navigation.faq && (
-              <a href={`${homeHref(locale)}#faq`}>{content.navigation.faq}</a>
-            )
-          }
-          {
-            content.navigation.location && (
-              <a href={`${homeHref(locale)}#location`}>{content.navigation.location}</a>
-            )
-          }
-          <a href={`${homeHref(locale)}#contact`}>{content.navigation.contact}</a>
-          {
-            content.navigation.instagramHref && (
-              <a href={content.navigation.instagramHref} target="_blank" rel="noopener noreferrer">
-                {content.navigation.instagram}
-              </a>
-            )
-          }
+          <a href={`${homeHref(locale)}#faq`}>{content.navigation.faq}</a>
+          <a href={`${homeHref(locale)}#location`}>{content.navigation.location}</a>
         </nav>
         <nav class="language-switcher" aria-label={content.languageSwitcher.ariaLabel}>
           {
@@ -252,6 +263,7 @@ const structuredDataJson = structuredDataGraph.length
               <a
                 class:list={["language-link", { "is-active": localeCode === locale }]}
                 href={pageHref(localeCode)}
+                hreflang={locales[localeCode].htmlLang}
                 aria-current={localeCode === locale ? "page" : undefined}
                 aria-label={locales[localeCode].name}
               >
@@ -261,6 +273,20 @@ const structuredDataJson = structuredDataGraph.length
           }
         </nav>
       </div>
+
+      <a class="header-cta" href={whatsappContactHref} target="_blank" rel="noopener noreferrer">
+        <span class="whatsapp-icon" aria-hidden="true"></span>
+        <span>{content.navigation.contact}<span class="sr-only"> (WhatsApp)</span></span>
+      </a>
+
+      <button
+        class="menu-button"
+        type="button"
+        popovertarget="site-menu"
+        aria-label={content.navigation.menuLabel}
+      >
+        <span class="menu-button-bars" aria-hidden="true"></span>
+      </button>
     </header>
 
     <slot />
@@ -273,11 +299,25 @@ const structuredDataJson = structuredDataGraph.length
               src={asset("brand/logo-transparent.svg")}
               alt={content.site.name}
               loading="lazy"
-              width="403"
-              height="281"
+              width="268"
+              height="145"
             />
           </a>
-          <p class="footer-business-name">{content.site.name}</p>
+        </div>
+
+        <div class="footer-occasions">
+          <span class="footer-label">{content.events.eyebrow}</span>
+          <ul>
+            {
+              content.occasionPages.items.map((item) => (
+                <li>
+                  <a href={`${base}${getOccasionPath(locale, item.slug)}`}>
+                    {item.breadcrumbLabel}
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
         </div>
 
         <address class="footer-address">
@@ -303,7 +343,11 @@ const structuredDataJson = structuredDataGraph.length
                             |
                           </span>
                         )}
-                        <a href={contact.href} target="_blank" rel="noopener noreferrer">
+                        <a
+                          href={contact.href}
+                          target={contact.href.startsWith("http") ? "_blank" : undefined}
+                          rel={contact.href.startsWith("http") ? "noopener noreferrer" : undefined}
+                        >
                           {contact.value}
                         </a>
                       </>
@@ -316,5 +360,34 @@ const structuredDataJson = structuredDataGraph.length
         </div>
       </div>
     </footer>
+
+    <a class="whatsapp-fab" href={whatsappContactHref} target="_blank" rel="noopener noreferrer">
+      <span class="whatsapp-icon" aria-hidden="true"></span>
+      <span>{content.contact.fabLabel}<span class="sr-only"> (WhatsApp)</span></span>
+    </a>
+
+    <script>
+      // Links inside a popover don't close it on their own.
+      const menu = document.getElementById("site-menu");
+
+      menu?.addEventListener("click", (event) => {
+        if (
+          event.target instanceof Element &&
+          event.target.closest("a") &&
+          menu.matches(":popover-open")
+        ) {
+          menu.hidePopover();
+        }
+      });
+
+      const whatsappButton = document.querySelector(".whatsapp-fab");
+      const contactPanel = document.querySelector(".contact-panel");
+
+      if (whatsappButton && contactPanel && "IntersectionObserver" in window) {
+        new IntersectionObserver(([entry]) => {
+          whatsappButton.classList.toggle("is-hidden", Boolean(entry?.isIntersecting));
+        }).observe(contactPanel);
+      }
+    </script>
   </body>
 </html>

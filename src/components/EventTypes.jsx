@@ -1,35 +1,37 @@
-import lucide from "lucide-react";
-
-const { Briefcase, Cake, Gift, Presentation, Sparkles, Users } = lucide;
-
-const icons = {
-  cake: Cake,
-  gift: Gift,
-  presentation: Presentation,
-  briefcase: Briefcase,
-  sparkles: Sparkles,
-  users: Users,
-};
-
 export default function EventTypes({ detailsLabel, items = [] }) {
   return (
     <div className="event-grid">
-      {items.map((item) => {
-        const Icon = icons[item.icon] ?? Sparkles;
-
-        return (
-          <article className="event-card" key={item.title}>
-            <Icon aria-hidden="true" size={22} strokeWidth={1.7} />
-            <h3>{item.title}</h3>
-            <p>{item.description}</p>
-            {item.href && (item.linkLabel || detailsLabel) ? (
+      {items.map((item) => (
+        <article className="event-card" key={item.title}>
+          {/* The title next to it describes the card, so the photo is decorative here.
+              The gallery holds the descriptive alt text for each photo. */}
+          <img
+            alt=""
+            className="event-card-media"
+            decoding="async"
+            height={item.photo.height}
+            loading="lazy"
+            sizes={item.photo.sizes}
+            src={item.photo.src}
+            srcSet={item.photo.srcset}
+            width={item.photo.width}
+          />
+          <div className="event-card-body">
+            <h3>
+              {/* CSS stretches this link over the whole card. Using the title as the
+                  link text tells search engines and screen readers where it goes. */}
               <a className="event-card-link" href={item.href}>
-                {item.linkLabel || detailsLabel}
+                {item.title}
               </a>
-            ) : null}
-          </article>
-        );
-      })}
+            </h3>
+            <p>{item.description}</p>
+            <span aria-hidden="true" className="event-card-more">
+              {item.linkLabel || detailsLabel}
+              <span className="event-card-arrow">→</span>
+            </span>
+          </div>
+        </article>
+      ))}
     </div>
   );
 }

@@ -31,6 +31,7 @@ npm run check
 
 - Do not edit Portuguese copy unless Pedro asks for Portuguese copy changes.
 - Keep code artifacts English-named.
+- Never translate `reviews.items`: copy the Portuguese quotes and names verbatim. They are real customers' words; translated pages show `reviews.originalLanguageNote` instead.
 - Keep translated files deterministic: same object shape, same arrays, same non-copy metadata.
 - If a Portuguese phrase has no obvious natural translation, choose clear plain English and mention the uncertainty.
 - For future languages, add a new `src/content/<locale>.js` with the same `content` export and a `translationMeta` export, then include it in `scripts/validate-translations.mjs`.
