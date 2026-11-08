@@ -1,6 +1,7 @@
 ---
 import OccasionPage from "../../../components/OccasionPage.astro";
 import { content } from "../../../content/en.js";
+import { getOccasionPath } from "../../../content/locales.js";
 import { content as portugueseContent } from "../../../content/pt.js";
 
 export function getStaticPaths() {
@@ -13,8 +14,8 @@ export function getStaticPaths() {
       params: { slug: occasion.slug },
       props: {
         alternatePaths: {
-          pt: `eventos/${portugueseOccasion.slug}/`,
-          en: `en/events/${occasion.slug}/`,
+          pt: getOccasionPath("pt", portugueseOccasion.slug),
+          en: getOccasionPath("en", occasion.slug),
         },
         occasion,
       },

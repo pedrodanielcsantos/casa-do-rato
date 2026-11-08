@@ -1,7 +1,11 @@
 const icons = {
   whatsapp: "icons/whatsapp.svg",
   instagram: "icons/instagram.svg",
+  phone: "icons/phone.svg",
 };
+
+// Only web links open in a new tab; phone links hand off to the phone app.
+const isWebLink = (href) => /^https?:/.test(href);
 
 function assetPath(path, assetBase) {
   return `${assetBase}${path.replace(/^\//, "")}`;
@@ -20,8 +24,17 @@ export default function ContactLinks({ links = [], ariaLabel = "Contact links", 
           .filter(Boolean)
           .join(" ");
 
+        const newTab = isWebLink(link.href);
+
         return (
-          <a aria-label={link.ariaLabel} className={className} href={link.href} key={link.label}>
+          <a
+            aria-label={link.ariaLabel}
+            className={className}
+            href={link.href}
+            key={link.label}
+            rel={newTab ? "noopener noreferrer" : undefined}
+            target={newTab ? "_blank" : undefined}
+          >
             {icon && (
               <span
                 aria-hidden="true"

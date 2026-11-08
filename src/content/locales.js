@@ -8,6 +8,7 @@ export const locales = {
     label: "PT",
     name: "Português",
     path: "",
+    occasionsPath: "eventos",
   },
   en: {
     code: "en",
@@ -16,6 +17,7 @@ export const locales = {
     label: "EN",
     name: "English",
     path: "en",
+    occasionsPath: "en/events",
   },
 };
 
@@ -29,4 +31,14 @@ export function getLocalePath(localeCode) {
   }
 
   return locale.path ? `${locale.path}/` : "";
+}
+
+export function getOccasionPath(localeCode, slug) {
+  const locale = locales[localeCode];
+
+  if (!locale) {
+    throw new Error(`Unsupported locale: ${localeCode}`);
+  }
+
+  return `${locale.occasionsPath}/${slug}/`;
 }

@@ -1,0 +1,30 @@
+---
+import WhatsAppButton from "../components/WhatsAppButton.astro";
+import { content } from "../content/pt.js";
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const base = import.meta.env.BASE_URL;
+const whatsappHref = content.hero.ctaHref;
+---
+
+<BaseLayout
+  content={content}
+  locale="pt"
+  noindex
+  includeFaqSchema={false}
+  pageTitle={content.notFound.title}
+  pageDescription={content.notFound.description}
+  pagePath="404.html"
+>
+  <main id="main">
+    <section class="not-found">
+      <p class="eyebrow">{content.notFound.eyebrow}</p>
+      <h1>{content.notFound.heading}</h1>
+      <p>{content.notFound.body}</p>
+      <div class="not-found-actions">
+        <a class="secondary-action" href={base}>{content.notFound.homeLabel}</a>
+        <WhatsAppButton href={whatsappHref} label={content.hero.cta} />
+      </div>
+    </section>
+  </main>
+</BaseLayout>

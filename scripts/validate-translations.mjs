@@ -1,23 +1,46 @@
 import { createHash } from "node:crypto";
+import { readdirSync, readFileSync } from "node:fs";
+import { join } from "node:path";
+import { callHref, phone } from "../src/content/contact.js";
 import { content as englishContent, translationMeta as englishMeta } from "../src/content/en.js";
 import { defaultLocale, localeOrder, locales } from "../src/content/locales.js";
 import { content as portugueseContent } from "../src/content/pt.js";
 
 const sourceLocale = "pt";
-const eventIcons = ["cake", "gift", "sparkles", "users", "presentation", "briefcase"];
-const contactTypes = ["whatsapp", "google", "instagram"];
+const contactTypes = ["whatsapp", "phone", "google", "instagram"];
 const contactVariants = ["primary", "secondary"];
+const phoneReferencePattern = /wa\.me\/\d+|tel:\+?[\d\s-]+|\+351[\d\s-]{8,}/g;
 
 const requiredContentStrings = {
   site: ["name", "shortName", "title", "description"],
-  navigation: ["ariaLabel", "events", "space", "faq", "location", "contact"],
+  navigation: [
+    "ariaLabel",
+    "events",
+    "space",
+    "faq",
+    "location",
+    "contact",
+    "menuLabel",
+    "skipLabel",
+  ],
   languageSwitcher: ["ariaLabel"],
-  hero: ["capacity", "body", "cta"],
+  hero: ["eyebrow", "body", "cta", "ctaHref"],
   events: ["eyebrow", "title", "detailsLabel"],
   space: ["eyebrow", "title", "body"],
   booking: ["eyebrow", "title"],
-  faq: ["eyebrow", "title", "ariaLabel"],
-  contact: ["eyebrow", "title", "body", "linksAriaLabel"],
+  gallery: ["openLabel", "dialogLabel", "closeLabel", "previousLabel", "nextLabel", "viewAllLabel"],
+  reviews: [
+    "eyebrow",
+    "title",
+    "rating",
+    "ratingLabel",
+    "sourceLabel",
+    "summaryLabel",
+    "originalLanguageNote",
+  ],
+  faq: ["eyebrow", "title", "ariaLabel", "ctaTitle", "ctaBody", "ctaLabel"],
+  contact: ["eyebrow", "title", "body", "linksAriaLabel", "fabLabel"],
+  notFound: ["title", "description", "eyebrow", "heading", "body", "homeLabel"],
   location: [
     "eyebrow",
     "title",
@@ -101,6 +124,12 @@ function requireStrings(object, path, keys) {
   keys.forEach((key) => requireString(object[key], `${path}.${key}`));
 }
 
+function requireStringArray(value, path) {
+  if (requireArray(value, path)) {
+    value.forEach((item, index) => requireString(item, `${path}[${index}]`));
+  }
+}
+
 function requireArray(value, path, { allowEmpty = false } = {}) {
   if (!Array.isArray(value) || (!allowEmpty && value.length === 0)) {
     fail(path, allowEmpty ? "expected array" : "expected non-empty array");
@@ -114,6 +143,15 @@ function requireOneOf(value, allowedValues, path) {
   if (!allowedValues.includes(value)) {
     fail(path, `expected one of ${allowedValues.join(", ")}`);
   }
+}
+
+// Contact links are web URLs, or the shared phone link from contact.js.
+function requireContactHref(value, path) {
+  if (value === callHref) {
+    return;
+  }
+
+  requireHttpUrl(value, path);
 }
 
 function requireHttpUrl(value, path) {
@@ -148,8 +186,18 @@ function validateContent(content, locale) {
       requireStrings(content.site.business, `${rootPath}.site.business`, [
         "telephone",
         "priceRange",
-        "openingHours",
       ]);
+
+      const capacity = content.site.business.maximumAttendeeCapacity;
+
+      if (!Number.isInteger(capacity) || capacity <= 0) {
+        fail(`${rootPath}.site.business.maximumAttendeeCapacity`, "expected a positive integer");
+      } else if (capacity !== portugueseContent.site.business.maximumAttendeeCapacity) {
+        fail(
+          `${rootPath}.site.business.maximumAttendeeCapacity`,
+          "must match the Portuguese value",
+        );
+      }
 
       if (requireObject(content.site.business.address, `${rootPath}.site.business.address`)) {
         requireStrings(content.site.business.address, `${rootPath}.site.business.address`, [
@@ -231,13 +279,17 @@ function validateContent(content, locale) {
     requireStrings(content.hero.title, `${rootPath}.hero.title`, ["brand", "qualifier"]);
   }
 
+  if (isRecord(content.hero)) {
+    requireStringArray(content.hero.facts, `${rootPath}.hero.facts`);
+    requireStringArray(content.hero.photos, `${rootPath}.hero.photos`);
+  }
+
   if (isRecord(content.events) && requireArray(content.events.items, `${rootPath}.events.items`)) {
     content.events.items.forEach((item, index) => {
       const path = `${rootPath}.events.items[${index}]`;
 
       if (requireObject(item, path)) {
-        requireStrings(item, path, ["title", "description"]);
-        requireOneOf(item.icon, eventIcons, `${path}.icon`);
+        requireStrings(item, path, ["title", "description", "photo"]);
 
         if (item.href !== undefined) {
           requireString(item.href, `${path}.href`);
@@ -252,10 +304,11 @@ function validateContent(content, locale) {
 
   if (isRecord(content.occasionPages)) {
     requireStrings(content.occasionPages, `${rootPath}.occasionPages`, [
-      "backLabel",
+      "breadcrumbAriaLabel",
       "contactLabel",
       "summaryLabel",
       "includedLabel",
+      "relatedTitle",
     ]);
 
     if (requireArray(content.occasionPages.items, `${rootPath}.occasionPages.items`)) {
@@ -263,7 +316,15 @@ function validateContent(content, locale) {
         const path = `${rootPath}.occasionPages.items[${index}]`;
 
         if (requireObject(item, path)) {
-          requireStrings(item, path, ["key", "slug", "title", "description", "breadcrumbLabel"]);
+          requireStrings(item, path, [
+            "key",
+            "slug",
+            "title",
+            "description",
+            "breadcrumbLabel",
+            "eventType",
+          ]);
+          requireStringArray(item.photos, `${path}.photos`);
 
           if (requireObject(item.hero, `${path}.hero`)) {
             requireStrings(item.hero, `${path}.hero`, ["eyebrow", "title", "body"]);
@@ -271,12 +332,6 @@ function validateContent(content, locale) {
 
           if (requireObject(item.image, `${path}.image`)) {
             requireStrings(item.image, `${path}.image`, ["src", "alt"]);
-
-            ["width", "height"].forEach((key) => {
-              if (typeof item.image[key] !== "number") {
-                fail(`${path}.image.${key}`, "expected number");
-              }
-            });
           }
 
           if (requireArray(item.summary, `${path}.summary`)) {
@@ -312,6 +367,19 @@ function validateContent(content, locale) {
     });
   }
 
+  if (
+    isRecord(content.reviews) &&
+    requireArray(content.reviews.items, `${rootPath}.reviews.items`)
+  ) {
+    content.reviews.items.forEach((item, index) => {
+      const path = `${rootPath}.reviews.items[${index}]`;
+
+      if (requireObject(item, path)) {
+        requireStrings(item, path, ["quote", "author"]);
+      }
+    });
+  }
+
   if (isRecord(content.faq) && requireArray(content.faq.items, `${rootPath}.faq.items`)) {
     content.faq.items.forEach((item, index) => {
       const path = `${rootPath}.faq.items[${index}]`;
@@ -340,6 +408,20 @@ function validateContent(content, locale) {
 
   if (
     isRecord(content.contact) &&
+    requireObject(content.contact.whatsappMessage, `${rootPath}.contact.whatsappMessage`)
+  ) {
+    requireStrings(content.contact.whatsappMessage, `${rootPath}.contact.whatsappMessage`, [
+      "intro",
+      "date",
+      "time",
+      "eventType",
+      "guests",
+      "extras",
+    ]);
+  }
+
+  if (
+    isRecord(content.contact) &&
     requireArray(content.contact.links, `${rootPath}.contact.links`, { allowEmpty: true })
   ) {
     content.contact.links.forEach((link, index) => {
@@ -351,7 +433,7 @@ function validateContent(content, locale) {
         requireOneOf(link.variant, contactVariants, `${path}.variant`);
 
         if (typeof link.href === "string" && link.href.trim()) {
-          requireHttpUrl(link.href, `${path}.href`);
+          requireContactHref(link.href, `${path}.href`);
         }
       }
     });
@@ -383,7 +465,7 @@ function validateContent(content, locale) {
           requireStrings(contact, path, ["label", "value", "href"]);
 
           if (typeof contact.href === "string" && contact.href.trim()) {
-            requireHttpUrl(contact.href, `${path}.href`);
+            requireContactHref(contact.href, `${path}.href`);
           }
         }
       });
@@ -399,12 +481,6 @@ function validateContent(content, locale) {
 
       if (requireObject(image, path)) {
         requireStrings(image, path, ["src", "alt"]);
-
-        ["width", "height"].forEach((key) => {
-          if (typeof image[key] !== "number") {
-            fail(`${path}.${key}`, "expected number");
-          }
-        });
       }
     });
   }
@@ -432,7 +508,14 @@ function validateLocales() {
       return;
     }
 
-    requireStrings(locale, path, ["code", "htmlLang", "ogLocale", "label", "name"]);
+    requireStrings(locale, path, [
+      "code",
+      "htmlLang",
+      "ogLocale",
+      "label",
+      "name",
+      "occasionsPath",
+    ]);
     requireString(locale.path, `${path}.path`, { allowEmpty: true });
 
     if (locale.code !== localeCode) {
@@ -451,6 +534,31 @@ function validateLocales() {
   });
 }
 
+// Every phone reference must be the number in src/content/contact.js, so an old
+// or mistyped number can't reach the site, whether it is hardcoded in a source
+// file or generated into a link.
+function checkPhoneReferences(text, path) {
+  for (const [reference] of text.matchAll(phoneReferencePattern)) {
+    if (reference.replace(/\D/g, "") !== phone.whatsapp) {
+      fail(path, `unexpected phone number "${reference.trim()}", expected ${phone.display}`);
+    }
+  }
+}
+
+function validateSourcePhoneReferences(directory) {
+  readdirSync(directory, { withFileTypes: true }).forEach((entry) => {
+    const path = join(directory, entry.name);
+
+    if (entry.isDirectory()) {
+      if (entry.name !== "assets") {
+        validateSourcePhoneReferences(path);
+      }
+    } else {
+      checkPhoneReferences(readFileSync(path, "utf8"), path);
+    }
+  });
+}
+
 const expectedHash = sourceHash();
 
 if (process.argv.includes("--print-source-hash")) {
@@ -460,9 +568,12 @@ if (process.argv.includes("--print-source-hash")) {
 
 validateLocales();
 validateContent(portugueseContent, sourceLocale);
+validateSourcePhoneReferences("src");
+checkPhoneReferences(JSON.stringify(portugueseContent), `${sourceLocale}: content`);
 
 targetTranslations.forEach(({ locale, content, meta, file }) => {
   validateContent(content, locale);
+  checkPhoneReferences(JSON.stringify(content), `${locale}: content`);
 
   if (stableStringify(shapeOf(content)) !== stableStringify(shapeOf(portugueseContent))) {
     fail(`${locale}: content`, "must match the Portuguese content shape");
